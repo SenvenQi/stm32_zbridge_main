@@ -38,7 +38,7 @@ void can_callback(void *parameter){
         /* 阻塞等待接收信号量 */
         rt_sem_take(parameter, RT_WAITING_FOREVER);
         /* 从 CAN 读取一帧数据 */
-        rt_device_read(can->dev, 0, &rxmsg, sizeof(rxmsg));
+        rt_device_read(lan->dev, 0, &rxmsg, sizeof(rxmsg));
         /* 打印数据 ID 及内容 */
         rt_kprintf("ID:%x", rxmsg.id);
         for (i = 0; i < 8; i++)
@@ -87,7 +87,6 @@ void config(){
 
 int start(){
     rt_uint8_t buffer[] = { 0xAA,0xBB,0x01,0x04,0x02 };
-    filter(buffer);
     config();
     return RT_EOK;
 }
