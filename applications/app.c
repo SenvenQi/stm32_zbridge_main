@@ -86,7 +86,6 @@ void config(){
 }
 
 int start(){
-    rt_uint8_t buffer[] = { 0xAA,0xBB,0x01,0x04,0x02 };
     config();
     return RT_EOK;
 }
