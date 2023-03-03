@@ -1,0 +1,19 @@
+/*
+ * Copyright (c) 2006-2018, RT-Thread Development Team
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Change Logs:
+ * Date           Author       Notes
+ * 2018-11-06     SummerGift   first version
+ */
+
+#include <rtthread.h>
+
+/* defined the LED0 pin: PB1 */
+
+int main()
+{
+    rt_kprintf("welcome ZBridge World!");
+    return RT_EOK;
+}
