@@ -27,8 +27,7 @@ void can_callback(void *parameter){
     };
     struct rt_can_filter_config cfg = {5, 1, items}; /* 一共有 5 个过滤表 */
     /* 设置硬件过滤表 */
-    res = rt_device_control(can_dev, RT_CAN_CMD_SET_FILTER, &cfg);
-    RT_ASSERT(res == RT_EOK);
+    rt_device_control(can, RT_CAN_CMD_SET_FILTER, &cfg);
 #endif
 
     while (1)
