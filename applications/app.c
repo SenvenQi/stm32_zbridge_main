@@ -16,7 +16,7 @@ void can_callback(void *parameter){
     int i;
     struct rt_can_msg rxmsg = {0};
 
-#ifdef RT_CAN_USING_HDR
+#ifdef RT_CAN_USING_HDR1
     struct rt_can_filter_item items[5] =
     {
         RT_CAN_FILTER_ITEM_INIT(0x100, 0, 0, 0, 0x700, RT_NULL, RT_NULL), /* std,match ID:0x100~0x1ff，hdr 为 - 1，设置默认过滤表 */
@@ -74,7 +74,7 @@ static void  lan_callback(void *parameter){
             msg.data[5] = 0x55;
             msg.data[6] = 0x66;
             msg.data[7] = 0x77;
-            rt_device_write(can->dev,0,&msg,8);
+            rt_device_write(lan->dev,0,msg.data,8);
         }
     }
 }
