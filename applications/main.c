@@ -14,6 +14,6 @@
 
 int main()
 {
-    rt_kprintf("welcome ZBridge World!");
+    rt_kprintf("ZB-DJG-A-2023!");
     return RT_EOK;
 }

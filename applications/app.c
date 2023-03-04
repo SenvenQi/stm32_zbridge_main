@@ -14,7 +14,6 @@ static device_task_t can;
 
 
 void can_callback(void *parameter){
-    int i;
     struct rt_can_msg rxmsg = {0};
 
 #ifdef RT_CAN_USING_HDR1
@@ -33,20 +32,9 @@ void can_callback(void *parameter){
 
     while (1)
     {
-        /* hdr 值为 - 1，表示直接从 uselist 链表读取数据 */
         rxmsg.hdr = -1;
-        /* 阻塞等待接收信号量 */
         rt_sem_take(parameter, RT_WAITING_FOREVER);
-        /* 从 CAN 读取一帧数据 */
         rt_device_read(can->dev, 0, &rxmsg, sizeof(rxmsg));
-        /* 打印数据 ID 及内容 */
-        rt_kprintf("ID:%x", rxmsg.id);
-        for (i = 0; i < 8; i++)
-        {
-            rt_kprintf("%2x", rxmsg.data[i]);
-        }
-
-        rt_kprintf("\n");
     }
 }
 
@@ -60,7 +48,6 @@ static void  lan_callback(void *parameter){
         {
             /* 从串口读取数据 */
             rt_device_read(lan->dev, 0, rx_buffer, 8);
-            rt_kprintf(rx_buffer);
             struct rt_can_msg msg = create_can_msg(0x78,msg1);
             rt_device_write(can->dev,0,&msg,8);
         }
