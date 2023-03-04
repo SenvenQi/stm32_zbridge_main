@@ -3,3 +3,4 @@
 /.config
 /.sconsign.dblite
 /.config.old
+/build/
