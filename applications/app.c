@@ -6,6 +6,7 @@
 #include <rtdevice.h>
 #include "infrastructure/zb_device.h"
 #include "protocols/temperature.h"
+#include "protocols/can_msg.h"
 
 static device_task_t lan;
 static device_task_t can;
@@ -50,8 +51,7 @@ void can_callback(void *parameter){
 }
 
 static void  lan_callback(void *parameter){
-    char msg1[8];
-    struct rt_can_msg msg;
+    rt_uint8_t msg1[8]= {0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x88};
     rt_err_t result;
     static char rx_buffer[BSP_UART1_RX_BUFSIZE + 1];
     while (1){
@@ -61,20 +61,8 @@ static void  lan_callback(void *parameter){
             /* 从串口读取数据 */
             rt_device_read(lan->dev, 0, rx_buffer, 8);
             rt_kprintf(rx_buffer);
-            msg.id = 0x78;              /* ID 为 0x78 */
-            msg.ide = RT_CAN_STDID;     /* 标准格式 */
-            msg.rtr = RT_CAN_DTR;       /* 数据帧 */
-            msg.len = 8;                /* 数据长度为 8 */
-            /* 待发送的 8 字节数据 */
-            msg.data[0] = 0x00;
-            msg.data[1] = 0x11;
-            msg.data[2] = 0x22;
-            msg.data[3] = 0x33;
-            msg.data[4] = 0x44;
-            msg.data[5] = 0x55;
-            msg.data[6] = 0x66;
-            msg.data[7] = 0x77;
-            rt_device_write(lan->dev,0,msg.data,8);
+            struct rt_can_msg msg = create_can_msg(0x78,msg1);
+            rt_device_write(can->dev,0,&msg,8);
         }
     }
 }
