@@ -39,9 +39,9 @@ void device_task_create(char *device_name,void (*callback)(void *buffer),enum rt
     }
     rt_device_t dev = dev_open(device_name,flag);
     char *name = device_name;
-    rt_object_t rx_sem = (rt_object_t) rx_mq;
+    dev->user_data = (rt_object_t) rx_mq;
     rt_device_set_rx_indicate(dev,rx_call);
-    rt_thread_t task = rt_thread_create(name,callback,rx_sem,1024,25,10);
+    rt_thread_t task = rt_thread_create(name,callback,dev->user_data,1024,25,10);
     rt_thread_startup(task);
 }
 

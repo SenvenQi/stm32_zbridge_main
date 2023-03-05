@@ -28,3 +28,10 @@ void can_callback(void *parameter){
         rt_device_read(dev, 0, &rxmsg, sizeof(rxmsg));
     }
 }
+
+int start(){
+    device_task_create("can1", can_callback, RT_Object_Class_MessageQueue, RT_DEVICE_FLAG_RX_NON_BLOCKING | RT_DEVICE_FLAG_TX_BLOCKING);
+    return RT_EOK;
+}
+
+INIT_APP_EXPORT(start);

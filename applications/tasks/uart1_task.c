@@ -5,7 +5,7 @@
 
 void handler(){
     rt_uint8_t msg1[8]= {0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x88};
-    rt_device_t dev =  rt_device_find("can1");
+    rt_device_t dev =  rt_device_find("uart1");
     struct rt_can_msg msg = create_can_msg(0x78,msg1);
     rt_device_write(dev,0,&msg,8);
 }
@@ -27,3 +27,9 @@ void  lan_callback(void *parameter){
 }
 
 
+int uart1_start(){
+    device_task_create("uart1", lan_callback, RT_Object_Class_MessageQueue, RT_DEVICE_FLAG_RX_NON_BLOCKING | RT_DEVICE_FLAG_TX_BLOCKING);
+    return RT_EOK;
+}
+
+INIT_APP_EXPORT(uart1_start);
