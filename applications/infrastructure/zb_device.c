@@ -27,7 +27,7 @@ rt_err_t rx_call(rt_device_t dev, rt_size_t size)
     return RT_EOK;
 }
 
-device_task_t device_task_create(char *device_name,void (*callback)(void *buffer),enum rt_object_class_type type,rt_uint16_t flag){
+void device_task_create(char *device_name,void (*callback)(void *buffer),enum rt_object_class_type type,rt_uint16_t flag){
     rt_object_t rx_mq;
     switch (type) {
         case RT_Object_Class_Semaphore:
@@ -40,18 +40,13 @@ device_task_t device_task_create(char *device_name,void (*callback)(void *buffer
     device_task_t device_task_p;
     device_task_p = (device_task_t) rt_malloc(1024);
     rt_memset(device_task_p, 0, 1024);
-    device_task_p->dev = dev_open(device_name,flag);
-    device_task_p->name = device_name;
-    device_task_p->rx_sem = (rt_object_t) rx_mq;
+    rt_device_t dev = dev_open(device_name,flag);
+    char *name = device_name;
+    rt_object_t rx_sem = (rt_object_t) rx_mq;
     device_task_p->callback = callback;
     zb_task_create(device_task_p);
-    return device_task_p;
+    rt_device_set_rx_indicate(dev,rx_call);
+    rt_thread_t task = rt_thread_create(name,callback,rx_sem,1024,25,10);
+    rt_thread_startup(task);
 }
 
-rt_err_t zb_task_create(device_task_t deviceTask){
-    deviceTask -> dev -> user_data = deviceTask -> rx_sem;
-    rt_device_set_rx_indicate(deviceTask -> dev,rx_call);
-    rt_thread_t task = rt_thread_create(deviceTask -> name,deviceTask->callback,deviceTask-> rx_sem,1024,25,10);
-    rt_thread_startup(task);
-    return RT_EOK;
-}

@@ -16,7 +16,6 @@ struct device_task{
 
 typedef struct device_task *device_task_t;
 
-device_task_t device_task_create(char *device_name,void (*callback)(void *buffer),enum rt_object_class_type type,rt_uint16_t flag);
+void device_task_create(char *device_name,void (*callback)(void *buffer),enum rt_object_class_type type,rt_uint16_t flag);
 rt_device_t dev_open(char *dev_name,rt_uint16_t oflag);
-rt_err_t zb_task_create(device_task_t deviceTask);
 #endif //RTTHREAD_ZB_DEVICE_H
