@@ -16,14 +16,14 @@ void can_callback(void *parameter){
     rt_device_t dev = rt_device_find("can1");
     struct rt_can_msg rxmsg = {0};
 
-#ifdef RT_CAN_USING_HDR1
+#ifdef RT_CAN_USING_HDR
     struct rt_can_filter_item items[5] =
     {
         RT_CAN_FILTER_ITEM_INIT(0x100, 0, 0, 0, 0x700, RT_NULL, RT_NULL), /* std,match ID:0x100~0x1ff，hdr 为 - 1，设置默认过滤表 */
         RT_CAN_FILTER_ITEM_INIT(0x300, 0, 0, 0, 0x700, RT_NULL, RT_NULL), /* std,match ID:0x300~0x3ff，hdr 为 - 1 */
         RT_CAN_FILTER_ITEM_INIT(0x211, 0, 0, 0, 0x7ff, RT_NULL, RT_NULL), /* std,match ID:0x211，hdr 为 - 1 */
         RT_CAN_FILTER_STD_INIT(0x486, RT_NULL, RT_NULL),                  /* std,match ID:0x486，hdr 为 - 1 */
-        {0x555, 0, 0, 0, 0x7ff, 7,}                                       /* std,match ID:0x555，hdr 为 7，指定设置 7 号过滤表 */
+        {0x78, 0, 0, 0, 0x7ff, -1,}                                       /* std,match ID:0x555，hdr 为 7，指定设置 7 号过滤表 */
     };
     struct rt_can_filter_config cfg = {5, 1, items}; /* 一共有 5 个过滤表 */
     /* 设置硬件过滤表 */
@@ -39,9 +39,9 @@ void can_callback(void *parameter){
     }
 }
 
-int start(){
+int can_start(){
     device_task_create("can1", can_callback, RT_Object_Class_Semaphore, RT_DEVICE_FLAG_INT_TX | RT_DEVICE_FLAG_INT_RX);
     return RT_EOK;
 }
 
-INIT_APP_EXPORT(start);
+INIT_APP_EXPORT(can_start);
