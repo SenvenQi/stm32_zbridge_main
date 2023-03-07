@@ -3,11 +3,11 @@
 //
 #include "uart1_task.h"
 
-void handler(){
+void lan_handler(){
     rt_uint8_t msg1[8]= {0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x88};
-    rt_device_t dev =  rt_device_find("uart1");
+    rt_device_t dev =  rt_device_find("can1");
     struct rt_can_msg msg = create_can_msg(0x78,msg1);
-    rt_device_write(dev,0,&msg,8);
+    rt_device_write(dev,0,&msg,sizeof msg);
 }
 
 void  lan_callback(void *parameter){
@@ -21,7 +21,7 @@ void  lan_callback(void *parameter){
         {
             /* 从串口读取数据 */
             rt_device_read(dev, 0, rx_buffer, 8);
-            handler();
+            lan_handler();
         }
     }
 }

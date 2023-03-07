@@ -2,6 +2,15 @@
 // Created by 25861 on 2023/3/5.
 //
 #include "can_task.h"
+#include "protocols/can_msg.h"
+
+
+void can_handler(){
+    rt_device_t dev =  rt_device_find("can1");
+    rt_uint8_t msg1[8]= {0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x88};
+    struct rt_can_msg msg = create_can_msg(0x78,msg1);
+    rt_device_write(dev,0,&msg,sizeof msg);
+}
 
 void can_callback(void *parameter){
     rt_device_t dev = rt_device_find("can1");
@@ -18,7 +27,7 @@ void can_callback(void *parameter){
     };
     struct rt_can_filter_config cfg = {5, 1, items}; /* 一共有 5 个过滤表 */
     /* 设置硬件过滤表 */
-    rt_device_control(can, RT_CAN_CMD_SET_FILTER, &cfg);
+    rt_device_control(dev, RT_CAN_CMD_SET_FILTER, &cfg);
 #endif
 
     while (1)
@@ -26,11 +35,12 @@ void can_callback(void *parameter){
         rxmsg.hdr = -1;
         rt_sem_take(parameter, RT_WAITING_FOREVER);
         rt_device_read(dev, 0, &rxmsg, sizeof(rxmsg));
+        can_handler();
     }
 }
 
 int start(){
-    device_task_create("can1", can_callback, RT_Object_Class_MessageQueue, RT_DEVICE_FLAG_RX_NON_BLOCKING | RT_DEVICE_FLAG_TX_BLOCKING);
+    device_task_create("can1", can_callback, RT_Object_Class_Semaphore, RT_DEVICE_FLAG_INT_TX | RT_DEVICE_FLAG_INT_RX);
     return RT_EOK;
 }
 
