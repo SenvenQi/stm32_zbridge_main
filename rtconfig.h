@@ -73,7 +73,6 @@
 #define RT_USING_SERIAL_V2
 #define RT_SERIAL_USING_DMA
 #define RT_USING_CAN
-#define RT_CAN_USING_HDR
 #define RT_USING_PIN
 
 /* Using USB */
@@ -207,7 +206,6 @@
 
 
 /* Other */
-
 
 /* Signal IO */
 
