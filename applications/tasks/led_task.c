@@ -7,11 +7,15 @@
 
 void led_shan(){
     rt_base_t led = GET_PIN(A,8);
+    rt_base_t led1 = GET_PIN(D,2);
     rt_pin_mode(led,PIN_MODE_OUTPUT);
+    rt_pin_mode(led1,PIN_MODE_OUTPUT);
     while (1){
         rt_pin_write(led,PIN_HIGH);
+        rt_pin_write(led1,PIN_LOW);
         rt_thread_delay(300);
         rt_pin_write(led,PIN_LOW);
+        rt_pin_write(led1,PIN_HIGH);
         rt_thread_delay(300);
     }
 }
