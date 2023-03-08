@@ -17,7 +17,7 @@ void led_shan(){
 }
 
 int led_start(){
-    rt_thread_t led_thread = rt_thread_create("led",led_shan,RT_NULL,1024,10,10);
+    rt_thread_t led_thread = rt_thread_create("led",led_shan,RT_NULL,1024,25,10);
     rt_thread_startup(led_thread);
     return RT_EOK;
 }
