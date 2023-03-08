@@ -20,13 +20,22 @@ void  lan_callback(void *parameter){
     struct rx_msg rxMsg;
     rt_err_t result;
     static char rx_buffer[BSP_UART1_RX_BUFSIZE + 1];
+    static rt_uint16_t size = 0;
     while (1){
         result = rt_mq_recv(&uart1_mq,&rxMsg,sizeof rxMsg,RT_WAITING_FOREVER);
         if (result == RT_EOK)
         {
             /* 从串口读取数据 */
-            rt_device_read(uart1_dev, 0, rx_buffer, sizeof rxMsg);
-            lan_handler();
+            size = rt_device_read(uart1_dev, 0, rx_buffer, rxMsg.size);
+            for (rt_uint16_t i = 0; i < size; i++)
+            {
+                rt_kprintf("%2x",rx_buffer[i]);
+                rx_buffer[i] = '\0';
+            }
+
+//            if (size >= 8){
+//                lan_handler();
+//            }
         }
     }
 }
