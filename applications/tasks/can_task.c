@@ -4,7 +4,6 @@
 #include "protocols/can_msg.h"
 #include "config/device.h"
 
-
 void can_handler(){
     rt_device_t dev =  rt_device_find("can1");
     rt_uint8_t msg1[8]= {0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x88};

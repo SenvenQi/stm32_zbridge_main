@@ -4,11 +4,11 @@
 
 #include "device.h"
 
-rt_device_t device_config(char* name,rt_uint16_t oflag){
-    rt_device_t dev = rt_device_find(name);
-    rt_device_open(dev,oflag);
-    return dev;
-}
+rt_device_t can_dev;
+struct rt_semaphore can_sem;
+
+rt_device_t uart1_dev;
+struct rt_messagequeue uart1_mq;
 
 static rt_err_t can_rx_call(rt_device_t dev,rt_size_t size){
     rt_sem_release(&can_sem);
@@ -30,20 +30,27 @@ static rt_err_t uart1_rx_call(rt_device_t dev,rt_size_t size) {
     return result;
 }
 
-int device_init(){
+int can_config(){
     can_dev = rt_device_find(CAN_NAME);
     rt_sem_init(&can_sem,CAN_NAME,0,RT_IPC_FLAG_FIFO);
     rt_device_open(can_dev,RT_DEVICE_FLAG_INT_TX | RT_DEVICE_FLAG_INT_RX);
+    rt_device_set_rx_indicate(can_dev,can_rx_call);
+    return RT_EOK;
+}
 
+int uart1_config(){
+    static char msg_pool[256];
     uart1_dev = rt_device_find(UART1_NAME);
     rt_mq_init(&uart1_mq,UART1_NAME,msg_pool,sizeof(struct rx_msg),sizeof msg_pool,RT_IPC_FLAG_FIFO);
     rt_device_open(uart1_dev,RT_DEVICE_FLAG_RX_NON_BLOCKING | RT_DEVICE_FLAG_TX_BLOCKING);
-
-
-    rt_device_set_rx_indicate(can_dev,can_rx_call);
     rt_device_set_rx_indicate(uart1_dev,uart1_rx_call);
     return RT_EOK;
 }
 
+int device_init(){
+    can_config();
+    uart1_config();
+    return RT_EOK;
+}
 
 INIT_APP_EXPORT(device_init);

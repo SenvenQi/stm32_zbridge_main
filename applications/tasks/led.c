@@ -10,9 +10,9 @@ void led_shan(){
     rt_pin_mode(led,PIN_MODE_OUTPUT);
     while (1){
         rt_pin_write(led,PIN_HIGH);
-        rt_thread_delay(1000);
+        rt_thread_delay(300);
         rt_pin_write(led,PIN_LOW);
-        rt_thread_delay(1000);
+        rt_thread_delay(300);
     }
 }
 
