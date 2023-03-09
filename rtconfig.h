@@ -75,6 +75,7 @@
 #define RT_USING_CAN
 #define RT_CAN_USING_HDR
 #define RT_USING_PIN
+#define RT_USING_SPI
 
 /* Using USB */
 
@@ -227,6 +228,9 @@
 #define BSP_USING_GPIO
 #define BSP_USING_CAN
 #define BSP_USING_CAN1
+#define BSP_USING_SPI
+#define BSP_USING_SPI1
+#define BSP_SPI1_TX_USING_DMA
 #define BSP_USING_UART
 #define BSP_USING_UART1
 #define BSP_UART1_RX_USING_DMA
