@@ -10,10 +10,12 @@ cwd = GetCurrentDir()
 src = Split('''
 board.c
 CubeMX_Config/Src/stm32f1xx_hal_msp.c
+lcd_st7789v2c/drv_lcd.c
 ''')
 
 path =  [cwd]
 path += [cwd + '/CubeMX_Config/Inc']
+path += [cwd + '/lcd_st7789v2']
 
 startup_path_prefix = SDK_LIB
 

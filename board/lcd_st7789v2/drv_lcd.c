@@ -13,7 +13,7 @@
  * 2018-09-27    ZYLX               optimized display speed
  */
 
-#include <rtdevice.h>
+#include "rt-thread/components/drivers/include/rtdevice.h"
 #include "drv_spi.h"
 #include "drv_lcd.h"
 #include "drv_lcd_font.h"
@@ -22,7 +22,7 @@
 #define DBG_SECTION_NAME    "LCD"
 #define DBG_COLOR
 #define DBG_LEVEL           DBG_LOG
-#include <rtdbg.h>
+#include "rt-thread/include/rtdbg.h"
 
 #define LCD_PWR_PIN           GET_PIN(B, 10)
 #define LCD_DC_PIN            GET_PIN(B, 0)

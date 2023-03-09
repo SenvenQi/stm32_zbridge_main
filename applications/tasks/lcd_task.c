@@ -1,7 +1,7 @@
 //
 // Created by 天琪王 on 2023/3/9.
 //
-#include "packages/lcd_st7789v2/drv_lcd.h"
+#include "board/lcd_st7789v2/drv_lcd.h"
 
 void lcd_task(){
     while (1){

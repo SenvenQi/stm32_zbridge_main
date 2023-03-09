@@ -16,7 +16,7 @@
 #ifndef __DRV_LCD_H__
 #define __DRV_LCD_H__
 
-#include <rtthread.h>
+#include "rt-thread/include/rtthread.h"
 #ifdef PKG_USING_QRCODE
 #include <qrcode.h>
 #endif
