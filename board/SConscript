@@ -10,7 +10,7 @@ cwd = GetCurrentDir()
 src = Split('''
 board.c
 CubeMX_Config/Src/stm32f1xx_hal_msp.c
-lcd_st7789v2c/drv_lcd.c
+lcd_st7789v2/drv_lcd.c
 ''')
 
 path =  [cwd]
