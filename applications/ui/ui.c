@@ -3,67 +3,34 @@
 //
 #include "lvgl.h"
 #include "drv_lcd.h"
-static void event_handler(lv_event_t * e)
-{
-    lv_event_code_t code = lv_event_get_code(e);
-    lv_obj_t * obj = lv_event_get_current_target(e);
-
-    if(code == LV_EVENT_VALUE_CHANGED) {
-        lv_calendar_date_t date;
-        if(lv_calendar_get_pressed_date(obj, &date)) {
-            LV_LOG_USER("Clicked date: %02d.%02d.%d", date.day, date.month, date.year);
-        }
-    }
-}
 void lv_user_gui_init() {
-    static lv_style_t style;
-    lv_style_init(&style);
-    lv_style_set_radius(&style, 1);
-    lv_style_set_text_color(&style,lv_color_hex(0xFFFF));
-    lv_style_set_border_color(&style,lv_color_hex(0xFF00));
-    /*Make a gradient*/
-    lv_style_set_bg_opa(&style, LV_OPA_COVER);
-    static lv_grad_dsc_t grad;
-    grad.dir = LV_GRAD_DIR_VER;
-    grad.stops_count = 2;
-    grad.stops[0].color = lv_palette_lighten(LV_PALETTE_PINK, 1);
-    grad.stops[1].color = lv_palette_main(LV_PALETTE_BLUE);
+    static lv_coord_t col_dsc[] = {LCD_W -30,LV_GRID_TEMPLATE_LAST};
+    static lv_coord_t row_dsc[] = {LCD_H/2 -15, LCD_H/2 -15,LV_GRID_TEMPLATE_LAST};
 
-    /*Shift the gradient to the bottom*/
-    grad.stops[0].frac  = 128;
-    grad.stops[1].frac  = 192;
+    /*Create a container with grid*/
+    lv_obj_t * cont = lv_obj_create(lv_scr_act());
+    lv_obj_set_style_grid_column_dsc_array(cont, col_dsc, 0);
+    lv_obj_set_style_grid_row_dsc_array(cont, row_dsc, 0);
+    lv_obj_set_size(cont, LCD_W, LCD_H);
+    lv_obj_center(cont);
+    lv_obj_set_layout(cont, LV_LAYOUT_GRID);
 
-    lv_style_set_bg_grad(&style, &grad);
+    lv_obj_t * label;
+    lv_obj_t * obj;
 
-    lv_obj_t  * calendar = lv_calendar_create(lv_scr_act());
-    lv_obj_set_size(calendar, LCD_W, LCD_H);
-    lv_obj_align(calendar, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_add_style(calendar,&style,0);
-    lv_obj_add_event_cb(calendar, event_handler, LV_EVENT_ALL, NULL);
+    uint32_t i;
+    for(i = 0; i < 2; i++) {
+        uint8_t col = 0;
+        uint8_t row = i;
 
-    lv_calendar_set_today_date(calendar, 2021, 02, 23);
-    lv_calendar_set_showed_date(calendar, 2021, 02);
+        obj = lv_btn_create(cont);
+        /*Stretch the cell horizontally and vertically too
+         *Set span to 1 to make the cell 1 column/row sized*/
+        lv_obj_set_grid_cell(obj, LV_GRID_ALIGN_STRETCH, col, 1,
+                             LV_GRID_ALIGN_STRETCH, row, 1);
 
-    /*Highlight a few days*/
-    static lv_calendar_date_t highlighted_days[3];       /*Only its pointer will be saved so should be static*/
-    highlighted_days[0].year = 2021;
-    highlighted_days[0].month = 02;
-    highlighted_days[0].day = 6;
-
-    highlighted_days[1].year = 2021;
-    highlighted_days[1].month = 02;
-    highlighted_days[1].day = 11;
-
-    highlighted_days[2].year = 2022;
-    highlighted_days[2].month = 02;
-    highlighted_days[2].day = 22;
-
-    lv_calendar_set_highlighted_dates(calendar, highlighted_days, 3);
-
-#if LV_USE_CALENDAR_HEADER_DROPDOWN
-    lv_calendar_header_dropdown_create(calendar);
-#elif LV_USE_CALENDAR_HEADER_ARROW
-    lv_calendar_header_arrow_create(calendar);
-#endif
-    lv_calendar_set_showed_date(calendar, 2021, 10);
+        label = lv_label_create(obj);
+        lv_label_set_text_fmt(label, "c%d, r%d 2222222222222", col, row);
+        lv_obj_center(label);
+    }
 }
