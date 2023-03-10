@@ -22,7 +22,7 @@
 #endif
 
 #define LCD_W 320
-#define LCD_H 174
+#define LCD_H 172
 
 //POINT_COLOR
 #define WHITE            0xFFFF
