@@ -18,4 +18,4 @@ int lcd_start(){
     return RT_EOK;
 }
 
-INIT_APP_EXPORT(lcd_start);
+//INIT_APP_EXPORT(lcd_start);

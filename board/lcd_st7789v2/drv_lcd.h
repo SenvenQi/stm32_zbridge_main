@@ -21,8 +21,8 @@
 #include <qrcode.h>
 #endif
 
-#define LCD_W 172
-#define LCD_H 322
+#define LCD_W 320
+#define LCD_H 174
 
 //POINT_COLOR
 #define WHITE            0xFFFF
@@ -66,5 +66,7 @@ void lcd_enter_sleep(void);
 void lcd_exit_sleep(void);
 void lcd_display_on(void);
 void lcd_display_off(void);
+
+void lcd_fill_array(rt_uint16_t x_start, rt_uint16_t y_start, rt_uint16_t x_end, rt_uint16_t y_end, void *pcolor);
 
 #endif

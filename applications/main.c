@@ -10,7 +10,6 @@
 
 #include <rtthread.h>
 /* defined the LED0 pin: PB1 */
-
 int main()
 {
     rt_kprintf("ZB-DJG-A-2023!");

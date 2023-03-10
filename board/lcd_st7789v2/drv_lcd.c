@@ -133,7 +133,7 @@ static int rt_hw_lcd_init(void)
     lcd_gpio_init();
     /* Memory Data Access Control */
     lcd_write_cmd(0x36);
-    lcd_write_data(0x00);
+    lcd_write_data(0x60);
     /* RGB 5-6-5-bit  */
     lcd_write_cmd(0x3A);
     lcd_write_data(0x65);
@@ -274,16 +274,28 @@ void lcd_exit_sleep(void)
 void lcd_address_set(rt_uint16_t x1, rt_uint16_t y1, rt_uint16_t x2, rt_uint16_t y2)
 {
     lcd_write_cmd(0x2a);
-    lcd_write_data((x1+34) >> 8);
-    lcd_write_data(x1+34);
-    lcd_write_data((x2+34) >> 8);
-    lcd_write_data(x2+34);
+    lcd_write_data(x1 >> 8);
+    lcd_write_data(x1);
+    lcd_write_data(x2 >> 8);
+    lcd_write_data(x2);
 
     lcd_write_cmd(0x2b);
-    lcd_write_data(y1 >> 8);
-    lcd_write_data(y1);
-    lcd_write_data(y2 >> 8);
-    lcd_write_data(y2);
+    lcd_write_data((y1+34) >> 8);
+    lcd_write_data(y1+34);
+    lcd_write_data((y2+34) >> 8);
+    lcd_write_data(y2+34);
+
+//    lcd_write_cmd(0x2a);
+//    lcd_write_data(x1 >> 8);
+//    lcd_write_data(x1);
+//    lcd_write_data(x2 >> 8);
+//    lcd_write_data(x2);
+//
+//    lcd_write_cmd(0x2b);
+//    lcd_write_data( (y1+34) >> 8);
+//    lcd_write_data(y1+34);
+//    lcd_write_data((y2+34) >> 8);
+//    lcd_write_data(y2+34);
 
     lcd_write_cmd(0x2C);
 }
@@ -829,6 +841,15 @@ rt_err_t lcd_show_image(rt_uint16_t x, rt_uint16_t y, rt_uint16_t length, rt_uin
     return RT_EOK;
 }
 
+void lcd_fill_array(rt_uint16_t x_start, rt_uint16_t y_start, rt_uint16_t x_end, rt_uint16_t y_end, void *pcolor)
+{
+    rt_uint32_t size = 0;
+
+    size = (x_end - x_start + 1) * (y_end - y_start + 1) * 2/*16bit*/;
+    lcd_address_set(x_start, y_start, x_end, y_end);
+    rt_pin_write(LCD_DC_PIN, PIN_HIGH);
+    rt_spi_send(spi_dev_lcd, pcolor, size);
+}
 #ifdef PKG_USING_QRCODE
 QRCode qrcode;
 
