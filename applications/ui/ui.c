@@ -18,14 +18,15 @@ static void event_handler(lv_event_t * e)
 void lv_user_gui_init() {
     static lv_style_t style;
     lv_style_init(&style);
-    lv_style_set_radius(&style, 5);
-
+    lv_style_set_radius(&style, 1);
+    lv_style_set_text_color(&style,lv_color_hex(0xFFFF));
+    lv_style_set_border_color(&style,lv_color_hex(0xFF00));
     /*Make a gradient*/
     lv_style_set_bg_opa(&style, LV_OPA_COVER);
     static lv_grad_dsc_t grad;
     grad.dir = LV_GRAD_DIR_VER;
     grad.stops_count = 2;
-    grad.stops[0].color = lv_palette_lighten(LV_PALETTE_GREY, 1);
+    grad.stops[0].color = lv_palette_lighten(LV_PALETTE_PINK, 1);
     grad.stops[1].color = lv_palette_main(LV_PALETTE_BLUE);
 
     /*Shift the gradient to the bottom*/
