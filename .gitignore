@@ -1,6 +1,4 @@
 /cmake-build-debug/
 /CMakeLists.txt
-/.config
-/.sconsign.dblite
 /.config.old
 /build/
