@@ -16,6 +16,7 @@ lcd_st7789v2/drv_lcd.c
 path =  [cwd]
 path += [cwd + '/CubeMX_Config/Inc']
 path += [cwd + '/lcd_st7789v2']
+path += [cwd + '/w23x16_flash']
 
 startup_path_prefix = SDK_LIB
 
