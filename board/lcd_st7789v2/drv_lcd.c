@@ -27,11 +27,25 @@
 #define LCD_PWR_PIN           GET_PIN(B, 10)
 #define LCD_DC_PIN            GET_PIN(B, 0)
 #define LCD_RES_PIN           GET_PIN(B, 1)
+#define PWM_DEV_CHANNEL    3
 #define LCD_CLEAR_SEND_NUMBER 5760
 
 rt_uint16_t BACK_COLOR = WHITE, FORE_COLOR = BLACK;
 
 static struct rt_spi_device *spi_dev_lcd;
+static struct rt_device_pwm *pwm_dev_lcd;
+static rt_uint32_t period = 500000, /* 周期为0.5ms，单位为纳秒ns */
+pulse = 1000,  /* PWM脉冲宽度值的增减方向 */
+dir = 1;  /* PWM脉冲宽度值，单位为纳秒ns */
+
+static int rt_hw_lcd_pwr_config(void){
+    pwm_dev_lcd = (struct rt_device_pwm *)rt_device_find("pwm2");
+    /* 设置PWM周期和脉冲宽度默认值 */
+    rt_pwm_set(pwm_dev_lcd,PWM_DEV_CHANNEL ,period,pulse);
+    /* 使能设备 */
+    rt_pwm_enable(pwm_dev_lcd, PWM_DEV_CHANNEL);
+    return RT_EOK;
+}
 
 static int rt_hw_lcd_config(void)
 {
@@ -112,13 +126,14 @@ static rt_err_t lcd_write_half_word(const rt_uint16_t da)
 
 static void lcd_gpio_init(void)
 {
+    rt_hw_lcd_pwr_config();
     rt_hw_lcd_config();
 
     rt_pin_mode(LCD_DC_PIN, PIN_MODE_OUTPUT);
     rt_pin_mode(LCD_RES_PIN, PIN_MODE_OUTPUT);
 
-    rt_pin_mode(LCD_PWR_PIN, PIN_MODE_OUTPUT);
-    rt_pin_write(LCD_PWR_PIN, PIN_LOW);
+//    rt_pin_mode(LCD_PWR_PIN, PIN_MODE_OUTPUT);
+//    rt_pin_write(LCD_PWR_PIN, PIN_LOW);
 
     rt_pin_write(LCD_RES_PIN, PIN_LOW);
     //wait at least 100ms for reset
@@ -211,7 +226,7 @@ static int rt_hw_lcd_init(void)
     lcd_clear(WHITE);
 
     /* display on */
-    rt_pin_write(LCD_PWR_PIN, PIN_HIGH);
+//    rt_pin_write(LCD_PWR_PIN, PIN_HIGH);
     lcd_write_cmd(0x29);
 
     return RT_EOK;
@@ -242,7 +257,10 @@ void lcd_display_on(void)
 
 void lcd_display_off(void)
 {
-    rt_pin_write(LCD_PWR_PIN, PIN_LOW);
+//    rt_pin_write(LCD_PWR_PIN, PIN_LOW);
+    while (1){
+
+    }
 }
 
 /* lcd enter the minimum power consumption mode and backlight off. */
@@ -350,7 +368,7 @@ void lcd_clear(rt_uint16_t color)
 
 /**
  * display a point on the lcd.
- *
+ *11
  * @param   x   x position
  * @param   y   y position
  *

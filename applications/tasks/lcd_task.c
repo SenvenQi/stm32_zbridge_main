@@ -5,7 +5,7 @@
 
 void lcd_task(){
     while (1){
-        lcd_fill(0,0,LCD_W,LCD_H,3355);
+        lcd_fill(0,0,LCD_W,LCD_H,55555);
         lcd_show_string(30,30,32,"ZBridge");
         rt_thread_delay(30000000);
     }
