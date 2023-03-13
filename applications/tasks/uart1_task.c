@@ -47,4 +47,4 @@ int uart1_start(){
     return RT_EOK;
 }
 
-//INIT_APP_EXPORT(uart1_start);
+INIT_APP_EXPORT(uart1_start);

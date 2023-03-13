@@ -29,11 +29,11 @@ int lcd_pwm_start(){
         rt_thread_mdelay(10);
         if (dir)
         {
-            pulse += 1000;      /* 从0值开始每次增加5000ns */
+            pulse += 10000;      /* 从0值开始每次增加5000ns */
         }
         else
         {
-            pulse -= 1000;      /* 从最大值开始每次减少5000ns */
+            pulse -= 10000;      /* 从最大值开始每次减少5000ns */
         }
         if (pulse >= period)
         {
