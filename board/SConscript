@@ -11,11 +11,13 @@ src = Split('''
 board.c
 CubeMX_Config/Src/stm32f1xx_hal_msp.c
 lcd_st7789v2/drv_lcd.c
+w25x16/drv_w25x16_flash.c
 ''')
 
 path =  [cwd]
 path += [cwd + '/CubeMX_Config/Inc']
 path += [cwd + '/lcd_st7789v2']
+path += [cwd + '/w25x16']
 
 startup_path_prefix = SDK_LIB
 

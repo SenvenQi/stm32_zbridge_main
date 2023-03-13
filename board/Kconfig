@@ -101,6 +101,7 @@ menu "On-chip Peripheral Drivers"
                         default n
 
                 endif
+
     menuconfig BSP_USING_UART
         bool "Enable UART"
         default y

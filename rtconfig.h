@@ -25,6 +25,7 @@
 
 #define RT_KSERVICE_USING_STDLIB
 #define RT_DEBUG
+#define RT_DEBUG_COLOR
 
 /* Inter-Thread communication */
 
@@ -46,7 +47,7 @@
 #define RT_USING_DEVICE
 #define RT_USING_CONSOLE
 #define RT_CONSOLEBUF_SIZE 128
-#define RT_CONSOLE_DEVICE_NAME "uart"
+#define RT_CONSOLE_DEVICE_NAME "uart1"
 #define RT_VER_NUM 0x40101
 #define ARCH_ARM
 #define RT_USING_CPU_FFS
@@ -70,7 +71,7 @@
 #define FAL_DEBUG 1
 #define FAL_PART_HAS_TABLE_CFG
 #define FAL_USING_SFUD_PORT
-#define FAL_USING_NOR_FLASH_DEV_NAME "norflash0"
+#define FAL_USING_NOR_FLASH_DEV_NAME "w25x16"
 
 /* Device Drivers */
 
@@ -83,6 +84,10 @@
 #define RT_USING_PIN
 #define RT_USING_PWM
 #define RT_USING_SPI
+#define RT_USING_SFUD
+#define RT_SFUD_USING_SFDP
+#define RT_SFUD_USING_FLASH_INFO_TABLE
+#define RT_SFUD_SPI_MAX_HZ 50000000
 
 /* Using USB */
 
