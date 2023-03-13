@@ -62,11 +62,9 @@ rt_err_t lcd_show_image(rt_uint16_t x, rt_uint16_t y, rt_uint16_t length, rt_uin
 rt_err_t lcd_show_qrcode(rt_uint16_t x, rt_uint16_t y, rt_uint8_t version, rt_uint8_t ecc, const char *data, rt_uint8_t enlargement);
 #endif
 
-void lcd_enter_sleep(void);
-void lcd_exit_sleep(void);
-void lcd_display_on(void);
-void lcd_display_off(void);
-
 void lcd_fill_array(rt_uint16_t x_start, rt_uint16_t y_start, rt_uint16_t x_end, rt_uint16_t y_end, void *pcolor);
 
+void LCD_ShowChinese32x32(rt_uint16_t x,rt_uint8_t y,char *s,rt_uint16_t fc,rt_uint16_t bc,rt_uint8_t sizey,rt_uint8_t mode);
+void LCD_ShowChinese64x64(rt_uint16_t x,rt_uint16_t y,char *s,rt_uint16_t fc,rt_uint16_t bc,rt_uint16_t sizey,rt_uint8_t mode);
+void LCD_ShowChar64x32(rt_uint16_t x,rt_uint16_t y,char *s,rt_uint16_t fc,rt_uint16_t bc,rt_uint16_t sizey,rt_uint8_t mode);
 #endif
