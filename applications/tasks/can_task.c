@@ -40,4 +40,4 @@ int can_start(){
     return RT_EOK;
 }
 
-INIT_APP_EXPORT(can_start);
+//INIT_APP_EXPORT(can_start);
