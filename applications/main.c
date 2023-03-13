@@ -9,9 +9,11 @@
  */
 
 #include <rtthread.h>
+#include "fal.h"
 /* defined the LED0 pin: PB1 */
 int main()
 {
+    fal_init();
     rt_kprintf("ZB-DJG-A-2023!");
     return RT_EOK;
 }

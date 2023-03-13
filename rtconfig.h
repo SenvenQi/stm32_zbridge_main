@@ -79,7 +79,6 @@
 #define RT_USING_SERIAL_V2
 #define RT_SERIAL_USING_DMA
 #define RT_USING_CAN
-#define RT_CAN_USING_HDR
 #define RT_USING_HWTIMER
 #define RT_USING_PIN
 #define RT_USING_PWM
@@ -140,9 +139,6 @@
 
 
 /* u8g2: a monochrome graphic library */
-
-
-/* PainterEngine: A cross-platform graphics application framework written in C language */
 
 
 /* tools packages */
@@ -217,6 +213,7 @@
 
 /* Other */
 
+
 /* Signal IO */
 
 
@@ -234,16 +231,17 @@
 /* On-chip Peripheral Drivers */
 
 #define BSP_USING_GPIO
+#define BSP_USING_ON_CHIP_FLASH
 #define BSP_USING_TIM
 #define BSP_USING_TIM2
 #define BSP_USING_PWM
 #define BSP_USING_PWM2
-#define BSP_USING_PWM2_CH3
 #define BSP_USING_CAN
 #define BSP_USING_CAN1
 #define BSP_USING_SPI
 #define BSP_USING_SPI1
 #define BSP_SPI1_TX_USING_DMA
+#define BSP_SPI1_RX_USING_DMA
 #define BSP_USING_SPI2
 #define BSP_USING_UART
 #define BSP_USING_UART1
