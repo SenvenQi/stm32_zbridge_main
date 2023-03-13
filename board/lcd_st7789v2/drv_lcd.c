@@ -35,7 +35,7 @@ static struct rt_spi_device *spi_dev_lcd;
 
 static int rt_hw_lcd_config(void)
 {
-    spi_dev_lcd = (struct rt_spi_device *)rt_device_find("spi10");
+    spi_dev_lcd = (struct rt_spi_device *)rt_device_find("spi20");
 
     /* config spi */
     {
@@ -129,7 +129,7 @@ static void lcd_gpio_init(void)
 static int rt_hw_lcd_init(void)
 {
     __HAL_RCC_GPIOC_CLK_ENABLE();
-    rt_hw_spi_device_attach("spi1", "spi10", GPIOC, GPIO_PIN_5);
+    rt_hw_spi_device_attach("spi2", "spi20", GPIOC, GPIO_PIN_5);
     lcd_gpio_init();
     /* Memory Data Access Control */
     lcd_write_cmd(0x36);

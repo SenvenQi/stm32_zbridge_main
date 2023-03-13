@@ -42,12 +42,29 @@ menu "On-chip Peripheral Drivers"
                 default n
 
             config BSP_SPI1_RX_USING_DMA
-                bool "Enable SPI2 RX DMA"
+                bool "Enable SPI1 RX DMA"
                 depends on BSP_USING_SPI1
-                select BSP_SPI2_TX_USING_DMA
+                select BSP_SPI1_TX_USING_DMA
                 default n
 
         endif
+        if BSP_USING_SPI
+                    config BSP_USING_SPI2
+                        bool "Enable SPI1 BUS"
+                        default n
+
+                    config BSP_SPI1_TX_USING_DMA
+                        bool "Enable SPI2 TX DMA"
+                        depends on BSP_USING_SPI1
+                        default n
+
+                    config BSP_SPI1_RX_USING_DMA
+                        bool "Enable SPI2 RX DMA"
+                        depends on BSP_USING_SPI1
+                        select BSP_SPI2_TX_USING_DMA
+                        default n
+
+                endif
     menuconfig BSP_USING_UART
         bool "Enable UART"
         default y
