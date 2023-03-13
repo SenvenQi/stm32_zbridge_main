@@ -241,6 +241,7 @@
 #define BSP_USING_TIM2
 #define BSP_USING_PWM
 #define BSP_USING_PWM2
+#define BSP_USING_PWM2_CH3
 #define BSP_USING_CAN
 #define BSP_USING_CAN1
 #define BSP_USING_SPI

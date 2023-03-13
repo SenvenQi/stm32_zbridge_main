@@ -214,8 +214,6 @@ static int rt_hw_lcd_init(void)
 
     return RT_EOK;
 
-
-    return RT_EOK;
 }
 
 INIT_COMPONENT_EXPORT(rt_hw_lcd_init);
