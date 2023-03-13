@@ -65,6 +65,12 @@
 #define DFS_FILESYSTEMS_MAX 4
 #define DFS_FILESYSTEM_TYPES_MAX 4
 #define DFS_FD_MAX 16
+#define RT_USING_FAL
+#define FAL_DEBUG_CONFIG
+#define FAL_DEBUG 1
+#define FAL_PART_HAS_TABLE_CFG
+#define FAL_USING_SFUD_PORT
+#define FAL_USING_NOR_FLASH_DEV_NAME "norflash0"
 
 /* Device Drivers */
 
@@ -73,7 +79,10 @@
 #define RT_USING_SERIAL_V2
 #define RT_SERIAL_USING_DMA
 #define RT_USING_CAN
+#define RT_CAN_USING_HDR
+#define RT_USING_HWTIMER
 #define RT_USING_PIN
+#define RT_USING_PWM
 #define RT_USING_SPI
 
 /* Using USB */
@@ -129,14 +138,11 @@
 
 /* LVGL: powerful and easy-to-use embedded GUI library */
 
-#define PKG_USING_LVGL
-#define PKG_LVGL_THREAD_PRIO 20
-#define PKG_LVGL_THREAD_STACK_SIZE 4096
-#define PKG_LVGL_DISP_REFR_PERIOD 5
-#define PKG_LVGL_USING_V08034
-#define PKG_LVGL_VER_NUM 0x08034
 
 /* u8g2: a monochrome graphic library */
+
+
+/* PainterEngine: A cross-platform graphics application framework written in C language */
 
 
 /* tools packages */
@@ -211,7 +217,6 @@
 
 /* Other */
 
-
 /* Signal IO */
 
 
@@ -229,11 +234,17 @@
 /* On-chip Peripheral Drivers */
 
 #define BSP_USING_GPIO
+#define BSP_USING_TIM
+#define BSP_USING_TIM2
+#define BSP_USING_PWM
+#define BSP_USING_PWM2
+#define BSP_USING_PWM2_CH3
 #define BSP_USING_CAN
 #define BSP_USING_CAN1
 #define BSP_USING_SPI
 #define BSP_USING_SPI1
 #define BSP_SPI1_TX_USING_DMA
+#define BSP_USING_SPI2
 #define BSP_USING_UART
 #define BSP_USING_UART1
 #define BSP_UART1_RX_USING_DMA
