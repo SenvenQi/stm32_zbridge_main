@@ -39,7 +39,7 @@ int can_config(){
 }
 
 int uart1_config(){
-    static char msg_pool[256];
+    static char msg_pool[2560];
     uart1_dev = rt_device_find(UART1_NAME);
     rt_mq_init(&uart1_mq,UART1_NAME,msg_pool,sizeof(struct rx_msg),sizeof msg_pool,RT_IPC_FLAG_FIFO);
     rt_device_open(uart1_dev,RT_DEVICE_FLAG_RX_NON_BLOCKING | RT_DEVICE_FLAG_TX_BLOCKING);

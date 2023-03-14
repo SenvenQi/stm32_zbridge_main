@@ -9,6 +9,7 @@
  */
 
 #include <rtthread.h>
+
 /* defined the LED0 pin: PB1 */
 int main()
 {

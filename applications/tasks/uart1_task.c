@@ -4,6 +4,7 @@
 #include "rtdevice.h"
 #include "protocols/can_msg.h"
 #include "config/device.h"
+#include "common/font_flash.h"
 
 
 void lan_handler(){
@@ -21,18 +22,22 @@ void  lan_callback(void *parameter){
     rt_err_t result;
     static char rx_buffer[BSP_UART1_RX_BUFSIZE + 1];
     static rt_uint16_t size = 0;
+    static rt_off_t offset = 0;
     while (1){
         result = rt_mq_recv(&uart1_mq,&rxMsg,sizeof rxMsg,RT_WAITING_FOREVER);
         if (result == RT_EOK)
         {
             /* 从串口读取数据 */
             size = rt_device_read(uart1_dev, 0, rx_buffer, rxMsg.size);
-            for (rt_uint16_t i = 0; i < size; i++)
-            {
-                rt_kprintf("%2x",rx_buffer[i]);
-                rx_buffer[i] = '\0';
-            }
+//            for (rt_uint16_t i = 0; i < size; i++)
+//            {
+//                rt_kprintf("%2x",rx_buffer[i]);
+//                rx_buffer[i] = '\0';
+//            }
 
+            rt_kprintf("%d",size);
+             write_font(offset,rx_buffer,size);
+             offset += size;
 //            if (size >= 8){
 //                lan_handler();
 //            }
@@ -47,4 +52,4 @@ int uart1_start(){
     return RT_EOK;
 }
 
-//INIT_APP_EXPORT(uart1_start);
+INIT_APP_EXPORT(uart1_start);
