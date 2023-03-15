@@ -6,19 +6,6 @@
 
 
 void lcd_task(){
-//    LCD_ShowChar64x32(30,0,"1",RED,0x0000,64,1);
-//    LCD_ShowChar64x32(62,0,"1",RED,0x0000,64,1);
-//    LCD_ShowChinese64x64(94,0,"号",0xFFFF,0x0000,64,1);
-//    LCD_ShowChinese64x64(158,0,"在",GREEN,0x0000,64,1);
-//    LCD_ShowChinese64x64(222,0,"位",0xFFFF,0x0000,64,1);
-//    LCD_ShowChinese64x64(0,80,"苏",0xffff,0x0000,64,1);
-//    LCD_ShowChar64x32(64,80,"E",0xffff,0x0000,64,1);
-//    LCD_ShowChar64x32(96,80,"-",0xffff,0x0000,64,1);
-//    LCD_ShowChar64x32(128,80,"1",0xffff,0x0000,64,1);
-//    LCD_ShowChar64x32(160,80,"1",0xffff,0x0000,64,1);
-//    LCD_ShowChar64x32(192,80,"1",0xffff,0x0000,64,1);
-//    LCD_ShowChar64x32(224,80,"1",0xffff,0x0000,64,1);
-//    LCD_ShowChinese64x64(256,80,"警",0xffff,0x0000,64,1);
     lcd_set_color(BLACK,WHITE);
     lcd_clear(BLACK);
     const struct fal_partition *falPartition= fal_partition_find("easyflash");
