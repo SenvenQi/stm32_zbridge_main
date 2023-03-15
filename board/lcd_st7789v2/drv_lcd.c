@@ -548,6 +548,33 @@ void lcd_draw_circle(rt_uint16_t x0, rt_uint16_t y0, rt_uint8_t r)
     }
 }
 
+void lcd_show_font(rt_uint16_t x, rt_uint16_t y, rt_uint8_t data[2], rt_uint32_t size,rt_uint8_t gb2312[128]){
+    rt_uint8_t temp;
+    rt_uint8_t num = 0;;
+    rt_uint8_t pos, t;
+    rt_uint16_t colortemp = FORE_COLOR;
+    rt_uint8_t *font_buf = RT_NULL;
+
+//    if (x > LCD_W - size / 2 || y > LCD_H - size)return;
+    lcd_address_set(x, y, x + size, y + size);
+    font_buf = (rt_uint8_t *)rt_malloc(size * size);
+    for (pos = 0; pos < size * size / 8; pos++)
+    {
+        temp = gb2312[pos];
+        for (t = 0; t < 8; t++)
+        {
+            if (temp & 0x80)colortemp = FORE_COLOR;
+            else colortemp = BACK_COLOR;
+            font_buf[2 * (8 * pos + t)] = colortemp >> 8;
+            font_buf[2 * (8 * pos + t) + 1] = colortemp;
+            temp <<= 1;
+        }
+    }
+    rt_pin_write(LCD_DC_PIN, PIN_HIGH);
+    rt_spi_send(spi_dev_lcd, font_buf, size * size);
+    rt_free(font_buf);
+}
+
 static void lcd_show_char(rt_uint16_t x, rt_uint16_t y, rt_uint8_t data, rt_uint32_t size)
 {
     rt_uint8_t temp;
