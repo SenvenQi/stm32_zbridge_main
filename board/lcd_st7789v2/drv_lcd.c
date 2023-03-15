@@ -23,6 +23,7 @@
 #define DBG_COLOR
 #define DBG_LEVEL           DBG_LOG
 #include "rt-thread/include/rtdbg.h"
+#include "fal.h"
 
 #define LCD_DC_PIN            GET_PIN(B, 0)
 #define LCD_RES_PIN           GET_PIN(B, 1)
@@ -548,14 +549,19 @@ void lcd_draw_circle(rt_uint16_t x0, rt_uint16_t y0, rt_uint8_t r)
     }
 }
 
-void lcd_show_font(rt_uint16_t x, rt_uint16_t y, rt_uint8_t data[2], rt_uint32_t size,const rt_uint8_t gb2312[128]){
+void lcd_show_font(rt_uint16_t x, rt_uint16_t y, const char *data, rt_uint32_t size){
     rt_uint8_t temp;
     rt_uint8_t num = 0;
     rt_uint32_t pos, t;
     rt_uint16_t colortemp = FORE_COLOR;
     rt_uint8_t *font_buf = RT_NULL;
+    rt_uint32_t addr = ((*data) - 0xa1) * 94 * 128 +  ((*(data +1))-0xa1) * 128;
 
-//    if (x > LCD_W - size / 2 || y > LCD_H - size)return;
+    rt_uint8_t buf[128];
+    const struct fal_partition *falPartition= fal_partition_find("easyflash");
+    fal_partition_read(falPartition,addr,buf,128);
+
+    if (x > LCD_W - size / 2 || y > LCD_H - size)return;
     lcd_address_set(x, y, x + size - 1, y + size - 1);
     font_buf = (rt_uint8_t *)rt_malloc(size * size * 2);
     if (!font_buf)
@@ -563,7 +569,7 @@ void lcd_show_font(rt_uint16_t x, rt_uint16_t y, rt_uint8_t data[2], rt_uint32_t
         /* fast show char */
         for (pos = 0; pos < size * size / 8; pos++)
         {
-            temp = gb2312[pos];
+            temp = buf[pos];
             for (t = 0; t < 8; t++)
             {
                 if (temp & 0x80)colortemp = FORE_COLOR;
@@ -575,7 +581,7 @@ void lcd_show_font(rt_uint16_t x, rt_uint16_t y, rt_uint8_t data[2], rt_uint32_t
     }else{
         for (pos = 0; pos < size * size / 8; pos++)
         {
-            temp = gb2312[pos];
+            temp = buf[pos];
             for (t = 0; t < 8; t++)
             {
                 if (temp & 0x80)colortemp = FORE_COLOR;
@@ -819,7 +825,13 @@ rt_err_t lcd_show_string(rt_uint16_t x, rt_uint16_t y, rt_uint32_t size, const c
             y = x = 0;
             lcd_clear(RED);
         }
-        lcd_show_char(x, y, *p, size);
+        if(*p & 0x80){
+            char *c = { p,p+1 };
+            lcd_show_font(x,y,c,size);
+            p++;
+        }else{
+            lcd_show_char(x, y, *p, size);
+        }
         x += size / 2;
         p++;
     }
