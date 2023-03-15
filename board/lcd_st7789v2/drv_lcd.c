@@ -829,6 +829,7 @@ rt_err_t lcd_show_string(rt_uint16_t x, rt_uint16_t y, rt_uint32_t size, const c
             char *c = { p,p+1 };
             lcd_show_font(x,y,c,size);
             p++;
+            x += size / 2;
         }else{
             lcd_show_char(x, y, *p, size);
         }
