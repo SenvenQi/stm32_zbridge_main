@@ -53,4 +53,4 @@ int device_init(){
     return RT_EOK;
 }
 
-INIT_APP_EXPORT(device_init);
+INIT_COMPONENT_EXPORT(device_init);

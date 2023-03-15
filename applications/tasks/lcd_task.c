@@ -22,11 +22,13 @@ void lcd_task(){
     lcd_set_color(WHITE,BLACK);
     lcd_clear(WHITE);
     const struct fal_partition *falPartition= fal_partition_find("easyflash");
-    uint8_t buf[128];
+    uint8_t buf[32];
 //    rt_uint32_t erase_size = fal_partition_erase_all(falPartition);
-    rt_uint32_t size = fal_partition_read(falPartition,2560000,buf,128);
-//    lcd_show_string(64,32,32,"hello");
-    lcd_show_font(32,32,"陈",32,&buf);
+    fal_partition_read(falPartition,32,buf,32);
+    lcd_show_string(64,32,16,"hello");
+    char *name = "你";
+    rt_kprintf("0x%x \t 0x%x",*name,*(name+1));
+    lcd_show_font(32,32,"陈",16,buf);
 }
 
 
