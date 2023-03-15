@@ -24,9 +24,9 @@ void lcd_task(){
     const struct fal_partition *falPartition= fal_partition_find("easyflash");
     uint8_t buf[128];
 //    rt_uint32_t erase_size = fal_partition_erase_all(falPartition);
-    rt_uint32_t size = fal_partition_read(falPartition,2560,buf,128);
-    lcd_show_string(64,32,32,"hello");
-//    lcd_show_font(32,32,"陈",128,&buf);
+    rt_uint32_t size = fal_partition_read(falPartition,2560000,buf,128);
+//    lcd_show_string(64,32,32,"hello");
+    lcd_show_font(32,32,"陈",32,&buf);
 }
 
 

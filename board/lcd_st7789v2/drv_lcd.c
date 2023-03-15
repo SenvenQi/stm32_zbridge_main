@@ -557,8 +557,7 @@ void lcd_show_font(rt_uint16_t x, rt_uint16_t y, rt_uint8_t data[2], rt_uint32_t
 
 //    if (x > LCD_W - size / 2 || y > LCD_H - size)return;
     lcd_address_set(x, y, x + size, y + size);
-    font_buf = (rt_uint8_t *)rt_malloc(size * size);
-    for (pos = 0; pos < size * size / 8; pos++)
+    for (pos = 0; pos < size * (size / 2) / 8; pos++)
     {
         temp = gb2312[pos];
         for (t = 0; t < 8; t++)
