@@ -29,7 +29,7 @@ int lcd_pwm_start(){
         rt_thread_mdelay(10);
         if (dir)
         {
-            pulse += 10000;      /* 从0值开始每次增加5000ns */
+            pulse += 100;      /* 从0值开始每次增加5000ns */
         }
         else
         {
