@@ -2,7 +2,7 @@
 // Created by 25861 on 2023/3/5.
 //
 
-#include "can_msg.h"
+#include "protocol.h"
 
 struct rt_can_msg create_can_msg(rt_uint32_t id,const rt_uint8_t data[8]){
     struct rt_can_msg msg;
