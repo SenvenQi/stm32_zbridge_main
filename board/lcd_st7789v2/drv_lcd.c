@@ -555,7 +555,7 @@ void lcd_show_font(rt_uint16_t x, rt_uint16_t y, const char *data, rt_uint32_t s
     rt_uint32_t pos, t;
     rt_uint16_t colortemp = FORE_COLOR;
     rt_uint8_t *font_buf = RT_NULL;
-    rt_uint32_t addr = ((*data) - 0xa1) * 94 * 128 +  ((*(data +1))-0xa1) * 128;
+    rt_uint32_t addr = 0 + ((*data) - 0xa1) * 94 * 128 +  ((*(data +1))-0xa1) * 128;
 
     rt_uint8_t buf[128];
     const struct fal_partition *falPartition= fal_partition_find("easyflash");
