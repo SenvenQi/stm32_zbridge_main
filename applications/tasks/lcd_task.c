@@ -2,7 +2,7 @@
 // Created by Ììç÷Íõ on 2023/3/9.
 //
 #include "drv_lcd.h"
-#include "zb_task.h"
+#include "core/thread_core.h"
 
 void lcd_init_task(void* parameter){
     lcd_set_color(BLACK,0xFC99);
@@ -18,4 +18,5 @@ void lcd_init_task(void* parameter){
 
     }
 }
-extern void (*lcd_task)(void* parameter) = lcd_init_task;
+
+THREAD_INIT_START(lcd_init_task,RT_NULL,1024,25,10)

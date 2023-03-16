@@ -5,6 +5,7 @@
 #include "rtthread.h"
 #include "drv_gpio.h"
 #include "config/device.h"
+#include "core/thread_core.h"
 
 void led_shan(){
     while (1){
@@ -16,4 +17,5 @@ void led_shan(){
         rt_thread_delay(300);
     }
 }
-void (*led_task)(void *parameter) = led_shan;
+
+THREAD_INIT_START(led_shan,RT_NULL,1024,25,10);

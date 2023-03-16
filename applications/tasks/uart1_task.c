@@ -4,7 +4,7 @@
 #include "rtdevice.h"
 #include "protocols/can_msg.h"
 #include "config/device.h"
-#include "zb_task.h"
+#include "core/thread_core.h"
 
 void lan_handler(){
     rt_uint8_t msg1[8]= {0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x88};
@@ -42,4 +42,5 @@ void lan_callback(void *parameter){
         }
     }
 }
-void (*uart1_task)(void *parameter) = lan_callback;
+
+THREAD_INIT_START(lan_callback,RT_NULL,1024,25,10)
