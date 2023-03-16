@@ -9,7 +9,7 @@ void lcd_task(){
     lcd_set_color(BLACK,WHITE);
     lcd_clear(BLACK);
 //    rt_uint32_t erase_size = fal_partition_erase_all(falPartition);
-    lcd_show_string(0,0,32,"hello！zbridge zbridge 你好啊 陈博文");
+    lcd_show_string(0,0,32,"hello！zbridge 你好啊 陈博文 为中华之崛起而读书");
 
 }
 
