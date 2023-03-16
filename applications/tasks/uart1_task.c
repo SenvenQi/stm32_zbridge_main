@@ -32,7 +32,6 @@ void lan_callback(void *parameter){
                 data[i] = rx_buffer[i];
             }
             uart_filter(data,size);
-            rt_kprintf("%d-%s\t",size,data);
         }
     }
 }
