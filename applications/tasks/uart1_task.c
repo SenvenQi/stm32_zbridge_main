@@ -4,8 +4,7 @@
 #include "rtdevice.h"
 #include "protocols/can_msg.h"
 #include "config/device.h"
-#include "common/font_flash.h"
-
+#include "zb_task.h"
 
 void lan_handler(){
     rt_uint8_t msg1[8]= {0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x88};
@@ -16,8 +15,7 @@ void lan_handler(){
         rt_kprintf("failed!!!");
     }
 }
-
-void  lan_callback(void *parameter){
+void lan_callback(void *parameter){
     struct rx_msg rxMsg;
     rt_err_t result;
     static char rx_buffer[BSP_UART1_RX_BUFSIZE + 1];
@@ -36,20 +34,12 @@ void  lan_callback(void *parameter){
 //            }
 
             rt_kprintf("%d",size);
-             write_font(offset,rx_buffer,size);
-             offset += size;
+//             write_font(offset,rx_buffer,size);
+//             offset += size;
 //            if (size >= 8){
 //                lan_handler();
 //            }
         }
     }
 }
-
-
-int uart1_start(){
-    rt_thread_t thread = rt_thread_create("uart1_task",lan_callback,RT_NULL,1024,25,10);
-    rt_thread_startup(thread);
-    return RT_EOK;
-}
-
-INIT_APP_EXPORT(uart1_start);
+void (*uart1_task)(void *parameter) = lan_callback;

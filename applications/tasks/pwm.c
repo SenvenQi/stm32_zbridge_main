@@ -60,10 +60,3 @@ void toggle_pwm(){
     else
         rt_pwm_set(pwm_dev_lcd, PWM_DEV_CHANNEL, period, pulse);
 }
-int lcd_pwm_handle_thread_start(){
-    rt_thread_t protocol_handle_thread = rt_thread_create("pwm_handle_task",lcd_pwm_start,RT_NULL,1024,25,10);
-    rt_thread_startup(protocol_handle_thread);
-    return RT_EOK;
-}
-
-INIT_APP_EXPORT(lcd_pwm_handle_thread_start);

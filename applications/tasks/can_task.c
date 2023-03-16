@@ -33,11 +33,3 @@ void can_callback(void *parameter){
         can_handler();
     }
 }
-
-int can_start(){
-    rt_thread_t thread = rt_thread_create("can_task",can_callback,RT_NULL,1024,25,10);
-    rt_thread_startup(thread);
-    return RT_EOK;
-}
-
-INIT_APP_EXPORT(can_start);

@@ -8,12 +8,12 @@
  * 2018-01-26     armink       the first version
  */
 
-#include <fal.h>
-#include <sfud.h>
+#include "rt-thread/components/fal/inc/fal.h"
+#include "rt-thread/components/drivers/spi/sfud/inc/sfud.h"
 
 #ifdef FAL_USING_SFUD_PORT
 #ifdef RT_USING_SFUD
-#include <spi_flash_sfud.h>
+#include "rt-thread/components/drivers/spi/spi_flash_sfud.h"
 #endif
 
 #ifndef FAL_USING_NOR_FLASH_DEV_NAME
