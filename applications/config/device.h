@@ -4,7 +4,7 @@
 
 #ifndef RTTHREAD_DEVICE_H
 #define RTTHREAD_DEVICE_H
-
+#include "rtthread.h"
 #include "rtdevice.h"
 #include "drv_gpio.h"
 #include "fal.h"
@@ -27,7 +27,7 @@ extern struct rt_semaphore can_sem;
 
 #define UART1_NAME "uart1"
 extern rt_device_t uart1_dev;
-extern rt_mq_t uart1_mq;
+extern rt_event_t uart1_event;
 
 /* 按钮1  */
 

@@ -18,9 +18,11 @@ void lan_handler(){
 void lan_callback(void *parameter){
     struct rx_msg rxMsg;
     rt_err_t result;
+    rt_uint32_t e;
     static unsigned char rx_buffer[BSP_UART1_RX_BUFSIZE + 1];
     while (1){
-        result = rt_mq_recv(uart1_mq,&rxMsg,sizeof rxMsg,RT_WAITING_FOREVER);
+        result = rt_event_recv(uart1_event,1,RT_EVENT_FLAG_OR | RT_EVENT_FLAG_CLEAR,
+                               RT_WAITING_FOREVER,&e);
         if (result == RT_EOK)
         {
             /* 从串口读取数据 */
