@@ -5,6 +5,7 @@
 #include "protocols/can_msg.h"
 #include "config/device.h"
 #include "core/thread_core.h"
+#include "protocols/protocol.h"
 
 void lan_handler(){
     rt_uint8_t msg1[8]= {0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x88};
@@ -18,17 +19,18 @@ void lan_handler(){
 void lan_callback(void *parameter){
     struct rx_msg rxMsg;
     rt_err_t result;
-    static char rx_buffer[BSP_UART1_RX_BUFSIZE + 1];
-    static rt_uint16_t size = 0;
-    static rt_off_t offset = 0;
+    static unsigned char rx_buffer[BSP_UART1_RX_BUFSIZE + 1];
     while (1){
         result = rt_mq_recv(uart1_mq,&rxMsg,sizeof rxMsg,RT_WAITING_FOREVER);
         if (result == RT_EOK)
         {
             /* 从串口读取数据 */
-            size = rt_device_read(uart1_dev, 0, rx_buffer, rxMsg.size);
-            char data[size];
-            strncpy(data,rx_buffer,size);
+            rt_uint16_t size = rt_device_read(uart1_dev, 0, rx_buffer, rxMsg.size);
+            unsigned char data[size];
+            for (int i = 0; i < size; ++i) {
+                data[i] = rx_buffer[i];
+            }
+            uart_filter(data,size);
 //            for (rt_uint16_t i = 0; i < size; i++)
 //            {
 //                rt_kprintf("%2x",rx_buffer[i]);
