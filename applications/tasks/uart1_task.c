@@ -22,18 +22,19 @@ void lan_callback(void *parameter){
     static rt_uint16_t size = 0;
     static rt_off_t offset = 0;
     while (1){
-        result = rt_mq_recv(&uart1_mq,&rxMsg,sizeof rxMsg,RT_WAITING_FOREVER);
+        result = rt_mq_recv(uart1_mq,&rxMsg,sizeof rxMsg,RT_WAITING_FOREVER);
         if (result == RT_EOK)
         {
             /* 从串口读取数据 */
             size = rt_device_read(uart1_dev, 0, rx_buffer, rxMsg.size);
-//            for (rt_uint16_t i = 0; i < size; i++)
-//            {
-//                rt_kprintf("%2x",rx_buffer[i]);
-//                rx_buffer[i] = '\0';
-//            }
+            char data[size];
+            for (rt_uint16_t i = 0; i < size; i++)
+            {
+                rt_kprintf("%2x",rx_buffer[i]);
+                rx_buffer[i] = '\0';
+            }
 
-            rt_kprintf("%d",size);
+//            rt_kprintf("%d %s",size,data);
 //             write_font(offset,rx_buffer,size);
 //             offset += size;
 //            if (size >= 8){

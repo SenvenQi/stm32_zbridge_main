@@ -26,7 +26,7 @@ extern struct rt_semaphore can_sem;
 
 #define UART1_NAME "uart1"
 extern rt_device_t uart1_dev;
-extern struct rt_messagequeue uart1_mq;
+extern rt_mq_t uart1_mq;
 
 /* 按钮1  */
 

@@ -6,7 +6,7 @@
 struct rt_semaphore key1_sem;
 
 void key1_handler(void *parameter){
-    rt_kprintf("按钮被点击了");
+    rt_kprintf("key1 down");
 }
 
 int key1_config(){
