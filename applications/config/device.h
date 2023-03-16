@@ -7,6 +7,7 @@
 
 #include "rtdevice.h"
 #include "drv_gpio.h"
+#include "fal.h"
 
 
 
@@ -46,4 +47,6 @@ extern rt_uint32_t period, /* 周期为0.5ms，单位为纳秒ns */
 pulse,  /* PWM脉冲宽度值的增减方向 */
 dir;  /* PWM脉冲宽度值，单位为纳秒ns */
 
+/* flash设备 */
+#define FALSH_DEV fal_partition_find(FLASH_DEV_NAME)
 #endif //RTTHREAD_DEVICE_H
