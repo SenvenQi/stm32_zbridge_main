@@ -13,7 +13,6 @@ void write_font(rt_off_t offset,uint8_t *buffer,size_t data_size){
 }
 int start_flash(){
     fal_init();
-    falPartition = fal_partition_find("easyflash");
     return RT_EOK;
 }
 

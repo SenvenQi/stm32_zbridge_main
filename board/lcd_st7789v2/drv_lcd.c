@@ -815,10 +815,18 @@ rt_err_t lcd_show_string(rt_uint16_t x, rt_uint16_t y, rt_uint32_t size, const c
     p = buf;
     while (*p != '\0')
     {
-        if (x > LCD_W - size / 2)
-        {
-            x = 0;
-            y += size;
+        if (*p & 0x80){
+            if (x > (LCD_W - size))
+            {
+                x = 0;
+                y += size;
+            }
+        } else{
+            if (x > (LCD_W - size / 2))
+            {
+                x = 0;
+                y += size;
+            }
         }
         if (y > LCD_H - size)
         {
