@@ -28,13 +28,14 @@ void lan_callback(void *parameter){
             /* 从串口读取数据 */
             size = rt_device_read(uart1_dev, 0, rx_buffer, rxMsg.size);
             char data[size];
-            for (rt_uint16_t i = 0; i < size; i++)
-            {
-                rt_kprintf("%2x",rx_buffer[i]);
-                rx_buffer[i] = '\0';
-            }
+            strncpy(data,rx_buffer,size);
+//            for (rt_uint16_t i = 0; i < size; i++)
+//            {
+//                rt_kprintf("%2x",rx_buffer[i]);
+//                rx_buffer[i] = '\0';
+//            }
 
-//            rt_kprintf("%d %s",size,data);
+            rt_kprintf("%d-%s\t",size,data);
 //             write_font(offset,rx_buffer,size);
 //             offset += size;
 //            if (size >= 8){
