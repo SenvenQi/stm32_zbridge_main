@@ -10,5 +10,5 @@
 #include "rtdevice.h"
 
 extern rt_bool_t ENABLE_LCD_PWM;
-
+void toggle_pwm();
 #endif //RTTHREAD_PWM_H

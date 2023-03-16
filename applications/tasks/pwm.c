@@ -23,31 +23,43 @@ static int rt_hw_lcd_pwr_config(void){
 
 void lcd_pwm_start(void *parameter){
     rt_hw_lcd_pwr_config();
-    while (ENABLE_LCD_PWM)
+    while (1)
     {
         rt_thread_mdelay(10);
-        if (dir)
+        if (ENABLE_LCD_PWM){
+            if (dir)
+            {
+                pulse += 10000;      /* 从0值开始每次增加5000ns */
+            }
+            else
+            {
+                pulse -= 10000;      /* 从最大值开始每次减少5000ns */
+            }
+            if (pulse >= period)
+            {
+                dir = 0;
+            }
+            if (0 == pulse)
+            {
+                dir = 1;
+            }
+
+            /* 设置PWM周期和脉冲宽度 */
+            rt_pwm_set(pwm_dev_lcd, PWM_DEV_CHANNEL, period, pulse);
+        }else
         {
-            pulse += 10000;      /* 从0值开始每次增加5000ns */
-        }
-        else
-        {
-            pulse -= 10000;      /* 从最大值开始每次减少5000ns */
-        }
-        if (pulse >= period)
-        {
-            dir = 0;
-        }
-        if (0 == pulse)
-        {
-            dir = 1;
+            rt_pwm_set(pwm_dev_lcd, PWM_DEV_CHANNEL, period, 500000);
         }
 
-        /* 设置PWM周期和脉冲宽度 */
-        rt_pwm_set(pwm_dev_lcd, PWM_DEV_CHANNEL, period, pulse);
     }
 }
 
+void toggle_pwm(){
+    if (ENABLE_LCD_PWM)
+        rt_pwm_set(pwm_dev_lcd, PWM_DEV_CHANNEL, period, 500000);
+    else
+        rt_pwm_set(pwm_dev_lcd, PWM_DEV_CHANNEL, period, pulse);
+}
 int lcd_pwm_handle_thread_start(){
     rt_thread_t protocol_handle_thread = rt_thread_create("pwm_handle_task",lcd_pwm_start,RT_NULL,1024,25,10);
     rt_thread_startup(protocol_handle_thread);

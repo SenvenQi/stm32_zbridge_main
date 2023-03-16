@@ -11,6 +11,7 @@ void key1_handler(void *parameter){
         ENABLE_LCD_PWM = DISABLE;
     else
         ENABLE_LCD_PWM = ENABLE;
+    toggle_pwm();
 }
 
 void key1_config(){
