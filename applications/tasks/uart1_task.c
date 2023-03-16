@@ -2,7 +2,6 @@
 // Created by 25861 on 2023/3/5.
 //
 #include "rtdevice.h"
-#include "protocols/can_msg.h"
 #include "config/device.h"
 #include "core/thread_core.h"
 #include "protocols/protocol.h"
