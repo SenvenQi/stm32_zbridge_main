@@ -16,5 +16,5 @@ void buzzer_di_handler(){
 }
 
 void lcd_init_handler(){
-    lcd_write("123124245");
+    lcd_write("hello 代码修改过的初始化");
 }
