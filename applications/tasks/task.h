@@ -11,5 +11,6 @@
 #include "core/thread_core.h"
 #include "protocols/protocol.h"
 #include "config/device.h"
+#include "service/service.h"
 
 #endif //RTTHREAD_TASK_H

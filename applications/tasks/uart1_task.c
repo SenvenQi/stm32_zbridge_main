@@ -19,7 +19,7 @@ void lan_callback(void *parameter){
     rt_uint32_t e;
     static unsigned char rx_buffer[BSP_UART1_RX_BUFSIZE + 1];
     while (1){
-        result = rt_event_recv(uart1_event,1,RT_EVENT_FLAG_OR | RT_EVENT_FLAG_CLEAR,
+        result = rt_event_recv(uart1_event,1,RT_EVENT_FLAG_OR,
                                RT_WAITING_FOREVER,&e);
         if (result == RT_EOK)
         {
@@ -29,8 +29,6 @@ void lan_callback(void *parameter){
             for (int i = 0; i < size; ++i) {
                 data[i] = rx_buffer[i];
             }
-            uart_filter(data,size);
-            rt_kprintf("%d",size);
         }
     }
 }

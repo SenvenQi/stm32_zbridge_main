@@ -26,6 +26,12 @@ struct rx_uart_msg{
     rt_uint8_t cmd;
     rt_uint8_t data[256];
 };
-void uart_filter(char buffer[],size_t size);
+
+struct rx_uart_data{
+    rt_uint8_t cmd;
+    rt_uint8_t data[256];
+};
+
+struct rx_uart_data* uart_filter(void *buffer,size_t size);
 
 #endif //RTTHREAD_PROTOCOL_H

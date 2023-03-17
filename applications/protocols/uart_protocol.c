@@ -3,7 +3,8 @@
 //
 #include "protocol.h"
 
-void uart_filter(char buffer[],size_t size){
+static struct rx_uart_data uart_data;
+struct rx_uart_data* uart_filter(void *buffer,size_t size){
     if (size >=5){
         struct rx_uart_msg* msg = (struct rx_uart_msg*)buffer;
         if (msg->length + 4 >= size){
@@ -11,10 +12,12 @@ void uart_filter(char buffer[],size_t size){
              && msg -> head[1] == 0xBB
              && msg->data[msg->length-3] == 0xCC
              && msg->data[msg->length-2] == 0xDD){
-                if (msg->cmd == 0x01){
-                    rt_kprintf("success uart filter OK!");
+                uart_data.cmd = msg->cmd;
+                for (int i = 0; i < 256; ++i) {
+                    uart_data.data[i] = msg->data[i];
                 }
             }
         }
     }
+    return &uart_data;
 }
