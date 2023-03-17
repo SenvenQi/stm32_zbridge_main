@@ -7,6 +7,7 @@ struct rt_semaphore key1_sem;
 
 void key1_handler(void *parameter){
     rt_kprintf("key1 down");
+    rt_sem_release(&key1_sem);
 }
 
 int key1_config(){

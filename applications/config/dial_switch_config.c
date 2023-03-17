@@ -12,6 +12,7 @@ struct rt_semaphore sw_sem;
 
 void dial_switch_handler(void *parameter){
     rt_kprintf("dail switch down");
+    rt_sem_release(&sw_sem);
 }
 
 int dial_switch_config(){
