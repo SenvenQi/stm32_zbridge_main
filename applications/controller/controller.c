@@ -11,6 +11,10 @@ void uart1_handler(void *buffer,size_t size){
     rt_kprintf("%d",size);
 }
 
-void buzzer_di(){
+void buzzer_di_handler(){
     di();
+}
+
+void lcd_init_handler(){
+    lcd_write("123124245");
 }
