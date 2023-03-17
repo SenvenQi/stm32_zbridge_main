@@ -53,4 +53,16 @@ dir;  /* PWM脉冲宽度值，单位为纳秒ns */
 
 /* flash设备 */
 #define FALSH_DEV fal_partition_find(FLASH_DEV_NAME)
+
+/* 拨码开关 */
+#define DAIL_SWITCH_NAME "dail_switch"
+#define SW1 GET_PIN(C,10)
+#define SW2 GET_PIN(C,11)
+#define SW3 GET_PIN(C,12)
+#define SW4 GET_PIN(D,2)
+#define SW5 GET_PIN(B,3)
+#define SW6 GET_PIN(B,4)
+#define SW7 GET_PIN(B,5)
+#define SW8 GET_PIN(B,6)
+extern struct rt_semaphore sw_sem;
 #endif //RTTHREAD_DEVICE_H
