@@ -9,12 +9,14 @@ void lcd_init_task(void* parameter){
     lcd_clear(BLACK);
 //    rt_uint32_t erase_size = fal_partition_erase_all(falPartition);
     while (1){
-        lcd_show_string(0,0,32,"hello！zbridge 你好啊 陈博文 为中华之崛起而读书");
+        lcd_clear(BLACK);
         lcd_set_color(BLACK,0xFCFF);
-        rt_thread_delay(300);
-        lcd_show_string(0,0,32,"hello！zbridge 你好啊 陈博文 为中华之崛起而读书");
-        lcd_set_color(BLACK,0x0C99);
-        rt_thread_delay(300);
+        lcd_show_string(0,10,32,"hello！zbridge 你好啊 陈博文 为中华之崛起而读书 你好啊 陈博文 为中华之崛起而读书 你好啊 陈博文 你");
+        rt_thread_delay(3000);
+        lcd_clear(GREEN);
+        lcd_set_color(GREEN,0x0C99);
+        lcd_show_string(0,10,32,"hello！zbridge 你好啊 陈博文 为中华之崛起而读书 你好啊 陈博文 为中华之崛起而读书 你好啊 陈博文 你");
+        rt_thread_delay(3000);
     }
 }
 
