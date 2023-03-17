@@ -1,10 +1,8 @@
 //
 // Created by 25861 on 2023/3/5.
 //
-#include "rtdevice.h"
-#include "config/device.h"
-#include "core/thread_core.h"
-#include "protocols/protocol.h"
+#include "task.h"
+
 
 void lan_handler(){
     rt_uint8_t msg1[8]= {0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x88};
@@ -37,4 +35,4 @@ void lan_callback(void *parameter){
     }
 }
 
-THREAD_INIT_START(lan_callback,RT_NULL,1024,10,100)
+THREAD_INIT_START(lan_callback,RT_NULL,1024,10,10)

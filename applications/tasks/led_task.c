@@ -1,12 +1,8 @@
 //
 // Created by 天琪王 on 2023/3/7.
 //
-#include "rtdevice.h"
-#include "rtthread.h"
-#include "drv_gpio.h"
-#include "config/device.h"
-#include "core/thread_core.h"
-#include "config/device.h"
+#include "task.h"
+
 void led_shan(){
     while (1){
         rt_uint32_t e;
@@ -23,4 +19,4 @@ void led_shan(){
     }
 }
 
-THREAD_INIT_START(led_shan,RT_NULL,1024,25,10);
+THREAD_INIT_START(led_shan,RT_NULL,1024,25,1000);

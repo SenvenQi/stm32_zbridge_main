@@ -2,8 +2,6 @@
 // Created by 天琪王 on 2023/3/13.
 //
 #include "task.h"
-#include "config/device.h"
-#include "core/thread_core.h"
 
 void lcd_pwm_start(void *parameter){
     while (1)
@@ -31,4 +29,4 @@ void lcd_pwm_start(void *parameter){
     }
 }
 
-THREAD_INIT_START(lcd_pwm_start,RT_NULL,1024,25,10)
+THREAD_INIT_START(lcd_pwm_start,RT_NULL,1024,25,1000)

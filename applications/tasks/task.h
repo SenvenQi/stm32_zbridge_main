@@ -8,7 +8,8 @@
 #include "rtdef.h"
 #include "rtthread.h"
 #include "rtdevice.h"
-
-
+#include "core/thread_core.h"
+#include "protocols/protocol.h"
+#include "config/device.h"
 
 #endif //RTTHREAD_TASK_H
