@@ -26,8 +26,9 @@ extern "C" {
 
 /* Internal SRAM memory size[Kbytes] <8-64>, Default: 64*/
 #define STM32_SRAM_SIZE      48
-#define STM32_SRAM_END       (0x20000000 + STM32_SRAM_SIZE * 1024)
+#define STM32_SRAM_END      (0x20000000 + STM32_SRAM_SIZE * 1024)
 
+#define LCD_161
 #if defined(__ARMCC_VERSION)
 extern int Image$$RW_IRAM1$$ZI$$Limit;
 #define HEAP_BEGIN      ((void *)&Image$$RW_IRAM1$$ZI$$Limit)

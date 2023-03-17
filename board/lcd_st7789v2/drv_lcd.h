@@ -20,9 +20,15 @@
 #ifdef PKG_USING_QRCODE
 #include <qrcode.h>
 #endif
+#ifdef LCD_147
+    #define LCD_W 320
+    #define LCD_H 172
+#endif
 
-#define LCD_W 320
-#define LCD_H 172
+#ifdef LCD_161
+    #define LCD_W 320
+    #define LCD_H 180
+#endif
 
 //POINT_COLOR
 #define WHITE            0xFFFF

@@ -271,13 +271,13 @@ uint32_t SDIO_ReadFIFO(SDIO_TypeDef *SDIOx)
 /**
   * @brief  Write data (word) to Tx FIFO in blocking mode (polling) 
   * @param  SDIOx: Pointer to SDMMC register base
-  * @param  pWriteData: pointer to data to write
+  * @param  plcd_write_data: pointer to data to write
   * @retval HAL status
   */
-HAL_StatusTypeDef SDIO_WriteFIFO(SDIO_TypeDef *SDIOx, uint32_t *pWriteData)
+HAL_StatusTypeDef SDIO_WriteFIFO(SDIO_TypeDef *SDIOx, uint32_t *plcd_write_data)
 { 
   /* Write data to FIFO */ 
-  SDIOx->FIFO = *pWriteData;
+  SDIOx->FIFO = *plcd_write_data;
 
   return HAL_OK;
 }

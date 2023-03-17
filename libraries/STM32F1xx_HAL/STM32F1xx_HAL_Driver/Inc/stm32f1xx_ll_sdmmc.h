@@ -1034,7 +1034,7 @@ HAL_StatusTypeDef SDIO_Init(SDIO_TypeDef *SDIOx, SDIO_InitTypeDef Init);
   * @{
   */
 uint32_t          SDIO_ReadFIFO(SDIO_TypeDef *SDIOx);
-HAL_StatusTypeDef SDIO_WriteFIFO(SDIO_TypeDef *SDIOx, uint32_t *pWriteData);
+HAL_StatusTypeDef SDIO_WriteFIFO(SDIO_TypeDef *SDIOx, uint32_t *plcd_write_data);
 /**
   * @}
   */

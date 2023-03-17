@@ -130,6 +130,15 @@ static int rt_hw_lcd_init(void)
     __HAL_RCC_GPIOC_CLK_ENABLE();
     rt_hw_spi_device_attach("spi2", "spi20", GPIOC, GPIO_PIN_5);
     lcd_gpio_init();
+//    rt_thread_delay(RT_TICK_PER_SECOND);
+//    rt_pin_write(LCD_RES_PIN, PIN_LOW);
+//    //wait at least 100ms for reset
+//    rt_thread_delay(RT_TICK_PER_SECOND);
+//    rt_pin_write(LCD_RES_PIN, PIN_HIGH);
+//    rt_thread_delay(800);
+    lcd_write_cmd(0x11);
+
+#ifdef LCD_147
     /* Memory Data Access Control */
     lcd_write_cmd(0x36);
     lcd_write_data(0x60);
@@ -204,6 +213,81 @@ static int rt_hw_lcd_init(void)
     lcd_write_cmd(0x21);
     /* Sleep Out */
     lcd_write_cmd(0x11);
+#endif
+#ifdef LCD_161
+    //--------------------------------------Display Setting------------------------------------------//
+    lcd_write_cmd(0x36);
+    lcd_write_data(0x60);
+    lcd_write_cmd(0x3a);
+    lcd_write_data(0x55);
+    lcd_write_cmd(0x2a);
+    lcd_write_data(0x00);
+    lcd_write_data(0x1e);
+    lcd_write_data(0x00);
+    lcd_write_data(0xd1);
+    lcd_write_cmd(0x2b);
+    lcd_write_data(0x00);
+    lcd_write_data(0x00);
+    lcd_write_data(0x01);
+    lcd_write_data(0x3f);
+//--------------------------------ST7789V Frame rate setting----------------------------------//
+    lcd_write_cmd(0xb2);
+    lcd_write_data(0x0c);
+    lcd_write_data(0x0c);
+    lcd_write_data(0x00);
+    lcd_write_data(0x33);
+    lcd_write_data(0x33);
+    lcd_write_cmd(0xb7);
+    lcd_write_data(0x35);
+//---------------------------------ST7789V Power setting--------------------------------------//
+    lcd_write_cmd(0xbb);
+    lcd_write_data(0x21);
+    lcd_write_cmd(0xc0);
+    lcd_write_data(0x2c);
+    lcd_write_cmd(0xc2);
+    lcd_write_data(0x01);
+    lcd_write_cmd(0xc3);
+    lcd_write_data(0x13);
+    lcd_write_cmd(0xc4);
+    lcd_write_data(0x20);
+    lcd_write_cmd(0xc6);
+    lcd_write_data(0x0f);
+    lcd_write_cmd(0xd0);
+    lcd_write_data(0xa4);
+    lcd_write_data(0xa1);
+//--------------------------------ST7789V gamma setting--------------------------------------//
+    lcd_write_cmd(0xe0);
+    lcd_write_data(0xd0);
+    lcd_write_data(0x02);
+    lcd_write_data(0x09);
+    lcd_write_data(0x0d);
+    lcd_write_data(0x0f);
+    lcd_write_data(0x19);
+    lcd_write_data(0x38);
+    lcd_write_data(0x44);
+    lcd_write_data(0x49);
+    lcd_write_data(0x3b);
+    lcd_write_data(0x18);
+    lcd_write_data(0x16);
+    lcd_write_data(0x19);
+    lcd_write_data(0x1c);
+    lcd_write_cmd(0xe1);
+    lcd_write_data(0xd0);
+    lcd_write_data(0x03);
+    lcd_write_data(0x0a);
+    lcd_write_data(0x0e);
+    lcd_write_data(0x0e);
+    lcd_write_data(0x0a);
+    lcd_write_data(0x37);
+    lcd_write_data(0x44);
+    lcd_write_data(0x49);
+    lcd_write_data(0x3b);
+    lcd_write_data(0x17);
+    lcd_write_data(0x16);
+    lcd_write_data(0x19);
+    lcd_write_data(0x1c);
+    lcd_write_cmd(0x29);
+#endif
     /* wait for power stability */
     rt_thread_mdelay(100);
 
@@ -246,6 +330,7 @@ void lcd_set_color(rt_uint16_t back, rt_uint16_t fore)
  */
 void lcd_address_set(rt_uint16_t x1, rt_uint16_t y1, rt_uint16_t x2, rt_uint16_t y2)
 {
+#ifdef LCD_147
     lcd_write_cmd(0x2a);
     lcd_write_data(x1 >> 8);
     lcd_write_data(x1);
@@ -257,18 +342,24 @@ void lcd_address_set(rt_uint16_t x1, rt_uint16_t y1, rt_uint16_t x2, rt_uint16_t
     lcd_write_data(y1+34);
     lcd_write_data((y2+34) >> 8);
     lcd_write_data(y2+34);
+#endif
 
-//    lcd_write_cmd(0x2a);
-//    lcd_write_data(x1 >> 8);
-//    lcd_write_data(x1);
-//    lcd_write_data(x2 >> 8);
-//    lcd_write_data(x2);
-//
-//    lcd_write_cmd(0x2b);
-//    lcd_write_data( (y1+34) >> 8);
-//    lcd_write_data(y1+34);
-//    lcd_write_data((y2+34) >> 8);
-//    lcd_write_data(y2+34);
+#ifdef LCD_161
+    lcd_write_cmd(0x2a);
+    lcd_write_data(x1 >> 8);
+    lcd_write_data(x1);
+    lcd_write_data(x2 >> 8);
+    lcd_write_data(x2);
+
+    lcd_write_cmd(0x2b);
+    lcd_write_data((y1+30) >> 8);
+    lcd_write_data(y1+30);
+    lcd_write_data((y2+30) >> 8);
+    lcd_write_data(y2+30);
+#endif
+
+
+
 
     lcd_write_cmd(0x2C);
 }
