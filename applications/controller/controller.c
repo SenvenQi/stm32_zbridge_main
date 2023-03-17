@@ -6,8 +6,8 @@
 #include "protocols/protocol.h"
 
 
-void uart1_handler(rt_uint8_t buffer[],size_t size){
-    uart_filter(buffer,size);
+void uart1_handler(void *buffer,size_t size){
+    struct rx_uart_data* uart_data = uart_filter(buffer,size);
     rt_kprintf("%d",size);
 }
 

@@ -2,6 +2,7 @@
 // Created by 25861 on 2023/3/5.
 //
 #include "task.h"
+#include "controller/controller.h"
 
 
 void lan_handler(){
@@ -25,10 +26,11 @@ void lan_callback(void *parameter){
         {
             /* 从串口读取数据 */
             rt_uint16_t size = rt_device_read(uart1_dev, 0, rx_buffer, rxMsg.size);
-            unsigned char data[size];
+            rt_uint8_t data[size];
             for (int i = 0; i < size; ++i) {
                 data[i] = rx_buffer[i];
             }
+            uart1_handler(data,size);
         }
     }
 }
