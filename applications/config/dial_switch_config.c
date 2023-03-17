@@ -11,7 +11,7 @@ struct rt_semaphore sw_sem;
         rt_pin_irq_enable(SW##num,PIN_IRQ_ENABLE);
 
 void dial_switch_handler(void *parameter){
-    rt_kprintf("key1 down");
+    rt_kprintf("dail switch down");
 }
 
 int dial_switch_config(){
