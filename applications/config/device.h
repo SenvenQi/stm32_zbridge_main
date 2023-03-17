@@ -37,7 +37,7 @@ extern struct rt_semaphore key1_sem;
 /* LED灯 */
 
 #define LED GET_PIN(A,8)
-#define LED1 GET_PIN(D,2)
+#define LED1 GET_PIN(C,14)
 
 /* lcd pwm设备 */
 
