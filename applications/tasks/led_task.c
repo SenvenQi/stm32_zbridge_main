@@ -10,7 +10,7 @@
 void led_shan(){
     while (1){
         rt_uint32_t e;
-        rt_err_t result = rt_event_recv(uart1_event,1,RT_EVENT_FLAG_OR | RT_EVENT_FLAG_CLEAR,
+        rt_err_t result = rt_event_recv(uart1_event,1,RT_EVENT_FLAG_OR ,
                                RT_WAITING_FOREVER,&e);
         if(result == RT_EOK){
             rt_pin_write(LED1,PIN_LOW);
