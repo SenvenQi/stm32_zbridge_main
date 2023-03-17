@@ -13,3 +13,28 @@ void lcd_write(char *str){
 void brightness(rt_uint32_t brightness_size){
     rt_pwm_set_pulse(pwm_dev_lcd,PWM_DEV_CHANNEL,brightness_size);
 }
+
+void splash_screen(){
+    while (1){
+        rt_thread_mdelay(10);
+        if (dir)
+        {
+            pulse += 10000;      /* 从0值开始每次增加5000ns */
+        }
+        else
+        {
+            pulse -= 10000;      /* 从最大值开始每次减少5000ns */
+        }
+        if (pulse >= period)
+        {
+            dir = 0;
+        }
+        if (0 == pulse)
+        {
+            dir = 1;
+        }
+
+        /* 设置PWM周期和脉冲宽度 */
+        rt_pwm_set(pwm_dev_lcd, PWM_DEV_CHANNEL, period, pulse);
+    }
+}

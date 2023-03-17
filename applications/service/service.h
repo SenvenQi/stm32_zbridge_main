@@ -16,6 +16,7 @@ void di();
 void brightness(rt_uint32_t brightness_size);
 /* 修改lcd屏文字 */
 void lcd_write(char *str);
-
+/* lcd 死循环闪屏 */
+void splash_screen();
 
 #endif //RTTHREAD_SERVICE_H
