@@ -13,7 +13,9 @@ struct rx_uart_data* uart_filter(void *buffer,size_t size){
              && msg->data[msg->length-3] == 0xCC
              && msg->data[msg->length-2] == 0xDD){
                 uart_data.cmd = msg->cmd;
-                for (int i = 0; i < 256; ++i) {
+                for (int i = 0; i < msg->length - 1; ++i) {
+                    if (i == (msg->length -3))
+                        break;
                     uart_data.data[i] = msg->data[i];
                 }
             }

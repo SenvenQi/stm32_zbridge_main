@@ -8,6 +8,7 @@
 
 void uart1_handler(void *buffer,size_t size){
     struct rx_uart_data* uart_data = uart_filter(buffer,size);
+    lcd_write((char*)uart_data->data);
     rt_kprintf("%d",size);
 }
 
@@ -16,5 +17,5 @@ void buzzer_di_handler(){
 }
 
 void lcd_init_handler(){
-    lcd_write("hello 代码修改过的初始化");
+
 }

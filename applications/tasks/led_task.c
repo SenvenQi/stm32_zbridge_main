@@ -6,7 +6,7 @@
 void led_shan(){
     while (1){
         rt_uint32_t e;
-        rt_err_t result = rt_event_recv(uart1_event,1,RT_EVENT_FLAG_OR ,
+        rt_err_t result = rt_event_recv(uart1_event,1,RT_EVENT_FLAG_OR | RT_EVENT_FLAG_CLEAR,
                                RT_WAITING_FOREVER,&e);
         if(result == RT_EOK){
             rt_pin_write(LED1,PIN_LOW);
@@ -19,4 +19,4 @@ void led_shan(){
     }
 }
 
-THREAD_INIT_START(led_shan,RT_NULL,1024,25,1000);
+//THREAD_INIT_START(led_shan,RT_NULL,1024,25,1000);
