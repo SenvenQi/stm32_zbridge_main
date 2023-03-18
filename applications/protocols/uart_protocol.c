@@ -9,6 +9,7 @@ rt_uint16_t receive_size = 0;
 unsigned char rx_buffer[BSP_UART1_RX_BUFSIZE + 1];
 rt_uint16_t message_length = 0;
 size_t size;
+size_t count = 0;
 void uart_base_handler(){
     if (receive_size >= message_length + 4){
         rt_mutex_take(uart1_mutex, RT_WAITING_FOREVER);
@@ -43,7 +44,9 @@ void uart_base_handler(){
                     }
                     buzzer_enable = RT_TRUE;
                     message_length = 0;
-                    lcd_write((char*)uart_data.data);
+                    count++;
+                    rt_kprintf("count:%d \t",count);
+//                    lcd_write((char*)uart_data.data);
                     rt_free(msg);
                 }else{
                     message_length = 0;
