@@ -5,7 +5,6 @@
 
 void led_shan(){
     while (1){
-        rt_uint32_t e;
             rt_pin_write(LED1,PIN_LOW);
             rt_pin_write(LED,PIN_HIGH);
             rt_thread_delay(300);

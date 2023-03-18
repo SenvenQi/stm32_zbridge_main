@@ -5,10 +5,11 @@
 
 
 void buzzer_task(){
-    rt_err_t result;
-    rt_uint32_t e;
     while (1){
+        if(buzzer_enable){
             di();
+            buzzer_enable = RT_FALSE;
+        }
     }
 }
-THREAD_INIT_START(buzzer_task,RT_NULL,1024,10,10);
+THREAD_INIT_START(buzzer_task,RT_NULL,1024,25,10);

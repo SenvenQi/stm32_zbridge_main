@@ -3,8 +3,9 @@
 //
 
 #include "device.h"
-
+rt_bool_t buzzer_enable;
 int buzzer_config(){
+    buzzer_enable = RT_FALSE;
     rt_pin_mode(BUZZER,PIN_MODE_OUTPUT);
     return RT_EOK;
 }

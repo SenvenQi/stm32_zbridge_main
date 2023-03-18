@@ -17,19 +17,15 @@ void lan_handler(){
 void lan_callback(void *parameter){
     struct rx_msg rxMsg;
     rt_err_t result;
-    rt_uint32_t e;
-    static unsigned char rx_buffer[BSP_UART1_RX_BUFSIZE + 1];
     while (1){
+        rt_mutex_take(uart1_mutex, RT_WAITING_FOREVER);
         result = rt_mq_recv(uart1_mq, &rxMsg, sizeof(rxMsg), RT_WAITING_FOREVER);
         if (result == RT_EOK)
         {
             /* 从串口读取数据 */
-            rt_uint16_t size = rt_device_read(uart1_dev, 0, rx_buffer, rxMsg.size);
-            rt_uint8_t data[size];
-            for (int i = 0; i < size; ++i) {
-                data[i] = rx_buffer[i];
-            }
-            uart1_handler(data,size);
+            rt_uint16_t size = rt_device_read(uart1_dev, receive_size, rx_buffer, rxMsg.size);
+            receive_size += size;
+            rt_mutex_release(uart1_mutex);
         }
     }
 }

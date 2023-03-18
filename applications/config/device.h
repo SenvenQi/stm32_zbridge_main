@@ -28,10 +28,11 @@ extern struct rt_semaphore can_sem;
 #define UART1_NAME "uart1"
 extern rt_device_t uart1_dev;
 extern rt_mq_t uart1_mq;
+extern rt_mutex_t uart1_mutex;
 /* 蜂鸣器  */
 
 #define BUZZER GET_PIN(B,9)
-
+extern rt_bool_t buzzer_enable;
 /* 按钮1  */
 
 #define KEY1 GET_PIN(C,13)
