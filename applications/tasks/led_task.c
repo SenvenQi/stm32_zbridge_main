@@ -15,4 +15,4 @@ void led_shan(){
     }
 }
 
-//THREAD_INIT_START(led_shan,RT_NULL,1024,25,1000);
+THREAD_INIT_START(led_shan,RT_NULL,1024,25,1000);
