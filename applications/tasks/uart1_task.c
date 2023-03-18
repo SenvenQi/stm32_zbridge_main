@@ -18,10 +18,10 @@ void lan_callback(void *parameter){
     struct rx_msg rxMsg;
     rt_err_t result;
     while (1){
-        rt_mutex_take(uart1_mutex, RT_WAITING_FOREVER);
         result = rt_mq_recv(uart1_mq, &rxMsg, sizeof(rxMsg), RT_WAITING_FOREVER);
         if (result == RT_EOK)
         {
+            rt_mutex_take(uart1_mutex, RT_WAITING_FOREVER);
             /* 从串口读取数据 */
             rt_uint16_t size = rt_device_read(uart1_dev, receive_size, rx_buffer, rxMsg.size);
             receive_size += size;
