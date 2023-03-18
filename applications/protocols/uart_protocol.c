@@ -25,7 +25,7 @@ void uart_base_handler(){
             rt_uint8_t *data = (rt_uint8_t *)rt_malloc(size);
             for (int i = 0; i < size; ++i) {
                 data[i] = rx_buffer[i];
-                rx_buffer[i] = rx_buffer[size+i];
+                rx_buffer[i] = rx_buffer[size+i-1];
             }
 
             receive_size -= size;
@@ -43,7 +43,7 @@ void uart_base_handler(){
                     }
                     buzzer_enable = RT_TRUE;
                     message_length = 0;
-//                    lcd_write((char*)uart_data.data);
+                    lcd_write((char*)uart_data.data);
                     rt_free(msg);
                 }else{
                     message_length = 0;
