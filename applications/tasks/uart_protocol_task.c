@@ -17,4 +17,4 @@ void uart_protocol_task(){
     }
 }
 
-THREAD_INIT_START(uart_protocol_task,RT_NULL,1024,25,10)
+THREAD_INIT_START(uart_protocol_task,RT_NULL,1024,11,100)

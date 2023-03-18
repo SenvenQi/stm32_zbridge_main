@@ -8,17 +8,17 @@ static struct rx_uart_data uart_data;
 rt_uint16_t receive_size = 0;
 unsigned char rx_buffer[BSP_UART1_RX_BUFSIZE + 1];
 rt_uint16_t message_length = 0;
-
+size_t size;
 void uart_base_handler(){
-    rt_mutex_take(uart1_mutex, RT_WAITING_FOREVER);
     if (receive_size >= message_length + 4){
+        rt_mutex_take(uart1_mutex, RT_WAITING_FOREVER);
         if(rx_buffer[0] !=0xAA || rx_buffer[1] != 0xBB)
             receive_size = 0;
         if (message_length == 0)
             message_length = (((rt_uint16_t)rx_buffer[2]) + ((rt_uint16_t)rx_buffer[3]<<8));
         if(message_length +4 <= receive_size){
-            size_t size = message_length +4;
-            rt_uint8_t data[size];
+            size = message_length +4;
+            rt_uint8_t *data = (rt_uint8_t *)rt_malloc(size);
             for (int i = 0; i < size; ++i) {
                 data[i] = rx_buffer[i];
                 rx_buffer[i] = rx_buffer[i+1];
@@ -40,13 +40,15 @@ void uart_base_handler(){
                     buzzer_enable = RT_TRUE;
                     message_length = 0;
                     lcd_write((char*)uart_data.data);
-                }else
+                    rt_free(msg);
+                }else{
+                    message_length = 0;
                     receive_size = 0;
+                }
             }
         }
         rt_mutex_release(uart1_mutex);
-    } else
-        rt_mutex_release(uart1_mutex);
+    }
 }
 
 //struct rx_uart_data* uart_filter(size_t size){
