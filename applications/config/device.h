@@ -30,7 +30,7 @@ extern rt_device_t uart1_dev;
 extern rt_mq_t uart1_mq;
 /* 蜂鸣器  */
 
-#define BUZZER GET_PIN(C,9)
+#define BUZZER GET_PIN(B,9)
 
 /* 按钮1  */
 
