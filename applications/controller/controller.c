@@ -17,5 +17,5 @@ void buzzer_di_handler(){
 }
 
 void lcd_init_handler(){
-
+    lcd_clear_color(0x0000,0xF000);
 }

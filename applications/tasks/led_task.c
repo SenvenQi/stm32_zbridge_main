@@ -6,16 +6,12 @@
 void led_shan(){
     while (1){
         rt_uint32_t e;
-        rt_err_t result = rt_event_recv(uart1_event,1,RT_EVENT_FLAG_OR | RT_EVENT_FLAG_CLEAR,
-                               RT_WAITING_FOREVER,&e);
-        if(result == RT_EOK){
             rt_pin_write(LED1,PIN_LOW);
             rt_pin_write(LED,PIN_HIGH);
             rt_thread_delay(300);
             rt_pin_write(LED,PIN_LOW);
             rt_pin_write(LED1,PIN_HIGH);
             rt_thread_delay(300);
-        }
     }
 }
 

@@ -18,5 +18,6 @@ void brightness(rt_uint32_t brightness_size);
 void lcd_write(char *str);
 /* lcd 死循环闪屏 */
 void splash_screen();
+void lcd_clear_color(rt_uint16_t back_color,rt_uint16_t fore_color);
 
 #endif //RTTHREAD_SERVICE_H

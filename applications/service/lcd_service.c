@@ -5,9 +5,12 @@
 #include "service.h"
 
 void lcd_write(char *str){
-    lcd_set_color(BLACK,0xFC99);
-    lcd_clear(BLACK);
     lcd_show_string(0,10,32,str);
+}
+
+void lcd_clear_color(rt_uint16_t back_color,rt_uint16_t fore_color){
+    lcd_set_color(back_color,fore_color);
+    lcd_clear(back_color);
 }
 
 void brightness(rt_uint32_t brightness_size){

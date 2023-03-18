@@ -8,12 +8,12 @@ rt_device_t uart1_dev;
 rt_mq_t uart1_mq;
 
 static rt_err_t uart1_rx_call(rt_device_t dev,rt_size_t size) {
-    struct rx_msg r_msg;
+    struct rx_msg msg;
     rt_err_t result;
-    r_msg.dev = dev;
-    r_msg.size = size;
+    msg.dev = dev;
+    msg.size = size;
 
-    result = rt_event_send(uart1_mq, 1);
+    result = rt_mq_send(uart1_mq, &msg, sizeof(msg));
     if (result == -RT_EFULL)
     {
         /* 消息队列满 */
