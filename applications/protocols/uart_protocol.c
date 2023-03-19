@@ -12,17 +12,16 @@ size_t size;
 size_t count = 0;
 void uart_base_handler(){
     rt_mutex_take(uart1_mutex, RT_WAITING_FOREVER);
-    rt_kprintf("count:%d \t message_length:%d \t receive_size:%d \r\n",count,message_length,receive_size);
     while (receive_size >= message_length){
         if (receive_size < 4){
             rt_mutex_release(uart1_mutex);
-            return;
+            break;
         }
         if(rx_buffer[0] !=0xAA || rx_buffer[1] != 0xBB){
             message_length = 0;
             receive_size = 0;
             rt_mutex_release(uart1_mutex);
-            return;
+            break;
         }
         if (message_length == 0)
             message_length = (((rt_uint16_t)rx_buffer[2]) + ((rt_uint16_t)rx_buffer[3]<<8)) + 4;
@@ -51,17 +50,20 @@ void uart_base_handler(){
                 message_length = 0;
                 receive_size -= size;
                 count++;
+                rt_kprintf("count:%d \t message_length:%d \t receive_size:%d \r\n",count,message_length,receive_size);
 //                    rt_kprintf("count:%d \t",count);
-                lcd_write((char *) uart_data.data);
+//                lcd_write((char *) uart_data.data);
                 rt_free(msg);
             } else {
                 message_length = 0;
                 receive_size = 0;
+                break;
             }
 
-        }
-        rt_mutex_release(uart1_mutex);
+        } else
+            break;
     }
+    rt_mutex_release(uart1_mutex);
 }
 
 //struct rx_uart_data* uart_filter(size_t size){
