@@ -67,5 +67,5 @@ dir;  /* PWM脉冲宽度值，单位为纳秒ns */
 #define SW6 GET_PIN(B,4)
 #define SW7 GET_PIN(B,5)
 #define SW8 GET_PIN(B,6)
-extern struct rt_semaphore sw_sem;
+extern rt_sem_t sw_sem;
 #endif //RTTHREAD_DEVICE_H
