@@ -29,6 +29,7 @@ extern struct rt_semaphore can_sem;
 extern rt_device_t uart1_dev;
 extern rt_mq_t uart1_mq;
 extern rt_mutex_t uart1_mutex;
+extern rt_sem_t uart_protocol_sem;
 /* 蜂鸣器  */
 
 #define BUZZER GET_PIN(B,9)

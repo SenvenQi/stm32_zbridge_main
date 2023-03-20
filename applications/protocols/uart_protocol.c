@@ -11,16 +11,13 @@ rt_uint16_t message_length = 0;
 size_t size;
 size_t count = 0;
 void uart_base_handler(){
-    rt_mutex_take(uart1_mutex, RT_WAITING_FOREVER);
     while (receive_size >= message_length){
         if (receive_size < 4){
-            rt_mutex_release(uart1_mutex);
             break;
         }
         if(rx_buffer[0] !=0xAA || rx_buffer[1] != 0xBB){
             message_length = 0;
             receive_size = 0;
-            rt_mutex_release(uart1_mutex);
             break;
         }
         if (message_length == 0)
@@ -63,7 +60,6 @@ void uart_base_handler(){
         } else
             break;
     }
-    rt_mutex_release(uart1_mutex);
 }
 
 //struct rx_uart_data* uart_filter(size_t size){

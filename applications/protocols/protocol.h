@@ -24,6 +24,8 @@ struct rx_uart_data{
     rt_uint8_t data[256];
 };
 
+
+extern rt_sem_t uart_protocol_sem;
 extern rt_uint16_t receive_size;
 extern unsigned char rx_buffer[BSP_UART1_RX_BUFSIZE + 1];
 //struct rx_uart_data* uart_filter(size_t size);

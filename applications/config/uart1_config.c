@@ -7,6 +7,7 @@
 rt_device_t uart1_dev;
 rt_mq_t uart1_mq;
 rt_mutex_t uart1_mutex;
+rt_sem_t uart_protocol_sem;
 static rt_err_t uart1_rx_call(rt_device_t dev,rt_size_t size) {
     struct rx_msg msg;
     rt_err_t result;
@@ -28,6 +29,7 @@ int uart1_config(){
                                sizeof(struct rx_msg),    /* 一条消息的最大长度 */
                                256,RT_IPC_FLAG_FIFO);
     uart1_mutex = rt_mutex_create(UART1_NAME,RT_IPC_FLAG_PRIO);
+    uart_protocol_sem = rt_sem_create(UART1_NAME,0,RT_IPC_FLAG_FIFO);
     rt_device_open(uart1_dev,RT_DEVICE_FLAG_RX_NON_BLOCKING | RT_DEVICE_FLAG_TX_BLOCKING);
     rt_device_set_rx_indicate(uart1_dev,uart1_rx_call);
     return RT_EOK;
