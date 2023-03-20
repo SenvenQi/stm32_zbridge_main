@@ -43,6 +43,7 @@ void config_can_id(){
     config_id();
     config_filter();
     rt_sprintf(lcd_num,"%d",can_id);
+    lcd_clear_color(0x0000,0xF000);
     lcd_write(lcd_num);
 //    rt_sem_release(lcd_sem);
 }
