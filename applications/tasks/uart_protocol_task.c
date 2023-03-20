@@ -7,14 +7,6 @@ void uart_protocol_task(){
     while (1){
             rt_sem_take(uart_protocol_sem, RT_WAITING_FOREVER);
             uart_base_handler();
-//            rt_pin_write(LED1,PIN_LOW);
-//            rt_pin_write(LED,PIN_HIGH);
-//            rt_thread_delay(300);
-//            rt_pin_write(LED,PIN_LOW);
-//            rt_pin_write(LED1,PIN_HIGH);
-//            rt_thread_delay(300);
-
-
     }
 }
 

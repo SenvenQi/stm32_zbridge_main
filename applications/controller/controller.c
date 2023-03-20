@@ -5,6 +5,22 @@
 #include "controller.h"
 
 
+void uart1_data_handler(){
+    switch (uart_data.cmd) {
+        case 0x81:
+            buzzer_enable = RT_TRUE;
+            rt_sem_release(lcd_sem);
+            break;
+        case 0xE1:
+            break;
+        case 0x92:
+            break;
+        case 0x85:
+            break;
+        default:
+            break;
+    }
+}
 
 void buzzer_di_handler(){
     di();

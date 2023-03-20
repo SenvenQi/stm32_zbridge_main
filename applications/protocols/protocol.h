@@ -9,6 +9,7 @@
 #include "rtthread.h"
 #include "rtdevice.h"
 #include "config/device.h"
+#include "controller/controller.h"
 
 struct rt_can_msg create_can_msg(rt_uint32_t id, const rt_uint8_t data[8]);
 
