@@ -12,17 +12,7 @@ void can_handler(){
 void can_callback(void *parameter){
     struct rt_can_msg rxmsg = {0};
 
-#ifdef RT_CAN_USING_HDR1
-    struct rt_can_filter_item items[1] =
-    {
-            RT_CAN_FILTER_ITEM_INIT(0x01, 0, 0, 1, 0x01, RT_NULL, RT_NULL),                                      /* std,match ID:0x555，hdr 为 7，指定设置 7 号过滤表 */
-    };
-    struct rt_can_filter_config cfg = {1, 1, items}; /* 一共有 5 个过滤表 */
-    /* 设置硬件过滤表 */
-    rt_device_control(dev, RT_CAN_CMD_SET_FILTER, &cfg);
-    rt_device_control(dev, RT_CAN_CMD_SET_BAUD, (void *)CAN500kBaud);
-    rt_device_control(dev, RT_CAN_CMD_SET_MODE, (void *) RT_CAN_MODE_NORMAL);
-#endif
+
 
     while (1)
     {

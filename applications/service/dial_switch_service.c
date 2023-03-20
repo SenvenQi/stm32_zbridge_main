@@ -4,7 +4,7 @@
 
 #include "config/device.h"
 
-rt_uint8_t id = 0;
+rt_uint8_t can_id = 0;
 
 void config_id() {
     rt_uint8_t one = rt_pin_read(SW1);
@@ -15,5 +15,5 @@ void config_id() {
     rt_uint8_t six = rt_pin_read(SW6);
     rt_uint8_t seven = rt_pin_read(SW7);
     rt_uint8_t eight = rt_pin_read(SW8);
-    id = one + (two << 1) + (three << 2) + (four<< 3) + (five << 4) + (six << 5) + (seven << 6) + (eight << 7);
+    can_id = one + (two << 1) + (three << 2) + (four<< 3) + (five << 4) + (six << 5) + (seven << 6) + (eight << 7);
 }

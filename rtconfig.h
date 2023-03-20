@@ -47,7 +47,7 @@
 #define RT_USING_DEVICE
 #define RT_USING_CONSOLE
 #define RT_CONSOLEBUF_SIZE 128
-#define RT_CONSOLE_DEVICE_NAME "uart1"
+#define RT_CONSOLE_DEVICE_NAME "uart"
 #define RT_VER_NUM 0x40101
 #define ARCH_ARM
 #define RT_USING_CPU_FFS
@@ -80,6 +80,7 @@
 #define RT_USING_SERIAL_V2
 #define RT_SERIAL_USING_DMA
 #define RT_USING_CAN
+#define RT_CAN_USING_HDR
 #define RT_USING_HWTIMER
 #define RT_USING_PIN
 #define RT_USING_PWM
@@ -144,6 +145,9 @@
 
 
 /* u8g2: a monochrome graphic library */
+
+
+/* PainterEngine: A cross-platform graphics application framework written in C language */
 
 
 /* tools packages */
@@ -217,7 +221,6 @@
 
 
 /* Other */
-
 
 /* Signal IO */
 
