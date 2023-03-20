@@ -12,6 +12,7 @@ void buzzer_di_handler(){
 
 void lcd_init_handler(){
     lcd_clear_color(0x0000,0xF000);
+    lcd_write("loading .....");
 }
 
 void lcd_show_data(){
