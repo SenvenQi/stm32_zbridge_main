@@ -21,4 +21,8 @@ void lcd_write(char *str);
 void splash_screen();
 void lcd_clear_color(rt_uint16_t back_color,rt_uint16_t fore_color);
 
+/*拨码开关*/
+extern rt_uint8_t id;
+void config_id();
+
 #endif //RTTHREAD_SERVICE_H
