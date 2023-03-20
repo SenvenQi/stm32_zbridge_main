@@ -3,7 +3,6 @@
 //
 
 #include "controller.h"
-#include "protocols/protocol.h"
 
 
 
@@ -13,4 +12,8 @@ void buzzer_di_handler(){
 
 void lcd_init_handler(){
     lcd_clear_color(0x0000,0xF000);
+}
+
+void lcd_show_data(){
+    lcd_write((char *)uart_data.data);
 }

@@ -9,8 +9,6 @@
 #include "rtthread.h"
 #include "rtdevice.h"
 #include "core/thread_core.h"
-#include "protocols/protocol.h"
-#include "config/device.h"
-#include "service/service.h"
+#include "controller/controller.h"
 
 #endif //RTTHREAD_TASK_H

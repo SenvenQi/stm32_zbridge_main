@@ -9,4 +9,5 @@
 
 void lcd_init_handler();
 void buzzer_di_handler();
+void lcd_show_data();
 #endif //RTTHREAD_CONTROLLER_H

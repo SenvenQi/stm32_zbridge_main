@@ -2,9 +2,7 @@
 // Created by 25861 on 2023/3/17.
 //
 #include "protocol.h"
-#include "service/service.h"
-
-static struct rx_uart_data uart_data;
+struct rx_uart_data uart_data;
 rt_uint16_t receive_size = 0;
 unsigned char rx_buffer[BSP_UART1_RX_BUFSIZE + 1];
 rt_uint16_t message_length = 0;
@@ -47,7 +45,8 @@ void uart_base_handler(){
                 message_length = 0;
                 receive_size -= size;
                 count++;
-                rt_kprintf("count:%d \t message_length:%d \t receive_size:%d \r\n",count,message_length,receive_size);
+                rt_sem_release(lcd_sem);
+//                rt_kprintf("count:%d \t message_length:%d \t receive_size:%d \r\n",count,message_length,receive_size);
 //                    rt_kprintf("count:%d \t",count);
 //                lcd_write((char *) uart_data.data);
                 rt_free(msg);

@@ -7,6 +7,7 @@
 
 #include "drv_lcd.h"
 #include "config/device.h"
+#include "protocols/protocol.h"
 /* 蜂鸣器 */
 void di();
 

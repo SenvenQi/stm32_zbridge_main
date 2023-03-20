@@ -46,13 +46,14 @@ extern struct rt_semaphore key1_sem;
 
 /* lcd pwm设备 */
 
+#define LCD_NAME "lcd"
 #define LCD_PWM_DEV_NAME "pwm2"
 #define PWM_DEV_CHANNEL 3
+extern rt_sem_t lcd_sem;
 extern struct rt_device_pwm *pwm_dev_lcd;
 extern rt_uint32_t period, /* 周期为0.5ms，单位为纳秒ns */
 pulse,  /* PWM脉冲宽度值的增减方向 */
 dir;  /* PWM脉冲宽度值，单位为纳秒ns */
-
 /* flash设备 */
 #define FALSH_DEV fal_partition_find(FLASH_DEV_NAME)
 
