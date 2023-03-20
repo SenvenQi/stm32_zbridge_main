@@ -13,6 +13,7 @@ void di();
 
 /* lcd */
 
+extern char lcd_num[256];
 /* 亮度调节 */
 void brightness(rt_uint32_t brightness_size);
 /* 修改lcd屏文字 */

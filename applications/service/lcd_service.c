@@ -3,7 +3,7 @@
 //
 
 #include "service.h"
-
+char lcd_num[256];
 void lcd_write(char *str){
     lcd_show_string(0,10,32,str);
 }
