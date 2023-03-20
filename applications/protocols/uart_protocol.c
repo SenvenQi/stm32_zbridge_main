@@ -31,22 +31,19 @@ void uart_base_handler(void (*handler)(struct rx_uart_data rxUartData)){
             }
 
 
-            struct rx_uart_msg *msg = (struct rx_uart_msg *) data;
 
             struct rx_uart_data uart_data;
-            if (msg->data[msg->length - 3] == 0xEE
-                && msg->data[msg->length - 2] == 0xFF) {
-                uart_data.cmd = msg->cmd;
-                for (int i = 0; i < msg->length - 1; ++i) {
-                    if (i == (msg->length - 3))
-                        break;
-                    uart_data.data[i] = msg->data[i];
+            if (data[size -2] == 0xEE
+                && data[size - 1] == 0xFF) {
+                uart_data.cmd = data[4];
+                for (int i = 5; i < size - 2; ++i) {
+                    uart_data.data[i] = data[i];
                 }
                 message_length = 0;
                 receive_size -= size;
                 count++;
                 handler(uart_data);
-                rt_free(msg);
+                rt_free(data);
             } else {
                 message_length = 0;
                 receive_size = 0;
