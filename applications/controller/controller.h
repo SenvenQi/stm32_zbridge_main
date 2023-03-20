@@ -12,5 +12,5 @@ void uart1_data_handler();
 void lcd_init_handler();
 void buzzer_di_handler();
 void lcd_show_data();
-
+void config_can_id();
 #endif //RTTHREAD_CONTROLLER_H

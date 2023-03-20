@@ -25,4 +25,6 @@ void lcd_clear_color(rt_uint16_t back_color,rt_uint16_t fore_color);
 extern rt_uint8_t can_id;
 void config_id();
 
+/* can总线 */
+void config_filter();
 #endif //RTTHREAD_SERVICE_H

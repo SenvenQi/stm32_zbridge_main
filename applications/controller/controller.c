@@ -34,3 +34,8 @@ void lcd_init_handler(){
 void lcd_show_data(){
     lcd_write((char *)uart_data.data);
 }
+
+void config_can_id(){
+    config_id();
+    config_filter();
+}
