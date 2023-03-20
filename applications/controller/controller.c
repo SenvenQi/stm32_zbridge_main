@@ -8,7 +8,7 @@ void uart1_work(struct rx_uart_data uart_data){
     switch (uart_data.cmd) {
         case 0x81:
             buzzer_enable = RT_TRUE;
-            rt_sem_release(lcd_sem);
+//            rt_sem_release(lcd_sem);
             break;
         case 0xE1:
             break;
