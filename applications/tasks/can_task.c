@@ -11,9 +11,6 @@ void can_handler(){
 
 void can_callback(void *parameter){
     struct rt_can_msg rxmsg = {0};
-
-
-
     while (1)
     {
         rxmsg.hdr = -1;
