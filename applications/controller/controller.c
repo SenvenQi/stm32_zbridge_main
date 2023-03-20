@@ -4,8 +4,7 @@
 
 #include "controller.h"
 
-
-void uart1_data_handler(){
+void uart1_work(struct rx_uart_data uart_data){
     switch (uart_data.cmd) {
         case 0x81:
             buzzer_enable = RT_TRUE;
@@ -20,6 +19,11 @@ void uart1_data_handler(){
         default:
             break;
     }
+}
+
+void uart1_data_handler(){
+    uart_base_handler(uart1_work);
+
 }
 
 void buzzer_di_handler(){

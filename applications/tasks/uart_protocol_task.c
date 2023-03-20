@@ -6,7 +6,7 @@
 void uart_protocol_task(){
     while (1){
             rt_sem_take(uart_protocol_sem, RT_WAITING_FOREVER);
-            uart_base_handler();
+            uart1_data_handler();
     }
 }
 

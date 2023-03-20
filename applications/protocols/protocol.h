@@ -26,9 +26,8 @@ struct rx_uart_data{
 };
 
 
-extern struct rx_uart_data uart_data;
 extern rt_uint16_t receive_size;
 extern unsigned char rx_buffer[BSP_UART1_RX_BUFSIZE + 1];
 //struct rx_uart_data* uart_filter(size_t size);
-void uart_base_handler();
+void uart_base_handler(void (*handler)(struct rx_uart_data rxUartData));
 #endif //RTTHREAD_PROTOCOL_H
