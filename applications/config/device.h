@@ -31,9 +31,9 @@ extern rt_mq_t uart1_mq;
 extern rt_mutex_t uart1_mutex;
 extern rt_sem_t uart_protocol_sem;
 /* 蜂鸣器  */
-
+#define BUZZER_NAME "buzzer"
 #define BUZZER GET_PIN(B,9)
-extern rt_bool_t buzzer_enable;
+extern rt_sem_t buzzer_sem;
 /* 按钮1  */
 
 #define KEY1 GET_PIN(C,13)

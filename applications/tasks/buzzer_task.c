@@ -6,10 +6,8 @@
 
 void buzzer_task(){
     while (1){
-        if(buzzer_enable){
-            buzzer_di_handler();
-            buzzer_enable = RT_FALSE;
-        }
+        rt_sem_take(buzzer_sem, RT_WAITING_FOREVER);
+        buzzer_di_handler();
     }
 }
 

@@ -3,9 +3,10 @@
 //
 
 #include "device.h"
-rt_bool_t buzzer_enable;
+rt_sem_t buzzer_sem;
+
 int buzzer_config(){
-    buzzer_enable = RT_FALSE;
+    buzzer_sem = rt_sem_create(BUZZER_NAME,0,RT_IPC_FLAG_FIFO);
     rt_pin_mode(BUZZER,PIN_MODE_OUTPUT);
     return RT_EOK;
 }
