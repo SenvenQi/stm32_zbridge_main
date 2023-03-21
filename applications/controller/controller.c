@@ -35,6 +35,10 @@ void flash_write(void *buffer,size_t size){
     fal_partition_write(falPartition,receive_size,buffer,size);
 }
 
+void uart1_data_handler(){
+    uart_protocol_handler(uart1_work);
+}
+
 void can_wrok(struct rx_can_data* rxCanData){
     lcd_write("hello data!");
 }
