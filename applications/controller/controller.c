@@ -22,8 +22,16 @@ void uart1_work(struct rx_uart_data uart_data){
 }
 
 void uart1_data_handler(){
-    uart_base_handler(uart1_work);
+    uart_protocol_handler(uart1_work);
 
+}
+
+void can_wrok(struct rx_can_data* rxCanData){
+
+}
+
+void can_data_handler(){
+    can_protocol_handler(can_wrok);
 }
 
 void buzzer_di_handler(){

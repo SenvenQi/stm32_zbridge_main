@@ -10,13 +10,12 @@ void can_handler(){
 }
 
 void can_callback(void *parameter){
-    struct rt_can_msg rxmsg = {0};
     while (1)
     {
         rxmsg.hdr = -1;
         rt_sem_take(&can_sem, RT_WAITING_FOREVER);
         rt_device_read(can_dev, 0, &rxmsg, sizeof(rxmsg));
-        can_handler();
+        can_data_handler();
     }
 }
 

@@ -8,7 +8,7 @@ unsigned char rx_buffer[BSP_UART1_RX_BUFSIZE + 1];
 rt_uint16_t message_length = 0;
 size_t size;
 size_t count = 0;
-void uart_base_handler(void (*handler)(struct rx_uart_data rxUartData)){
+void uart_protocol_handler(void (*handler)(struct rx_uart_data rxUartData)){
     while (receive_size >= message_length){
         if (receive_size < 4){
             break;
@@ -30,8 +30,6 @@ void uart_base_handler(void (*handler)(struct rx_uart_data rxUartData)){
                 rx_buffer[i] = rx_buffer[size + i];
             }
 
-
-
             struct rx_uart_data uart_data;
             if (data[size -2] == 0xEE
                 && data[size - 1] == 0xFF) {
@@ -49,7 +47,6 @@ void uart_base_handler(void (*handler)(struct rx_uart_data rxUartData)){
                 receive_size = 0;
                 break;
             }
-
         } else
             break;
     }

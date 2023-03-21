@@ -9,6 +9,7 @@
 #include "protocols/protocol.h"
 
 void uart1_data_handler();
+void can_data_handler();
 void lcd_init_handler();
 void buzzer_di_handler();
 void lcd_show_data();
