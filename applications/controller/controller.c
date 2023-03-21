@@ -27,8 +27,6 @@ void uart1_work(struct rx_uart_data uart_data){
 
 }
 
-
-
 void uart1_data_handler(){
     uart_protocol_handler(uart1_work);
 }
@@ -45,16 +43,15 @@ void buzzer_di_handler(){
     di();
 }
 
-void app_init(){
-    fal_init();
-    lcd_clear_color(0x0000,0xF000);
-    lcd_write("hello 你好");
-    config_id();
-    config_filter();
-}
-
-
 void config_can_id(){
     config_id();
     config_filter();
 }
+
+void app_init(){
+    fal_init();
+    lcd_clear_color(0x0000,0xF000);
+    lcd_write("hello 你好");
+    config_can_id();
+}
+
