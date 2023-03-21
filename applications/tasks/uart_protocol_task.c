@@ -4,9 +4,11 @@
 #include "task.h"
 
 void uart_protocol_task(){
+    rt_err_t err;
     while (1){
-            rt_sem_take(uart_protocol_sem, RT_WAITING_FOREVER);
-            uart1_data_handler();
+            err = rt_sem_take(uart_protocol_sem, RT_WAITING_FOREVER);
+            if(err == RT_EOK)
+                uart1_data_handler();
     }
 }
 

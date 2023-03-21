@@ -4,10 +4,12 @@
 #include "task.h"
 
 void dial_switch_task(){
+    rt_err_t err;
     while (1)
     {
-        rt_sem_take(sw_sem, RT_WAITING_FOREVER);
-        config_can_id();
+        err = rt_sem_take(sw_sem, RT_WAITING_FOREVER);
+        if(err == RT_EOK)
+            config_can_id();
     }
 }
 

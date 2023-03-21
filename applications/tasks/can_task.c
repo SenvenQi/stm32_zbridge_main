@@ -4,10 +4,12 @@
 #include "task.h"
 
 void can_callback(void *parameter){
+    rt_err_t err;
     while (1)
     {
-        rt_sem_take(can_sem, RT_WAITING_FOREVER);
-        can_data_handler();
+        err = rt_sem_take(can_sem, RT_WAITING_FOREVER);
+        if (err == RT_EOK)
+            can_data_handler();
     }
 }
 

@@ -5,9 +5,11 @@
 
 
 void buzzer_task(){
+    rt_err_t err;
     while (1){
-        rt_sem_take(buzzer_sem, RT_WAITING_FOREVER);
-        buzzer_di_handler();
+        err = rt_sem_take(buzzer_sem, RT_WAITING_FOREVER);
+        if (err == RT_EOK)
+            buzzer_di_handler();
     }
 }
 
