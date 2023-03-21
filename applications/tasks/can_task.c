@@ -12,9 +12,7 @@ void can_handler(){
 void can_callback(void *parameter){
     while (1)
     {
-        rx_msg.hdr = -1;
         rt_sem_take(can_sem, RT_WAITING_FOREVER);
-        rt_device_read(can_dev, 0, &rx_msg, sizeof(rx_msg));
         can_data_handler();
     }
 }
