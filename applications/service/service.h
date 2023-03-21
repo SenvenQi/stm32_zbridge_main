@@ -16,7 +16,6 @@ void di();
 
 /* lcd */
 
-extern char lcd_num[256];
 /* 亮度调节 */
 void brightness(rt_uint32_t brightness_size);
 /* 修改lcd屏文字 */
@@ -32,4 +31,8 @@ void config_id();
 /* can总线 */
 void config_filter();
 void send_can_msg(struct rt_can_msg message);
+
+/* flash */
+void flash_write(void *buffer,rt_uint64_t addr,size_t size);
+
 #endif //RTTHREAD_SERVICE_H

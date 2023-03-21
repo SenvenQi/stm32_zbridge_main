@@ -7,7 +7,7 @@
 void buzzer_task(){
     while (1){
         if(buzzer_enable){
-            di();
+            buzzer_di_handler();
             buzzer_enable = RT_FALSE;
         }
     }

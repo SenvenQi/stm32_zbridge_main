@@ -15,5 +15,4 @@ void buzzer_di_handler();
 void lcd_show_data();
 void config_can_id();
 void app_init();
-void flash_write(void *buffer);
 #endif //RTTHREAD_CONTROLLER_H
