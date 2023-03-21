@@ -12,4 +12,5 @@ void buzzer_task(){
         }
     }
 }
+
 THREAD_INIT_START(buzzer_task,RT_NULL,1024,25,10);

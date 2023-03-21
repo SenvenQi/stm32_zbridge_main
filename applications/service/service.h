@@ -8,6 +8,9 @@
 #include "drv_lcd.h"
 #include "config/device.h"
 #include "protocols/protocol.h"
+/* led 闪烁 */
+void twinkle();
+
 /* 蜂鸣器 */
 void di();
 
