@@ -650,7 +650,7 @@ void lcd_show_font(rt_uint16_t x, rt_uint16_t y, const char *data, rt_uint32_t s
 
     rt_uint8_t buf[128];
     const struct fal_partition *falPartition= fal_partition_find("easyflash");
-    fal_partition_read(falPartition,0,buf,128);
+    fal_partition_read(falPartition,addr,buf,128);
 
     if (x > LCD_W - size / 2 || y > LCD_H - size)return;
     lcd_address_set(x, y, x + size - 1, y + size - 1);

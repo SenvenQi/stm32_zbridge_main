@@ -39,8 +39,8 @@ void flash_write(void *buffer){
 }
 
 void uart1_data_handler(){
-    //uart_protocol_handler(uart1_work);
-    flash_write(rx_buffer);
+    uart_protocol_handler(uart1_work);
+//    flash_write(rx_buffer);
 }
 
 void can_wrok(struct rx_can_data* rxCanData){
