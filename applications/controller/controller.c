@@ -6,12 +6,14 @@
 
 void uart1_work(struct rx_uart_data uart_data){
     switch (uart_data.cmd) {
-        case 0x81:
-            buzzer_enable = RT_TRUE;
-            rt_uint8_t data[8] = {uart_data.data[1],uart_data.data[2],uart_data.data[3],uart_data.data[4],0xB1,0xF1,0xB3,0xF1};
-            struct rt_can_msg message = create_can_msg(0xFF,data);
+        case 0x81: {
+            rt_uint8_t data[8] = {uart_data.data[1], uart_data.data[2], uart_data.data[3], uart_data.data[4], 0xB1,
+                                  0xF1, 0xB3, 0xF1};
+            struct rt_can_msg message = create_can_msg(0xFF, data);
             send_can_msg(message);
+            rt_sem_release(buzzer_sem);
             break;
+        }
         case 0xE1:
             break;
         case 0x92:
