@@ -11,4 +11,4 @@ void dial_switch_task(){
     }
 }
 
-THREAD_INIT_START(dial_switch_task,RT_NULL,1024,20,          10)
+THREAD_INIT_START(dial_switch_task,RT_NULL,1024,20,10)
