@@ -31,8 +31,10 @@ void uart1_work(struct rx_uart_data uart_data){
 struct fal_partition* falPartition;
 rt_uint64_t addr = 0;
 void flash_write(void *buffer){
-    if (falPartition == RT_NULL)
+    if (falPartition == RT_NULL){
         falPartition = fal_partition_find(FLASH_DEV_NAME);
+        fal_partition_erase_all(falPartition);
+    }
     fal_partition_write(falPartition,addr,buffer,receive_size);
     addr += receive_size;
     receive_size = 0;
@@ -62,7 +64,7 @@ void app_init(){
     lcd_write("hello 你好");
     config_id();
     config_filter();
-    char message[30];
+//    char message[30];
 //    rt_sprintf(message,"loading success id:%d",can_id);
 //    lcd_write(message);
 }
