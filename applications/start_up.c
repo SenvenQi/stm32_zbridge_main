@@ -5,7 +5,7 @@
 #include "controller/controller.h"
 
 int app_start(){
-    lcd_init_handler();
+    app_init();
     return RT_EOK;
 }
 

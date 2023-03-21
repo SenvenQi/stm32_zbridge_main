@@ -23,12 +23,16 @@ void uart1_work(struct rx_uart_data uart_data){
             break;
         default:
             break;
+
     }
+
 }
 
-void uart1_data_handler(){
-    uart_protocol_handler(uart1_work);
-
+struct fal_partition* falPartition;
+void flash_write(void *buffer,size_t size){
+    if (falPartition == RT_NULL)
+        falPartition = fal_partition_find(FLASH_DEV_NAME);
+    fal_partition_write(falPartition,receive_size,buffer,size);
 }
 
 void can_wrok(struct rx_can_data* rxCanData){
@@ -43,10 +47,14 @@ void buzzer_di_handler(){
     di();
 }
 
-void lcd_init_handler(){
+void app_init(){
     lcd_clear_color(0x0000,0xF000);
     lcd_write("loading .....");
+    config_id();
     config_filter();
+    char message[30];
+    rt_sprintf(message,"loading success id:%d",can_id);
+    lcd_write(message);
 }
 
 void lcd_show_data(){
