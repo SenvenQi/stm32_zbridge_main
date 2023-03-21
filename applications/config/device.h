@@ -21,7 +21,7 @@ struct rx_msg
 
 #define CAN_NAME "can1"
 extern rt_device_t can_dev;
-extern struct rt_semaphore can_sem;
+extern rt_sem_t can_sem;
 
 /* 串口1  */
 

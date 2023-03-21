@@ -25,7 +25,7 @@ void lan_callback(void *parameter){
         {
             /* 从串口读取数据 */
             if (rt_ringbuffer_get_size(&fifo->rb) >= 4){
-                size_t size = rt_device_read(uart1_dev, -1, rx_received_buffer, 256);
+                size_t size = rt_device_read(uart1_dev, 0, rx_received_buffer, 256);
                 for (int i = 0; i < size; ++i) {
                     rx_buffer[receive_size + i] = rx_received_buffer[i];
                 }

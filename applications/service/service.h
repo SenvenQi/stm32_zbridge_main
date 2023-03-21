@@ -28,4 +28,5 @@ void config_id();
 
 /* can总线 */
 void config_filter();
+void send_can_msg(struct rt_can_msg message);
 #endif //RTTHREAD_SERVICE_H

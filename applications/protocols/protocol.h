@@ -20,7 +20,7 @@ struct rx_can_data{
 
 struct rt_can_msg create_can_msg(rt_uint32_t id, const rt_uint8_t data[8]);
 
-extern struct rt_can_msg rxmsg;
+extern struct rt_can_msg rx_msg;
 
 struct rx_uart_data{
     rt_uint8_t cmd;

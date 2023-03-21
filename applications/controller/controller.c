@@ -8,6 +8,11 @@ void uart1_work(struct rx_uart_data uart_data){
     switch (uart_data.cmd) {
         case 0x81:
             buzzer_enable = RT_TRUE;
+            rt_uint8_t data[8] = {0x11,0x11,0x11,0x11,0x11,0x11,0x11,0x11};
+            struct rt_can_msg message = create_can_msg(0xFF,data);
+            send_can_msg(message);
+//            lcd_write("\xb1\xf1");
+//            rt_device_write(can_dev,0,RT_NULL,3);
 //            rt_sem_release(lcd_sem);
             break;
         case 0xE1:
@@ -27,7 +32,7 @@ void uart1_data_handler(){
 }
 
 void can_wrok(struct rx_can_data* rxCanData){
-
+    lcd_write("hello data!");
 }
 
 void can_data_handler(){
@@ -41,6 +46,7 @@ void buzzer_di_handler(){
 void lcd_init_handler(){
     lcd_clear_color(0x0000,0xF000);
     lcd_write("loading .....");
+    config_filter();
 }
 
 void lcd_show_data(){

@@ -5,14 +5,19 @@
 
 void config_filter(){
 #ifdef RT_CAN_USING_HDR
-    struct rt_can_filter_item items[1] =
+    struct rt_can_filter_item items[2] =
     {
             RT_CAN_FILTER_ITEM_INIT(can_id, 0, 0, 1, 0x01, RT_NULL, RT_NULL),
+            RT_CAN_FILTER_ITEM_INIT(0xFF, 0, 0, 1, 0x01, RT_NULL, RT_NULL),
     };
-    struct rt_can_filter_config cfg = {1, 1, items}; /* 一共有 5 个过滤表 */
+    struct rt_can_filter_config cfg = {2, 1, items}; /* 一共有 5 个过滤表 */
     /* 设置硬件过滤表 */
     rt_device_control(can_dev, RT_CAN_CMD_SET_FILTER, &cfg);
 //    rt_device_control(dev, RT_CAN_CMD_SET_BAUD, (void *)CAN500kBaud);
 //    rt_device_control(dev, RT_CAN_CMD_SET_MODE, (void *) RT_CAN_MODE_NORMAL);
 #endif
+}
+
+void send_can_msg(struct rt_can_msg message){
+    rt_device_write(can_dev,0,&message,sizeof message);
 }
