@@ -605,7 +605,7 @@ void lcd_show_font(rt_uint16_t x, rt_uint16_t y, const char *data, rt_uint32_t s
     if ((*(data + 1)) > 0x80)
         addr = 256 + (((*data) - 0x81) * 190 + (*(data + 1)) - 0X41) * 128;
 #endif
-    rt_uint8_t *buf = (rt_uint8_t *) rt_malloc(size * size / 8);
+    rt_uint8_t buf[128];
     const struct fal_partition *falPartition = fal_partition_find(FLASH_DEV_NAME);
     fal_partition_read(falPartition, addr, buf, 128);
 
