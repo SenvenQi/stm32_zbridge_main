@@ -27,7 +27,7 @@
     } \
     THREAD_INIT_START(task_##task_method,parameter,stack_size,priority,tick)
 
-#define THREAD_WHILE_INIT_START(task_method,sem,parameter,stack_size,priority,tick) \
+#define THREAD_WHILE_INIT_START(task_method,parameter,stack_size,priority,tick) \
     void task_##task_method(void *p){ \
         rt_err_t err; \
         while (1) \
