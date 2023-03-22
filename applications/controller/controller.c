@@ -48,10 +48,14 @@ void config_can_id(){
     config_filter();
 }
 
-void app_init(){
-    fal_init();
+void lcd_show_data(){
     lcd_clear_color(0x0000,0xF000);
     lcd_write("hello 你好");
+}
+
+void app_init(){
+    fal_init();
+    lcd_show_data();
     config_can_id();
 }
 
