@@ -24,10 +24,11 @@ void flash_read_config() {
     }
     rt_uint8_t data[128];
     fal_partition_read(falPartition, 0, data, 128);
-    if (data[0] == 0xAA && data[1] == 0xDD)
-        return;
+//    fal_partition_erase(falPartition,7 * 1024 * 1024,500 * 1024);
+    if (data[0] == 0xAA && data[1] == 0xDD){
+
+    }
     else{
-        fal_partition_erase_all(falPartition);
         data[0] = 0xAA; data[1] = 0xDD;
         fal_partition_write(falPartition,0,data,2);
     }
