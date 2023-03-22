@@ -646,10 +646,17 @@ void lcd_show_font(rt_uint16_t x, rt_uint16_t y, const char *data, rt_uint32_t s
     rt_uint32_t pos, t;
     rt_uint16_t colortemp = FORE_COLOR;
     rt_uint8_t *font_buf = RT_NULL;
-    rt_uint32_t addr = 0 + ((*data) - 0xa1) * 94 * 128 +  ((*(data +1))-0xa1) * 128;
-
-    rt_uint8_t buf[128];
-    const struct fal_partition *falPartition= fal_partition_find("easyflash");
+    rt_uint32_t addr;
+   if(ENCODED == "GBK2312")
+       addr = 128 + (((*data) - 0xa1) * 94  +  ((*(data +1))-0xa1)) * 128;
+    if(ENCODED == "GBK"){
+        if ((*(data+1)) < 0x7F)
+            addr = 0 + (((*data)-0x81) * 190+ (*(data + 1))-0X40) * 128;
+        if ((*(data+1)) > 0x80)
+            addr = 0 + (((*data)-0x81) * 190+ (*(data + 1))-0X41) * 128;
+    }
+    rt_uint8_t* buf = (rt_uint8_t *)rt_malloc(size * size / 8);
+    const struct fal_partition *falPartition= fal_partition_find(FLASH_DEV_NAME);
     fal_partition_read(falPartition,addr,buf,128);
 
     if (x > LCD_W - size / 2 || y > LCD_H - size)return;

@@ -27,6 +27,10 @@ void uart1_work(struct rx_uart_data uart_data){
 
 }
 
+void flash_write_fonts(void *buffer,rt_uint64_t addr,size_t size){
+    flash_write(buffer,addr,size);
+}
+
 void uart1_data_handler(){
     uart_protocol_handler(uart1_work);
 }
@@ -50,12 +54,15 @@ void config_can_id(){
 
 void lcd_show_data(){
     lcd_clear_color(0x0000,0xF000);
-    lcd_write("hello 你好");
+    lcd_write("loading ......");
 }
 
 void app_init(){
-    fal_init();
     lcd_show_data();
+    fal_init();
+    flash_read_config();
     config_can_id();
+    char data[8] = { 0xBC,0xD3,0xD4,0xD8,0xB3,0xC9,0xB9,0xA6 };
+    lcd_write((char *)data);
 }
 

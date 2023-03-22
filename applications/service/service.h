@@ -34,5 +34,5 @@ void send_can_msg(struct rt_can_msg message);
 
 /* flash */
 void flash_write(void *buffer,rt_uint64_t addr,size_t size);
-
+void flash_read_config();
 #endif //RTTHREAD_SERVICE_H

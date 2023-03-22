@@ -13,15 +13,21 @@ void lan_callback(void *parameter){
         result = rt_mq_recv(uart1_mq, &rxMsg, sizeof(rxMsg), RT_WAITING_FOREVER);
         if (result == RT_EOK)
         {
+            size_t size = rt_device_read(uart1_dev, 0, rx_received_buffer, 256);
+            rt_kprintf("size:%d",size);
+            if (receive_size == 0)
+                receive_size = 2;
+            flash_write_fonts(rx_received_buffer,receive_size,size);
+            receive_size += size;
             /* 从串口读取数据 */
-            if (rt_ringbuffer_get_size(&fifo->rb) >= 4){
-                size_t size = rt_device_read(uart1_dev, 0, rx_received_buffer, 256);
-                for (int i = 0; i < size; ++i) {
-                    rx_buffer[receive_size + i] = rx_received_buffer[i];
-                }
-                receive_size += size;
-                rt_sem_release(uart_protocol_sem);
-            }
+//            if (rt_ringbuffer_get_size(&fifo->rb) >= 4){
+//                size_t size = rt_device_read(uart1_dev, 0, rx_received_buffer, 256);
+//                for (int i = 0; i < size; ++i) {
+//                    rx_buffer[receive_size + i] = rx_received_buffer[i];
+//                }
+//                receive_size += size;
+//                rt_sem_release(uart_protocol_sem);
+//            }
         }
     }
 }
