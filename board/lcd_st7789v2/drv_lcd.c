@@ -22,6 +22,7 @@
 #define DBG_SECTION_NAME    "LCD"
 #define DBG_COLOR
 #define DBG_LEVEL           DBG_LOG
+
 #include "rt-thread/include/rtdbg.h"
 #include "fal.h"
 
@@ -35,9 +36,8 @@ rt_uint16_t BACK_COLOR = WHITE, FORE_COLOR = BLACK;
 static struct rt_spi_device *spi_dev_lcd;
 
 
-static int rt_hw_lcd_config(void)
-{
-    spi_dev_lcd = (struct rt_spi_device *)rt_device_find("spi20");
+static int rt_hw_lcd_config(void) {
+    spi_dev_lcd = (struct rt_spi_device *) rt_device_find("spi20");
 
     /* config spi */
     {
@@ -53,46 +53,37 @@ static int rt_hw_lcd_config(void)
     return RT_EOK;
 }
 
-static rt_err_t lcd_write_cmd(const rt_uint8_t cmd)
-{
+static rt_err_t lcd_write_cmd(const rt_uint8_t cmd) {
     rt_size_t len;
 
     rt_pin_write(LCD_DC_PIN, PIN_LOW);
 
     len = rt_spi_send(spi_dev_lcd, &cmd, 1);
 
-    if (len != 1)
-    {
+    if (len != 1) {
         LOG_I("lcd_write_cmd error. %d", len);
         return -RT_ERROR;
-    }
-    else
-    {
+    } else {
         return RT_EOK;
     }
 }
 
-static rt_err_t lcd_write_data(const rt_uint8_t data)
-{
+static rt_err_t lcd_write_data(const rt_uint8_t data) {
     rt_size_t len;
 
     rt_pin_write(LCD_DC_PIN, PIN_HIGH);
 
     len = rt_spi_send(spi_dev_lcd, &data, 1);
 
-    if (len != 1)
-    {
+    if (len != 1) {
         LOG_I("lcd_write_data error. %d", len);
         return -RT_ERROR;
-    }
-    else
-    {
+    } else {
         return RT_EOK;
     }
 }
 
-static rt_err_t lcd_write_half_word(const rt_uint16_t da)
-{
+static rt_err_t lcd_write_half_word(const rt_uint16_t da) {
     rt_size_t len;
     char data[2] = {0};
 
@@ -101,19 +92,15 @@ static rt_err_t lcd_write_half_word(const rt_uint16_t da)
 
     rt_pin_write(LCD_DC_PIN, PIN_HIGH);
     len = rt_spi_send(spi_dev_lcd, data, 2);
-    if (len != 2)
-    {
+    if (len != 2) {
         LOG_I("lcd_write_half_word error. %d", len);
         return -RT_ERROR;
-    }
-    else
-    {
+    } else {
         return RT_EOK;
     }
 }
 
-static void lcd_gpio_init(void)
-{
+static void lcd_gpio_init(void) {
     rt_hw_lcd_config();
 
     rt_pin_mode(LCD_DC_PIN, PIN_MODE_OUTPUT);
@@ -125,8 +112,7 @@ static void lcd_gpio_init(void)
     rt_pin_write(LCD_RES_PIN, PIN_HIGH);
 }
 
-static int rt_hw_lcd_init(void)
-{
+static int rt_hw_lcd_init(void) {
     __HAL_RCC_GPIOC_CLK_ENABLE();
     rt_hw_spi_device_attach("spi2", "spi20", GPIOC, GPIO_PIN_5);
     lcd_gpio_init();
@@ -311,8 +297,7 @@ INIT_COMPONENT_EXPORT(rt_hw_lcd_init);
  *
  * @return  void
  */
-void lcd_set_color(rt_uint16_t back, rt_uint16_t fore)
-{
+void lcd_set_color(rt_uint16_t back, rt_uint16_t fore) {
     BACK_COLOR = back;
     FORE_COLOR = fore;
 }
@@ -328,8 +313,7 @@ void lcd_set_color(rt_uint16_t back, rt_uint16_t fore)
  *
  * @return  void
  */
-void lcd_address_set(rt_uint16_t x1, rt_uint16_t y1, rt_uint16_t x2, rt_uint16_t y2)
-{
+void lcd_address_set(rt_uint16_t x1, rt_uint16_t y1, rt_uint16_t x2, rt_uint16_t y2) {
 #ifdef LCD_147
     lcd_write_cmd(0x2a);
     lcd_write_data(x1 >> 8);
@@ -338,10 +322,10 @@ void lcd_address_set(rt_uint16_t x1, rt_uint16_t y1, rt_uint16_t x2, rt_uint16_t
     lcd_write_data(x2);
 
     lcd_write_cmd(0x2b);
-    lcd_write_data((y1+34) >> 8);
-    lcd_write_data(y1+34);
-    lcd_write_data((y2+34) >> 8);
-    lcd_write_data(y2+34);
+    lcd_write_data((y1 + 34) >> 8);
+    lcd_write_data(y1 + 34);
+    lcd_write_data((y2 + 34) >> 8);
+    lcd_write_data(y2 + 34);
 #endif
 
 #ifdef LCD_161
@@ -359,8 +343,6 @@ void lcd_address_set(rt_uint16_t x1, rt_uint16_t y1, rt_uint16_t x2, rt_uint16_t
 #endif
 
 
-
-
     lcd_write_cmd(0x2C);
 }
 
@@ -371,8 +353,7 @@ void lcd_address_set(rt_uint16_t x1, rt_uint16_t y1, rt_uint16_t x2, rt_uint16_t
  *
  * @return  void
  */
-void lcd_clear(rt_uint16_t color)
-{
+void lcd_clear(rt_uint16_t color) {
     rt_uint16_t i, j;
     rt_uint8_t data[2] = {0};
     rt_uint8_t *buf = RT_NULL;
@@ -383,29 +364,22 @@ void lcd_clear(rt_uint16_t color)
 
     /* 5760 = 240*240/20 */
     buf = rt_malloc(LCD_CLEAR_SEND_NUMBER);
-    if (buf)
-    {
+    if (buf) {
         /* 2880 = 5760/2 color is 16 bit */
-        for (j = 0; j < LCD_CLEAR_SEND_NUMBER / 2; j++)
-        {
-            buf[j * 2] =  data[0];
-            buf[j * 2 + 1] =  data[1];
+        for (j = 0; j < LCD_CLEAR_SEND_NUMBER / 2; j++) {
+            buf[j * 2] = data[0];
+            buf[j * 2 + 1] = data[1];
         }
 
         rt_pin_write(LCD_DC_PIN, PIN_HIGH);
-        for (i = 0; i < 20; i++)
-        {
+        for (i = 0; i < 20; i++) {
             rt_spi_send(spi_dev_lcd, buf, LCD_CLEAR_SEND_NUMBER);
         }
         rt_free(buf);
-    }
-    else
-    {
+    } else {
         rt_pin_write(LCD_DC_PIN, PIN_HIGH);
-        for (i = 0; i < LCD_W; i++)
-        {
-            for (j = 0; j < LCD_H; j++)
-            {
+        for (i = 0; i < LCD_W; i++) {
+            for (j = 0; j < LCD_H; j++) {
                 rt_spi_send(spi_dev_lcd, data, 2);
             }
         }
@@ -420,8 +394,7 @@ void lcd_clear(rt_uint16_t color)
  *
  * @return  void
  */
-void lcd_draw_point(rt_uint16_t x, rt_uint16_t y)
-{
+void lcd_draw_point(rt_uint16_t x, rt_uint16_t y) {
     lcd_address_set(x, y, x, y);
     lcd_write_half_word(FORE_COLOR);
 }
@@ -435,8 +408,7 @@ void lcd_draw_point(rt_uint16_t x, rt_uint16_t y)
  *
  * @return  void
  */
-void lcd_draw_point_color(rt_uint16_t x, rt_uint16_t y, rt_uint16_t color)
-{
+void lcd_draw_point_color(rt_uint16_t x, rt_uint16_t y, rt_uint16_t color) {
     lcd_address_set(x, y, x, y);
     lcd_write_half_word(color);
 }
@@ -452,16 +424,14 @@ void lcd_draw_point_color(rt_uint16_t x, rt_uint16_t y, rt_uint16_t color)
  *
  * @return  void
  */
-void lcd_fill(rt_uint16_t x_start, rt_uint16_t y_start, rt_uint16_t x_end, rt_uint16_t y_end, rt_uint16_t color)
-{
+void lcd_fill(rt_uint16_t x_start, rt_uint16_t y_start, rt_uint16_t x_end, rt_uint16_t y_end, rt_uint16_t color) {
     rt_uint16_t i = 0, j = 0;
     rt_uint32_t size = 0, size_remain = 0;
     rt_uint8_t *fill_buf = RT_NULL;
 
     size = (x_end - x_start) * (y_end - y_start) * 2;
 
-    if (size > LCD_CLEAR_SEND_NUMBER)
-    {
+    if (size > LCD_CLEAR_SEND_NUMBER) {
         /* the number of remaining to be filled */
         size_remain = size - LCD_CLEAR_SEND_NUMBER;
         size = LCD_CLEAR_SEND_NUMBER;
@@ -469,14 +439,11 @@ void lcd_fill(rt_uint16_t x_start, rt_uint16_t y_start, rt_uint16_t x_end, rt_ui
 
     lcd_address_set(x_start, y_start, x_end, y_end);
 
-    fill_buf = (rt_uint8_t *)rt_malloc(size);
-    if (fill_buf)
-    {
+    fill_buf = (rt_uint8_t *) rt_malloc(size);
+    if (fill_buf) {
         /* fast fill */
-        while (1)
-        {
-            for (i = 0; i < size / 2; i++)
-            {
+        while (1) {
+            for (i = 0; i < size / 2; i++) {
                 fill_buf[2 * i] = color >> 8;
                 fill_buf[2 * i + 1] = color;
             }
@@ -488,22 +455,16 @@ void lcd_fill(rt_uint16_t x_start, rt_uint16_t y_start, rt_uint16_t x_end, rt_ui
                 break;
 
             /* calculate the number of fill next time */
-            if (size_remain > LCD_CLEAR_SEND_NUMBER)
-            {
+            if (size_remain > LCD_CLEAR_SEND_NUMBER) {
                 size_remain = size_remain - LCD_CLEAR_SEND_NUMBER;
-            }
-            else
-            {
+            } else {
                 size = size_remain;
                 size_remain = 0;
             }
         }
         rt_free(fill_buf);
-    }
-    else
-    {
-        for (i = y_start; i <= y_end; i++)
-        {
+    } else {
+        for (i = y_start; i <= y_end; i++) {
             for (j = x_start; j <= x_end; j++)lcd_write_half_word(color);
         }
     }
@@ -519,22 +480,19 @@ void lcd_fill(rt_uint16_t x_start, rt_uint16_t y_start, rt_uint16_t x_end, rt_ui
  *
  * @return  void
  */
-void lcd_draw_line(rt_uint16_t x1, rt_uint16_t y1, rt_uint16_t x2, rt_uint16_t y2)
-{
+void lcd_draw_line(rt_uint16_t x1, rt_uint16_t y1, rt_uint16_t x2, rt_uint16_t y2) {
     rt_uint16_t t;
     rt_uint32_t i = 0;
     int xerr = 0, yerr = 0, delta_x, delta_y, distance;
     int incx, incy, row, col;
 
-    if (y1 == y2)
-    {
+    if (y1 == y2) {
         /* fast draw transverse line */
         lcd_address_set(x1, y1, x2, y2);
 
         rt_uint8_t line_buf[480] = {0};
 
-        for (i = 0; i < x2 - x1; i++)
-        {
+        for (i = 0; i < x2 - x1; i++) {
             line_buf[2 * i] = FORE_COLOR >> 8;
             line_buf[2 * i + 1] = FORE_COLOR;
         }
@@ -542,7 +500,7 @@ void lcd_draw_line(rt_uint16_t x1, rt_uint16_t y1, rt_uint16_t x2, rt_uint16_t y
         rt_pin_write(LCD_DC_PIN, PIN_HIGH);
         rt_spi_send(spi_dev_lcd, line_buf, (x2 - x1) * 2);
 
-        return ;
+        return;
     }
 
     delta_x = x2 - x1;
@@ -551,32 +509,27 @@ void lcd_draw_line(rt_uint16_t x1, rt_uint16_t y1, rt_uint16_t x2, rt_uint16_t y
     col = y1;
     if (delta_x > 0)incx = 1;
     else if (delta_x == 0)incx = 0;
-    else
-    {
+    else {
         incx = -1;
         delta_x = -delta_x;
     }
     if (delta_y > 0)incy = 1;
     else if (delta_y == 0)incy = 0;
-    else
-    {
+    else {
         incy = -1;
         delta_y = -delta_y;
     }
     if (delta_x > delta_y)distance = delta_x;
     else distance = delta_y;
-    for (t = 0; t <= distance + 1; t++)
-    {
+    for (t = 0; t <= distance + 1; t++) {
         lcd_draw_point(row, col);
-        xerr += delta_x ;
-        yerr += delta_y ;
-        if (xerr > distance)
-        {
+        xerr += delta_x;
+        yerr += delta_y;
+        if (xerr > distance) {
             xerr -= distance;
             row += incx;
         }
-        if (yerr > distance)
-        {
+        if (yerr > distance) {
             yerr -= distance;
             col += incy;
         }
@@ -593,8 +546,7 @@ void lcd_draw_line(rt_uint16_t x1, rt_uint16_t y1, rt_uint16_t x2, rt_uint16_t y
  *
  * @return  void
  */
-void lcd_draw_rectangle(rt_uint16_t x1, rt_uint16_t y1, rt_uint16_t x2, rt_uint16_t y2)
-{
+void lcd_draw_rectangle(rt_uint16_t x1, rt_uint16_t y1, rt_uint16_t x2, rt_uint16_t y2) {
     lcd_draw_line(x1, y1, x2, y1);
     lcd_draw_line(x1, y1, x1, y2);
     lcd_draw_line(x1, y2, x2, y2);
@@ -610,15 +562,13 @@ void lcd_draw_rectangle(rt_uint16_t x1, rt_uint16_t y1, rt_uint16_t x2, rt_uint1
  *
  * @return  void
  */
-void lcd_draw_circle(rt_uint16_t x0, rt_uint16_t y0, rt_uint8_t r)
-{
+void lcd_draw_circle(rt_uint16_t x0, rt_uint16_t y0, rt_uint8_t r) {
     int a, b;
     int di;
     a = 0;
     b = r;
     di = 3 - (r << 1);
-    while (a <= b)
-    {
+    while (a <= b) {
         lcd_draw_point(x0 - b, y0 - a);
         lcd_draw_point(x0 + b, y0 - a);
         lcd_draw_point(x0 - a, y0 + b);
@@ -631,8 +581,7 @@ void lcd_draw_circle(rt_uint16_t x0, rt_uint16_t y0, rt_uint8_t r)
         a++;
         //Bresenham
         if (di < 0)di += 4 * a + 6;
-        else
-        {
+        else {
             di += 10 + 4 * (a - b);
             b--;
         }
@@ -640,48 +589,44 @@ void lcd_draw_circle(rt_uint16_t x0, rt_uint16_t y0, rt_uint8_t r)
     }
 }
 
-void lcd_show_font(rt_uint16_t x, rt_uint16_t y, const char *data, rt_uint32_t size){
+void lcd_show_font(rt_uint16_t x, rt_uint16_t y, const char *data, rt_uint32_t size) {
     rt_uint8_t temp;
     rt_uint8_t num = 0;
     rt_uint32_t pos, t;
     rt_uint16_t colortemp = FORE_COLOR;
     rt_uint8_t *font_buf = RT_NULL;
-    rt_uint32_t addr;
-   if(ENCODED == "GBK2312")
-       addr = 128 + (((*data) - 0xa1) * 94  +  ((*(data +1))-0xa1)) * 128;
-    if(ENCODED == "GBK"){
-        if ((*(data+1)) < 0x7F)
-            addr = 0 + (((*data)-0x81) * 190+ (*(data + 1))-0X40) * 128;
-        if ((*(data+1)) > 0x80)
-            addr = 0 + (((*data)-0x81) * 190+ (*(data + 1))-0X41) * 128;
-    }
-    rt_uint8_t* buf = (rt_uint8_t *)rt_malloc(size * size / 8);
-    const struct fal_partition *falPartition= fal_partition_find(FLASH_DEV_NAME);
-    fal_partition_read(falPartition,addr,buf,128);
+    rt_uint64_t addr;
+#ifdef GB2312
+    addr = 128 + (((*data) - 0xa1) * 94  +  ((*(data +1))-0xa1)) * 128;
+#endif
+#ifdef GBK
+    if ((*(data + 1)) < 0x7F)
+        addr = 256 + (((*data) - 0x81) * 190 + (*(data + 1)) - 0X40) * 128;
+    if ((*(data + 1)) > 0x80)
+        addr = 256 + (((*data) - 0x81) * 190 + (*(data + 1)) - 0X41) * 128;
+#endif
+    rt_uint8_t *buf = (rt_uint8_t *) rt_malloc(size * size / 8);
+    const struct fal_partition *falPartition = fal_partition_find(FLASH_DEV_NAME);
+    fal_partition_read(falPartition, addr, buf, 128);
 
     if (x > LCD_W - size / 2 || y > LCD_H - size)return;
     lcd_address_set(x, y, x + size - 1, y + size - 1);
-    font_buf = (rt_uint8_t *)rt_malloc(size * size * 2);
-    if (!font_buf)
-    {
+    font_buf = (rt_uint8_t *) rt_malloc(size * size * 2);
+    if (!font_buf) {
         /* fast show char */
-        for (pos = 0; pos < size * size / 8; pos++)
-        {
+        for (pos = 0; pos < size * size / 8; pos++) {
             temp = buf[pos];
-            for (t = 0; t < 8; t++)
-            {
+            for (t = 0; t < 8; t++) {
                 if (temp & 0x80)colortemp = FORE_COLOR;
                 else colortemp = BACK_COLOR;
                 lcd_write_half_word(colortemp);
                 temp <<= 1;
             }
         }
-    }else{
-        for (pos = 0; pos < size * size / 8; pos++)
-        {
+    } else {
+        for (pos = 0; pos < size * size / 8; pos++) {
             temp = buf[pos];
-            for (t = 0; t < 8; t++)
-            {
+            for (t = 0; t < 8; t++) {
                 if (temp & 0x80)colortemp = FORE_COLOR;
                 else colortemp = BACK_COLOR;
                 font_buf[2 * (8 * pos + t)] = colortemp >> 8;
@@ -695,8 +640,7 @@ void lcd_show_font(rt_uint16_t x, rt_uint16_t y, const char *data, rt_uint32_t s
     }
 }
 
-static void lcd_show_char(rt_uint16_t x, rt_uint16_t y, rt_uint8_t data, rt_uint32_t size)
-{
+static void lcd_show_char(rt_uint16_t x, rt_uint16_t y, rt_uint8_t data, rt_uint32_t size) {
     rt_uint8_t temp;
     rt_uint8_t num = 0;;
     rt_uint8_t pos, t;
@@ -707,33 +651,25 @@ static void lcd_show_char(rt_uint16_t x, rt_uint16_t y, rt_uint8_t data, rt_uint
 
     data = data - ' ';
 #ifdef ASC2_1608
-    if (size == 16)
-    {
+    if (size == 16) {
         lcd_address_set(x, y, x + size / 2 - 1, y + size - 1);//(x,y,x+8-1,y+16-1)
 
-        font_buf = (rt_uint8_t *)rt_malloc(size * size);
-        if (!font_buf)
-        {
+        font_buf = (rt_uint8_t *) rt_malloc(size * size);
+        if (!font_buf) {
             /* fast show char */
-            for (pos = 0; pos < size * (size / 2) / 8; pos++)
-            {
-                temp = asc2_1608[(rt_uint16_t)data * size * (size / 2) / 8 + pos];
-                for (t = 0; t < 8; t++)
-                {
+            for (pos = 0; pos < size * (size / 2) / 8; pos++) {
+                temp = asc2_1608[(rt_uint16_t) data * size * (size / 2) / 8 + pos];
+                for (t = 0; t < 8; t++) {
                     if (temp & 0x80)colortemp = FORE_COLOR;
                     else colortemp = BACK_COLOR;
                     lcd_write_half_word(colortemp);
                     temp <<= 1;
                 }
             }
-        }
-        else
-        {
-            for (pos = 0; pos < size * (size / 2) / 8; pos++)
-            {
-                temp = asc2_1608[(rt_uint16_t)data * size * (size / 2) / 8 + pos];
-                for (t = 0; t < 8; t++)
-                {
+        } else {
+            for (pos = 0; pos < size * (size / 2) / 8; pos++) {
+                temp = asc2_1608[(rt_uint16_t) data * size * (size / 2) / 8 + pos];
+                for (t = 0; t < 8; t++) {
                     if (temp & 0x80)colortemp = FORE_COLOR;
                     else colortemp = BACK_COLOR;
                     font_buf[2 * (8 * pos + t)] = colortemp >> 8;
@@ -745,120 +681,92 @@ static void lcd_show_char(rt_uint16_t x, rt_uint16_t y, rt_uint8_t data, rt_uint
             rt_spi_send(spi_dev_lcd, font_buf, size * size);
             rt_free(font_buf);
         }
-    }
-    else
+    } else
 #endif
 
 #ifdef ASC2_2412
-    if (size == 24)
-        {
-            lcd_address_set(x, y, x + size / 2 - 1, y + size - 1);
+    if (size == 24) {
+        lcd_address_set(x, y, x + size / 2 - 1, y + size - 1);
 
-            font_buf = (rt_uint8_t *)rt_malloc(size * size);
-            if (!font_buf)
-            {
-                /* fast show char */
-                for (pos = 0; pos < (size * 16) / 8; pos++)
-                {
-                    temp = asc2_2412[(rt_uint16_t)data * (size * 16) / 8 + pos];
-                    if (pos % 2 == 0)
-                    {
-                        num = 8;
-                    }
-                    else
-                    {
-                        num = 4;
-                    }
+        font_buf = (rt_uint8_t *) rt_malloc(size * size);
+        if (!font_buf) {
+            /* fast show char */
+            for (pos = 0; pos < (size * 16) / 8; pos++) {
+                temp = asc2_2412[(rt_uint16_t) data * (size * 16) / 8 + pos];
+                if (pos % 2 == 0) {
+                    num = 8;
+                } else {
+                    num = 4;
+                }
 
-                    for (t = 0; t < num; t++)
-                    {
-                        if (temp & 0x80)colortemp = FORE_COLOR;
-                        else colortemp = BACK_COLOR;
-                        lcd_write_half_word(colortemp);
-                        temp <<= 1;
-                    }
+                for (t = 0; t < num; t++) {
+                    if (temp & 0x80)colortemp = FORE_COLOR;
+                    else colortemp = BACK_COLOR;
+                    lcd_write_half_word(colortemp);
+                    temp <<= 1;
                 }
             }
-            else
-            {
-                for (pos = 0; pos < (size * 16) / 8; pos++)
-                {
-                    temp = asc2_2412[(rt_uint16_t)data * (size * 16) / 8 + pos];
-                    if (pos % 2 == 0)
-                    {
-                        num = 8;
-                    }
-                    else
-                    {
-                        num = 4;
-                    }
-
-                    for (t = 0; t < num; t++)
-                    {
-                        if (temp & 0x80)colortemp = FORE_COLOR;
-                        else colortemp = BACK_COLOR;
-                        if (num == 8)
-                        {
-                            font_buf[2 * (12 * (pos / 2) + t)] = colortemp >> 8;
-                            font_buf[2 * (12 * (pos / 2) + t) + 1] = colortemp;
-                        }
-                        else
-                        {
-                            font_buf[2 * (8 + 12 * (pos / 2) + t)] = colortemp >> 8;
-                            font_buf[2 * (8 + 12 * (pos / 2) + t) + 1] = colortemp;
-                        }
-                        temp <<= 1;
-                    }
+        } else {
+            for (pos = 0; pos < (size * 16) / 8; pos++) {
+                temp = asc2_2412[(rt_uint16_t) data * (size * 16) / 8 + pos];
+                if (pos % 2 == 0) {
+                    num = 8;
+                } else {
+                    num = 4;
                 }
-                rt_pin_write(LCD_DC_PIN, PIN_HIGH);
-                rt_spi_send(spi_dev_lcd, font_buf, size * size);
-                rt_free(font_buf);
+
+                for (t = 0; t < num; t++) {
+                    if (temp & 0x80)colortemp = FORE_COLOR;
+                    else colortemp = BACK_COLOR;
+                    if (num == 8) {
+                        font_buf[2 * (12 * (pos / 2) + t)] = colortemp >> 8;
+                        font_buf[2 * (12 * (pos / 2) + t) + 1] = colortemp;
+                    } else {
+                        font_buf[2 * (8 + 12 * (pos / 2) + t)] = colortemp >> 8;
+                        font_buf[2 * (8 + 12 * (pos / 2) + t) + 1] = colortemp;
+                    }
+                    temp <<= 1;
+                }
             }
+            rt_pin_write(LCD_DC_PIN, PIN_HIGH);
+            rt_spi_send(spi_dev_lcd, font_buf, size * size);
+            rt_free(font_buf);
         }
-        else
+    } else
 #endif
 
 #ifdef ASC2_3216
-    if (size == 32)
-            {
-                lcd_address_set(x, y, x + size / 2 - 1, y + size - 1);
+    if (size == 32) {
+        lcd_address_set(x, y, x + size / 2 - 1, y + size - 1);
 
-                font_buf = (rt_uint8_t *)rt_malloc(size * size);
-                if (!font_buf)
-                {
-                    /* fast show char */
-                    for (pos = 0; pos < size * (size / 2) / 8; pos++)
-                    {
-                        temp = asc2_3216[(rt_uint16_t)data * size * (size / 2) / 8 + pos];
-                        for (t = 0; t < 8; t++)
-                        {
-                            if (temp & 0x80)colortemp = FORE_COLOR;
-                            else colortemp = BACK_COLOR;
-                            lcd_write_half_word(colortemp);
-                            temp <<= 1;
-                        }
-                    }
-                }
-                else
-                {
-                    for (pos = 0; pos < size * (size / 2) / 8; pos++)
-                    {
-                        temp = asc2_3216[(rt_uint16_t)data * size * (size / 2) / 8 + pos];
-                        for (t = 0; t < 8; t++)
-                        {
-                            if (temp & 0x80)colortemp = FORE_COLOR;
-                            else colortemp = BACK_COLOR;
-                            font_buf[2 * (8 * pos + t)] = colortemp >> 8;
-                            font_buf[2 * (8 * pos + t) + 1] = colortemp;
-                            temp <<= 1;
-                        }
-                    }
-                    rt_pin_write(LCD_DC_PIN, PIN_HIGH);
-                    rt_spi_send(spi_dev_lcd, font_buf, size * size);
-                    rt_free(font_buf);
+        font_buf = (rt_uint8_t *) rt_malloc(size * size);
+        if (!font_buf) {
+            /* fast show char */
+            for (pos = 0; pos < size * (size / 2) / 8; pos++) {
+                temp = asc2_3216[(rt_uint16_t) data * size * (size / 2) / 8 + pos];
+                for (t = 0; t < 8; t++) {
+                    if (temp & 0x80)colortemp = FORE_COLOR;
+                    else colortemp = BACK_COLOR;
+                    lcd_write_half_word(colortemp);
+                    temp <<= 1;
                 }
             }
-            else
+        } else {
+            for (pos = 0; pos < size * (size / 2) / 8; pos++) {
+                temp = asc2_3216[(rt_uint16_t) data * size * (size / 2) / 8 + pos];
+                for (t = 0; t < 8; t++) {
+                    if (temp & 0x80)colortemp = FORE_COLOR;
+                    else colortemp = BACK_COLOR;
+                    font_buf[2 * (8 * pos + t)] = colortemp >> 8;
+                    font_buf[2 * (8 * pos + t) + 1] = colortemp;
+                    temp <<= 1;
+                }
+            }
+            rt_pin_write(LCD_DC_PIN, PIN_HIGH);
+            rt_spi_send(spi_dev_lcd, font_buf, size * size);
+            rt_free(font_buf);
+        }
+    } else
 #endif
     {
         LOG_E("There is no any define ASC2_1208 && ASC2_2412 && ASC2_2416 && ASC2_3216 !");
@@ -876,8 +784,7 @@ static void lcd_show_char(rt_uint16_t x, rt_uint16_t y, rt_uint8_t data, rt_uint
  *
  * @return  void
  */
-void lcd_show_num(rt_uint16_t x, rt_uint16_t y, rt_uint32_t num, rt_uint8_t len, rt_uint32_t size)
-{
+void lcd_show_num(rt_uint16_t x, rt_uint16_t y, rt_uint32_t num, rt_uint8_t len, rt_uint32_t size) {
     lcd_show_string(x, y, size, "%d", num);
 }
 
@@ -892,51 +799,45 @@ void lcd_show_num(rt_uint16_t x, rt_uint16_t y, rt_uint32_t num, rt_uint8_t len,
  * @return   0: display success
  *          -1: size of font is not support
  */
-rt_err_t lcd_show_string(rt_uint16_t x, rt_uint16_t y, rt_uint32_t size, const char *fmt, ...)
-{
+rt_err_t lcd_show_string(rt_uint16_t x, rt_uint16_t y, rt_uint32_t size, const char *fmt, ...) {
 #define LCD_STRING_BUF_LEN 128
 
     va_list args;
     rt_uint8_t buf[LCD_STRING_BUF_LEN] = {0};
     rt_uint8_t *p = RT_NULL;
 
-    if (size != 16 && size != 24 && size != 32)
-    {
+    if (size != 16 && size != 24 && size != 32) {
         LOG_E("font size(%d) is not support!", size);
         return -RT_ERROR;
     }
 
     va_start(args, fmt);
-    rt_vsnprintf((char *)buf, 100, (const char *)fmt, args);
+    rt_vsnprintf((char *) buf, 100, (const char *) fmt, args);
     va_end(args);
 
     p = buf;
-    while (*p != '\0')
-    {
-        if (*p & 0x80){
-            if (x > (LCD_W - size))
-            {
+    while (*p != '\0') {
+        if (*p & 0x80) {
+            if (x > (LCD_W - size)) {
                 x = 0;
                 y += size;
             }
-        } else{
-            if (x > (LCD_W - size / 2))
-            {
+        } else {
+            if (x > (LCD_W - size / 2)) {
                 x = 0;
                 y += size;
             }
         }
-        if (y > LCD_H - size)
-        {
+        if (y > LCD_H - size) {
             y = x = 0;
             lcd_clear(RED);
         }
-        if(*p & 0x80){
-            char *c = { p,p+1 };
-            lcd_show_font(x,y,c,size);
+        if (*p & 0x80) {
+            char *c = {p, p + 1};
+            lcd_show_font(x, y, c, size);
             p++;
             x += size / 2;
-        }else{
+        } else {
             lcd_show_char(x, y, *p, size);
         }
         x += size / 2;
@@ -958,12 +859,10 @@ rt_err_t lcd_show_string(rt_uint16_t x, rt_uint16_t y, rt_uint32_t size, const c
  * @return   0: display success
  *          -1: the image is too large
  */
-rt_err_t lcd_show_image(rt_uint16_t x, rt_uint16_t y, rt_uint16_t length, rt_uint16_t wide, const rt_uint8_t *p)
-{
+rt_err_t lcd_show_image(rt_uint16_t x, rt_uint16_t y, rt_uint16_t length, rt_uint16_t wide, const rt_uint8_t *p) {
     RT_ASSERT(p);
 
-    if (x + length > LCD_W || y + wide > LCD_H)
-    {
+    if (x + length > LCD_W || y + wide > LCD_H) {
         return -RT_ERROR;
     }
 
@@ -975,8 +874,7 @@ rt_err_t lcd_show_image(rt_uint16_t x, rt_uint16_t y, rt_uint16_t length, rt_uin
     return RT_EOK;
 }
 
-void lcd_fill_array(rt_uint16_t x_start, rt_uint16_t y_start, rt_uint16_t x_end, rt_uint16_t y_end, void *pcolor)
-{
+void lcd_fill_array(rt_uint16_t x_start, rt_uint16_t y_start, rt_uint16_t x_end, rt_uint16_t y_end, void *pcolor) {
     rt_uint32_t size = 0;
 
     size = (x_end - x_start + 1) * (y_end - y_start + 1) * 2/*16bit*/;

@@ -20,7 +20,7 @@
 #ifdef PKG_USING_QRCODE
 #include <qrcode.h>
 #endif
-#define ENCODED "GBK"
+#define GBK
 #ifdef LCD_147
     #define LCD_W 320
     #define LCD_H 172

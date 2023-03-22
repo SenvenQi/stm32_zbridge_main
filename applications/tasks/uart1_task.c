@@ -9,16 +9,14 @@ void lan_callback(void *parameter){
     rt_err_t result;
     static unsigned char rx_received_buffer[BSP_UART1_RX_BUFSIZE * 2 + 1];
     struct rt_serial_rx_fifo *fifo = ((struct rt_serial_device*)uart1_dev)->serial_rx;
+    static rt_uint64_t addr = 256;
     while (1){
         result = rt_mq_recv(uart1_mq, &rxMsg, sizeof(rxMsg), RT_WAITING_FOREVER);
         if (result == RT_EOK)
         {
             size_t size = rt_device_read(uart1_dev, 0, rx_received_buffer, 256);
-            rt_kprintf("size:%d",size);
-            if (receive_size == 0)
-                receive_size = 2;
-            flash_write_fonts(rx_received_buffer,receive_size,size);
-            receive_size += size;
+            flash_write_fonts(rx_received_buffer,addr,size);
+            addr += size;
             /* 从串口读取数据 */
 //            if (rt_ringbuffer_get_size(&fifo->rb) >= 4){
 //                size_t size = rt_device_read(uart1_dev, 0, rx_received_buffer, 256);
