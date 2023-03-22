@@ -23,8 +23,9 @@
 #define ASC2_1608
 #define ASC2_2412
 #define ASC2_3216
+#define ASC2_4824
 
-#if !defined(ASC2_1608) && !defined(ASC2_2412) && !defined(ASC2_2416) && !defined(ASC2_3216)
+#if !defined(ASC2_1608) && !defined(ASC2_2412) && !defined(ASC2_2416) && !defined(ASC2_3216) && !defined(ASC2_4824)
 #error "There is no any define ASC2_1608 && ASC2_2412 && ASC2_2416 && ASC2_3216 !"
 #endif
 

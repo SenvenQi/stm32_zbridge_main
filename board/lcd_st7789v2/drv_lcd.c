@@ -601,13 +601,13 @@ void lcd_show_font(rt_uint16_t x, rt_uint16_t y, const char *data, rt_uint32_t s
 #endif
 #ifdef GBK
     if ((*(data + 1)) < 0x7F)
-        addr = 256 + (((*data) - 0x81) * 190 + (*(data + 1)) - 0X40) * 128;
+        addr = 256 + (((*data) - 0x81) * 190 + (*(data + 1)) - 0X40) * size * size / 8;
     if ((*(data + 1)) > 0x80)
-        addr = 256 + (((*data) - 0x81) * 190 + (*(data + 1)) - 0X41) * 128;
+        addr = 256 + (((*data) - 0x81) * 190 + (*(data + 1)) - 0X41) * size * size / 8;
 #endif
-    rt_uint8_t buf[128];
+    rt_uint8_t *buf = (rt_uint8_t *) rt_malloc(size * size / 8);
     const struct fal_partition *falPartition = fal_partition_find(FLASH_DEV_NAME);
-    fal_partition_read(falPartition, addr, buf, 128);
+    fal_partition_read(falPartition, addr, buf, size * size / 8);
 
     if (x > LCD_W - size / 2 || y > LCD_H - size)return;
     lcd_address_set(x, y, x + size - 1, y + size - 1);
@@ -768,6 +768,44 @@ static void lcd_show_char(rt_uint16_t x, rt_uint16_t y, rt_uint8_t data, rt_uint
         }
     } else
 #endif
+
+#ifdef ASC2_4824
+    if (size == 48) {
+        lcd_address_set(x, y, x + size / 2 - 1, y + size - 1);
+
+        font_buf = (rt_uint8_t *) rt_malloc(size * size);
+        rt_uint64_t addr = 7 * 1024 * 1024 + (rt_uint64_t) data * size * (size / 2) / 8;
+        const struct fal_partition *falPartition = fal_partition_find(FLASH_DEV_NAME);
+        fal_partition_read(falPartition, addr, font_buf, size * size / 2  / 8);
+        if (!font_buf) {
+            /* fast show char */
+            for (pos = 0; pos < size * (size / 2) / 8; pos++) {
+                temp = font_buf[pos];
+                for (t = 0; t < 8; t++) {
+                    if (temp & 0x80)colortemp = FORE_COLOR;
+                    else colortemp = BACK_COLOR;
+                    lcd_write_half_word(colortemp);
+                    temp <<= 1;
+                }
+            }
+        } else {
+            for (pos = 0; pos < size * (size / 2) / 8; pos++) {
+                temp = font_buf[pos];
+                if(temp != 0)
+                for (t = 0; t < 8; t++) {
+                    if (temp & 0x80)colortemp = FORE_COLOR;
+                    else colortemp = BACK_COLOR;
+                    font_buf[2 * (8 * pos + t)] = colortemp >> 8;
+                    font_buf[2 * (8 * pos + t) + 1] = colortemp;
+                    temp <<= 1;
+                }
+            }
+            rt_pin_write(LCD_DC_PIN, PIN_HIGH);
+            rt_spi_send(spi_dev_lcd, font_buf, size * size);
+            rt_free(font_buf);
+        }
+    } else
+#endif
     {
         LOG_E("There is no any define ASC2_1208 && ASC2_2412 && ASC2_2416 && ASC2_3216 !");
     }
@@ -806,7 +844,7 @@ rt_err_t lcd_show_string(rt_uint16_t x, rt_uint16_t y, rt_uint32_t size, const c
     rt_uint8_t buf[LCD_STRING_BUF_LEN] = {0};
     rt_uint8_t *p = RT_NULL;
 
-    if (size != 16 && size != 24 && size != 32) {
+    if (size != 16 && size != 24 && size != 32 && size != 48) {
         LOG_E("font size(%d) is not support!", size);
         return -RT_ERROR;
     }

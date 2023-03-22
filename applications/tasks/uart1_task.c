@@ -9,7 +9,7 @@ void lan_callback(void *parameter){
     rt_err_t result;
     static unsigned char rx_received_buffer[BSP_UART1_RX_BUFSIZE * 2 + 1];
     struct rt_serial_rx_fifo *fifo = ((struct rt_serial_device*)uart1_dev)->serial_rx;
-    static rt_uint64_t addr = 256;
+    static rt_uint64_t addr = 7 * 1024 * 1024;
     while (1){
         result = rt_mq_recv(uart1_mq, &rxMsg, sizeof(rxMsg), RT_WAITING_FOREVER);
         if (result == RT_EOK)
