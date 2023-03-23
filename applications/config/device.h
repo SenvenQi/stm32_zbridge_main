@@ -48,7 +48,7 @@ extern struct rt_semaphore key1_sem;
 
 #define LCD_NAME "lcd"
 #define LCD_PWM_DEV_NAME "pwm2"
-#define PWM_DEV_CHANNEL 3
+#define PWM_DEV_LCD_CHANNEL 3
 extern rt_sem_t lcd_sem;
 extern struct rt_device_pwm *pwm_dev_lcd;
 extern rt_uint32_t period, /* 周期为0.5ms，单位为纳秒ns */
@@ -57,9 +57,12 @@ dir;  /* PWM脉冲宽度值，单位为纳秒ns */
 
 /* rfid pwm输出125k*/
 #define RFID_NAME "rfid"
-#define RFID_PWM_DEV_NAME "pwm1"
+#define PWM_DEV_RFID_CHANNEL 1
+#define RFID_PWM_DEV_NAME "pwm3"
 extern struct rt_device_pwm *pwm_dev_rfid;
-
+extern rt_uint32_t rfid_pwm_period, /* 周期为0.5ms，单位为纳秒ns */
+rfid_pwm_pulse,  /* PWM脉冲宽度值的增减方向 */
+rfid_pwm_dir;  /* PWM脉冲宽度值，单位为纳秒ns */
 /* flash设备 */
 
 

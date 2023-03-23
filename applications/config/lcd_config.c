@@ -11,9 +11,9 @@ int lcd_config(void){
     lcd_sem  = rt_sem_create(LCD_NAME,0,RT_IPC_FLAG_FIFO);
     pwm_dev_lcd = (struct rt_device_pwm *)rt_device_find(LCD_PWM_DEV_NAME);
     /* 设置PWM周期和脉冲宽度默认值 */
-    rt_pwm_set(pwm_dev_lcd,PWM_DEV_CHANNEL ,period,pulse);
+    rt_pwm_set(pwm_dev_lcd,PWM_DEV_LCD_CHANNEL ,period,pulse);
     /* 使能设备 */
-    rt_pwm_enable(pwm_dev_lcd, PWM_DEV_CHANNEL);
+    rt_pwm_enable(pwm_dev_lcd, PWM_DEV_LCD_CHANNEL);
     return RT_EOK;
 }
 

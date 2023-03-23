@@ -14,7 +14,7 @@ void lcd_clear_color(rt_uint16_t back_color,rt_uint16_t fore_color){
 }
 
 void brightness(rt_uint32_t brightness_size){
-    rt_pwm_set_pulse(pwm_dev_lcd,PWM_DEV_CHANNEL,brightness_size);
+    rt_pwm_set_pulse(pwm_dev_lcd,PWM_DEV_LCD_CHANNEL,brightness_size);
 }
 
 void splash_screen(){
@@ -38,6 +38,6 @@ void splash_screen(){
         }
 
         /* 设置PWM周期和脉冲宽度 */
-        rt_pwm_set(pwm_dev_lcd, PWM_DEV_CHANNEL, period, pulse);
+        rt_pwm_set(pwm_dev_lcd, PWM_DEV_LCD_CHANNEL, period, pulse);
     }
 }
