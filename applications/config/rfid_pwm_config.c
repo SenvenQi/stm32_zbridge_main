@@ -6,6 +6,7 @@ rt_uint32_t rfid_pwm_period = 8000, /* 周期为0.5ms，单位为纳秒ns */
 rfid_pwm_pulse = 4000,  /* PWM脉冲宽度值的增减方向 */
 rfid_pwm_dir = 0;  /* PWM脉冲宽度值，单位为纳秒ns */
 struct rt_device_pwm *pwm_dev_rfid;
+mancher_t mancher;
 
 int rfid_pwm_config(){
     pwm_dev_rfid = (struct rt_device_pwm *)rt_device_find(RFID_PWM_DEV_NAME);
@@ -15,5 +16,9 @@ int rfid_pwm_config(){
     rt_pwm_enable(pwm_dev_rfid, PWM_DEV_RFID_CHANNEL);
     return RT_EOK;
 }
+
+
+
+
 
 INIT_COMPONENT_EXPORT(rfid_pwm_config);

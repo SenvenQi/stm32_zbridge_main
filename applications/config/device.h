@@ -8,7 +8,7 @@
 #include "rtdevice.h"
 #include "drv_gpio.h"
 #include "fal.h"
-
+#include "rfid_pwm_input/drv_mancher_rfid.h"
 
 
 /* can总线  */
@@ -63,6 +63,9 @@ extern struct rt_device_pwm *pwm_dev_rfid;
 extern rt_uint32_t rfid_pwm_period, /* 周期为0.5ms，单位为纳秒ns */
 rfid_pwm_pulse,  /* PWM脉冲宽度值的增减方向 */
 rfid_pwm_dir;  /* PWM脉冲宽度值，单位为纳秒ns */
+
+extern mancher_t mancher;
+
 /* flash设备 */
 
 
@@ -76,6 +79,6 @@ rfid_pwm_dir;  /* PWM脉冲宽度值，单位为纳秒ns */
 #define SW5 GET_PIN(B,3)
 #define SW6 GET_PIN(B,4)
 #define SW7 GET_PIN(B,5)
-#define SW8 GET_PIN(B,6)
+#define SW8 GET_PIN(B,8)
 extern rt_sem_t sw_sem;
 #endif //RTTHREAD_DEVICE_H

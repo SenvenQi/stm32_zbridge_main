@@ -4,6 +4,14 @@
 
 #include "controller.h"
 
+void read_rfid_handle(){
+    mancher = mancher_device_find("mancher0");
+    mancher->mancher_ops->init(mancher);
+    mancher->mancher_ops->start(mancher);
+    rt_uint8_t *data= mancher_read(mancher);
+    rt_kprintf((char*)data);
+}
+
 void uart1_work(struct rx_uart_data uart_data){
     switch (uart_data.cmd) {
         case 0x81: {

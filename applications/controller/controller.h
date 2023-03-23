@@ -8,6 +8,7 @@
 #include "service/service.h"
 #include "protocols/protocol.h"
 
+void read_rfid_handle();
 void flash_write_fonts(void *buffer,rt_uint64_t addr,size_t size);
 void uart1_data_handler();
 void can_data_handler();
