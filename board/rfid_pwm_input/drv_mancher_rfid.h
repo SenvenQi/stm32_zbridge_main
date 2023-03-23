@@ -30,7 +30,7 @@
 #define MANCHER0_CONFIG                                 \
 {                                                       \
     .name           = "mancher0",                       \
-    .dout           = 27,                               \
+    .dout           = GET_PIN(B,6),                               \
     .timer_name     = "timer4",                         \
 }
 

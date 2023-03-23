@@ -5,11 +5,8 @@
 #include "controller.h"
 
 void read_rfid_handle(){
-    mancher = mancher_device_find("mancher0");
-    mancher->mancher_ops->init(mancher);
-    mancher->mancher_ops->start(mancher);
-    rt_uint8_t *data= mancher_read(mancher);
-    rt_kprintf((char*)data);
+    rt_thread_delay(2000);
+    mancher_read(mancher);
 }
 
 void uart1_work(struct rx_uart_data uart_data){
@@ -76,6 +73,9 @@ void app_init(){
     lcd_show_string(30,2,48,(char *)head);
     lcd_show_string(45*2,52,48,(char *)middle);
     lcd_show_string(38,52* 2,48,(char *)footer);
+    mancher = mancher_device_find("mancher0");
+    mancher->mancher_ops->init(mancher);
+    mancher->mancher_ops->start(mancher);
 //    lcd_write((char *)data);
 }
 
