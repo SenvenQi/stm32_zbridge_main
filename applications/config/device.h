@@ -54,6 +54,12 @@ extern struct rt_device_pwm *pwm_dev_lcd;
 extern rt_uint32_t period, /* 周期为0.5ms，单位为纳秒ns */
 pulse,  /* PWM脉冲宽度值的增减方向 */
 dir;  /* PWM脉冲宽度值，单位为纳秒ns */
+
+/* rfid pwm输出125k*/
+#define RFID_NAME "rfid"
+#define RFID_PWM_DEV_NAME "pwm1"
+extern struct rt_device_pwm *pwm_dev_rfid;
+
 /* flash设备 */
 
 
