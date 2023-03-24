@@ -5,5 +5,6 @@
 #ifndef RTTHREAD_DRV_PWM_INPUT_H
 #define RTTHREAD_DRV_PWM_INPUT_H
 
+int MX_TIM4_Init(void);
 
 #endif //RTTHREAD_DRV_PWM_INPUT_H
