@@ -2,8 +2,8 @@
 // Created by 25861 on 2023/3/16.
 //
 #include "device.h"
-rt_uint32_t period = 8000, /* 周期为0.5ms，单位为纳秒ns */
-pulse = 4000,  /* PWM脉冲宽度值的增减方向 */
+rt_uint32_t period = 1000, /* 周期为0.5ms，单位为纳秒ns */
+pulse = 500,  /* PWM脉冲宽度值的增减方向 */
 dir = 0;  /* PWM脉冲宽度值，单位为纳秒ns */
 rt_sem_t lcd_sem;
 struct rt_device_pwm *pwm_dev_lcd;

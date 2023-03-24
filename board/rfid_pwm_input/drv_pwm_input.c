@@ -38,7 +38,7 @@ int MX_TIM4_Init(void)
     }
     sSlaveConfig.SlaveMode = TIM_SLAVEMODE_RESET;
     sSlaveConfig.InputTrigger = TIM_TS_TI1FP1;
-    sSlaveConfig.TriggerPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
+    sSlaveConfig.TriggerPolarity = TIM_INPUTCHANNELPOLARITY_FALLING;
     sSlaveConfig.TriggerFilter = 0;
     if (HAL_TIM_SlaveConfigSynchronization(&htim4, &sSlaveConfig) != HAL_OK)
     {
@@ -50,7 +50,7 @@ int MX_TIM4_Init(void)
     {
         Error_Handler();
     }
-    sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
+    sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_FALLING;
     sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
     sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
     sConfigIC.ICFilter = 0;
@@ -58,7 +58,7 @@ int MX_TIM4_Init(void)
     {
         Error_Handler();
     }
-    sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_FALLING;
+    sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
     sConfigIC.ICSelection = TIM_ICSELECTION_INDIRECTTI;
     if (HAL_TIM_IC_ConfigChannel(&htim4, &sConfigIC, TIM_CHANNEL_2) != HAL_OK)
     {
@@ -78,13 +78,13 @@ float duty;
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
     if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1){
-        risingCount = HAL_TIM_ReadCapturedValue(&htim4,TIM_CHANNEL_1);
-        rt_kprintf("risingCount:%d \r\n",risingCount);
+        fallingCount = HAL_TIM_ReadCapturedValue(&htim4,TIM_CHANNEL_1);
+        rt_kprintf("fallingCount:%d us \r\n",fallingCount);
     }
 
     if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_2){
         risingCount = HAL_TIM_ReadCapturedValue(&htim4,TIM_CHANNEL_2);
-        rt_kprintf("fallingCount:%d \r\n",fallingCount);
+        rt_kprintf("risingCount:%d us\r\n",risingCount);
     }
 }
 
