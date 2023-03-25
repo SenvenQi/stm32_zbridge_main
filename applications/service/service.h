@@ -23,7 +23,7 @@ void lcd_write(char *str);
 /* lcd 死循环闪屏 */
 void splash_screen();
 void lcd_clear_color(rt_uint16_t back_color,rt_uint16_t fore_color);
-
+void lcd_point_shan();
 /*拨码开关*/
 extern rt_uint8_t can_id;
 void config_id();

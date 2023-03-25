@@ -79,7 +79,7 @@ float duty;
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
     if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1){
         fallingCount = HAL_TIM_ReadCapturedValue(&htim4,TIM_CHANNEL_1);
-        rt_kprintf("fallingCount:%d us \r\n",fallingCount);
+        rt_kprintf("fallingCount:%d us \r\n",fallingCount - risingCount);
     }
 
     if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_2){
