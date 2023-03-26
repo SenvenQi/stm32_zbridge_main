@@ -199,7 +199,7 @@ rt_uint16_t getFalling(){
 
 rt_uint16_t getCycle(rt_uint16_t curValue){
     if(curValue < recordLastTime){
-        rt_uint16_t tempValue = 0x2ff - recordLastTime;
+        rt_uint16_t tempValue = 0x1ff - recordLastTime;
         return tempValue + curValue + 1;
     }
     return curValue - recordLastTime;
@@ -218,7 +218,8 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
     }
     rt_uint16_t s = getCycle(tempValue);
     recordLastTime = tempValue;
-    if (s>0x7D0) {
+    rt_kprintf("t:%d -- r:%d -- s:%d \r\n",tempValue,recordLastTime,s);
+    if (s>0x190) {
         StartFlag = 1;
         EmptyFlip = 1;
     } else {
