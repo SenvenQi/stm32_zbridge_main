@@ -38,7 +38,7 @@ void can_work(struct rx_can_data* rxCanData){
 }
 
 void rfid_work(rt_uint8_t data[10]){
-    for (int j = 0; j < 8; ++j) {
+    for (int j = 0; j < 10; ++j) {
         rt_kprintf("%x",data[j]);
     }
     rt_kprintf("\n");
