@@ -8,16 +8,16 @@ rt_device_t rfid_hw_dev;
 rt_uint32_t freq = 1000000;
 
 void rfid_handler(void *parameter) {
-    if (N == 256) {
+    if (rfid_pwm_index == 256) {
         rt_sem_release(rfid_sem);
-        N = 0;
+        rfid_pwm_index = 0;
         TIM4->CNT = 0;
         return;
     }
-    TT_Buffer[N] = TIM4->CNT; //数组记录计时器计时时间
-    TT_voltage[N] = rt_pin_read(RFID_INPUT);//数组保存此时IO电平
+    TT_Buffer[rfid_pwm_index] = TIM4->CNT; //数组记录计时器计时时间
+    TT_voltage[rfid_pwm_index] = rt_pin_read(RFID_INPUT);//数组保存此时IO电平
     TIM4->CNT = 0;
-    N++;
+    rfid_pwm_index++;
 }
 
 int timer_rfid_config(){

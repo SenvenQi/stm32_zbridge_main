@@ -7,7 +7,7 @@ rt_uint16_t Bin_Buffer[256];
 rt_uint16_t TT_Buffer[256];
 rt_uint8_t TT_voltage[256];
 rt_uint8_t RFID[10];
-rt_uint16_t N = 0;
+rt_uint16_t rfid_pwm_index = 0;
 
 rt_uint8_t FindHeader(rt_uint16_t index)
 {
