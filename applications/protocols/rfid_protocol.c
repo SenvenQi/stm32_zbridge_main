@@ -152,11 +152,13 @@ unsigned char Decode(void (*handler)(rt_uint8_t data[10]))
     }
 
     //数据过滤
-//    if(min<100||max>1000)
-//    {
-//        //DEBUG("\r\n min: %d max: %d ; |舍弃 ! | \r\n",min,max);
-//        return 0;
-//    }
+    if(min<100||max>1000)
+    {
+        rt_kprintf("\r\n min: %d max: %d ; |舍弃 ! | \r\n",min,max);
+        rfid_pwm_index = 0;
+        handler_flag = RT_FALSE;
+        return 0;
+    }
 
     avg=((min+max)/2);//-----平均值
     n = 0;
