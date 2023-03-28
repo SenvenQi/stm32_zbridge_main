@@ -9,13 +9,9 @@
  */
 
 #include <rtthread.h>
-#include "fal.h"
-#include "rfid_pwm_input/drv_pwm_input.h"
-
 /* defined the LED0 pin: PB1 */
 int main()
 {
-    MX_TIM4_Init();
     rt_kprintf("ZB-DJG-A-2023!");
     return RT_EOK;
 }

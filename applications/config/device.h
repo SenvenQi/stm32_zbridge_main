@@ -78,4 +78,11 @@ rfid_pwm_dir;  /* PWM脉冲宽度值，单位为纳秒ns */
 #define SW7 GET_PIN(B,5)
 #define SW8 GET_PIN(B,8)
 extern rt_sem_t sw_sem;
+
+
+/* rfid定时器 */
+#define RFID_TIMER_DEV_NAME   "timer4"
+#define RFID_INPUT GET_PIN(B,6)
+extern rt_device_t rfid_hw_dev;
+extern rt_hwtimerval_t timeout_s;
 #endif //RTTHREAD_DEVICE_H
