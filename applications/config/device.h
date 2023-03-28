@@ -82,6 +82,7 @@ extern rt_sem_t sw_sem;
 
 /* rfid定时器 */
 #define RFID_TIMER_DEV_NAME   "timer4"
+#define RFID_TIMER_COUNT TIM4 -> CNT
 #define RFID_INPUT GET_PIN(B,6)
 extern rt_device_t rfid_hw_dev;
 extern rt_sem_t rfid_sem;

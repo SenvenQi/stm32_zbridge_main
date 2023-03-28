@@ -13,13 +13,13 @@ void rfid_handler(void *parameter) {
     if (rfid_pwm_index == 256 && !handler_flag) {
         handler_flag = RT_TRUE;
         rt_sem_release(rfid_sem);
-        ((rt_hwtimer_t*)rfid_hw_dev)->reload = 0;
+        RFID_TIMER_COUNT = 0;
         return;
     }
-    timer_buffer[rfid_pwm_index] = TIM4->CNT; //数组记录计时器计时时间
+    timer_buffer[rfid_pwm_index] = RFID_TIMER_COUNT; //数组记录计时器计时时间
     pin_voltage[rfid_pwm_index] = rt_pin_read(RFID_INPUT);//数组保存此时IO电平
-    ((rt_hwtimer_t*)rfid_hw_dev)->reload = 0;
     rfid_pwm_index++;
+    RFID_TIMER_COUNT = 0;
 }
 
 int timer_rfid_config(){

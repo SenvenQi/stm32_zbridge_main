@@ -202,6 +202,7 @@ unsigned char Decode(void (*handler)(rt_uint8_t data[10]))
             }
         }
     }
-
+    rfid_pwm_index = 0;
+    handler_flag = RT_FALSE;
     return 0;
 }
