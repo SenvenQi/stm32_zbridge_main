@@ -7,8 +7,6 @@
 rt_device_t rfid_hw_dev;
 rt_uint32_t freq = 1000000;
 
-
-
 void rfid_handler(void *parameter) {
     if (N == 256) {
         rt_sem_release(rfid_sem);
