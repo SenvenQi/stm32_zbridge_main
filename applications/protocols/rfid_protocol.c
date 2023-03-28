@@ -3,17 +3,18 @@
 //
 #include "protocol.h"
 
-rt_uint16_t Bin_Buffer[256];
-rt_uint16_t TT_Buffer[256];
-rt_uint8_t TT_voltage[256];
-rt_uint8_t RFID[10];
+rt_uint16_t pin_buffer[256];
+rt_uint16_t timer_buffer[256];
+rt_uint8_t pin_voltage[256];
+rt_uint8_t rfid_result[10];
 rt_uint16_t rfid_pwm_index = 0;
+rt_bool_t handler_flag = RT_FALSE;
 
 rt_uint8_t FindHeader(rt_uint16_t index)
 {
     rt_uint16_t n;
 
-    if((Bin_Buffer[index]==0)&&(Bin_Buffer[index+1]==1))//cym 1/0
+    if((pin_buffer[index] == 0) && (pin_buffer[index + 1] == 1))//cym 1/0
     {
         index++;
         index++;
@@ -25,7 +26,7 @@ rt_uint8_t FindHeader(rt_uint16_t index)
 
     for(n=0; n<9; n++)
     {
-        if((Bin_Buffer[index]==1)&&(Bin_Buffer[index+1]==0))//cym 0/1
+        if((pin_buffer[index] == 1) && (pin_buffer[index + 1] == 0))//cym 0/1
             index = index+2;
         else
             return (0);
@@ -46,7 +47,7 @@ rt_uint8_t FindID(rt_uint16_t i)
     //-------------------- STEP1: 提取RFID有效数据
     if(i)
     {
-        for(n=0; n<11; n++)RFID[n] = 0x00; //------ Buffer清零
+        for(n=0; n<11; n++)rfid_result[n] = 0x00; //------ Buffer清零
 
         i = i+20;  //--- 有效数据流
 
@@ -54,11 +55,11 @@ rt_uint8_t FindID(rt_uint16_t i)
         {
             for(n=0; n<5; n++)
             {
-                RFID[k] = RFID[k]<<1;
+                rfid_result[k] = rfid_result[k] << 1;
 
-                if((Bin_Buffer[i]==1)&&(Bin_Buffer[i+1]==0))//cym 0/1
+                if((pin_buffer[i] == 1) && (pin_buffer[i + 1] == 0))//cym 0/1
                 {
-                    RFID[k] |= 0x01;
+                    rfid_result[k] |= 0x01;
                 }
                 i += 2;
             }
@@ -72,11 +73,11 @@ rt_uint8_t FindID(rt_uint16_t i)
     for(k=0; k<10; k++)
     {
         sum = 0;
-        if(RFID[k]&0x01)sum++;
-        if(RFID[k]&0x02)sum++;
-        if(RFID[k]&0x04)sum++;
-        if(RFID[k]&0x08)sum++;
-        if(RFID[k]&0x10)sum++;
+        if(rfid_result[k] & 0x01)sum++;
+        if(rfid_result[k] & 0x02)sum++;
+        if(rfid_result[k] & 0x04)sum++;
+        if(rfid_result[k] & 0x08)sum++;
+        if(rfid_result[k] & 0x10)sum++;
 
         if(sum%2) //--- 偶校验出错!
         {
@@ -89,7 +90,7 @@ rt_uint8_t FindID(rt_uint16_t i)
     sum = 0;
     for(k=0; k<11; k++)
     {
-        sum ^= RFID[k];
+        sum ^= rfid_result[k];
     }
 
     if(sum&0x1E) //--- 偶校验出错!
@@ -101,30 +102,30 @@ rt_uint8_t FindID(rt_uint16_t i)
     //------------------ STEP3: 获取RFID卡号(4个字节32位)
     for(k=0; k<10; k++)
     {
-        RFID[k] = RFID[k]>>1; //---去掉校验值
+        rfid_result[k] = rfid_result[k] >> 1; //---去掉校验值
     }
 
     Vendor  = 0;
     CardIDH = 0;
     CardIDL = 0;
 
-    k = RFID[0]<<4;
-    Vendor = k|RFID[1]; //--- 卡版本或供应商信息
+    k = rfid_result[0] << 4;
+    Vendor = k | rfid_result[1]; //--- 卡版本或供应商信息
 
-    k = RFID[2]<<4;
-    k |= RFID[3];
+    k = rfid_result[2] << 4;
+    k |= rfid_result[3];
     CardIDH |= k<<8;
 
-    k = RFID[4]<<4;
-    k |= RFID[5];
+    k = rfid_result[4] << 4;
+    k |= rfid_result[5];
     CardIDH |= k;
 
-    k = RFID[6]<<4;
-    k |= RFID[7];
+    k = rfid_result[6] << 4;
+    k |= rfid_result[7];
     CardIDL |= k<<8;
 
-    k = RFID[8]<<4;
-    k |= RFID[9];
+    k = rfid_result[8] << 4;
+    k |= rfid_result[9];
     CardIDL |= k;
 
 
@@ -140,13 +141,13 @@ unsigned char Decode(void (*handler)(rt_uint8_t data[10]))
     //-------------------- STEP1: 找出 [平均值]
     for(i=1; i<256; i++) //---- 从1开始! 0字节是不可靠数据
     {
-        if(TT_Buffer[i]<min)
+        if(timer_buffer[i]<min)
         {
-            min = TT_Buffer[i];
+            min = timer_buffer[i];
         }
-        if(TT_Buffer[i]>max)
+        if(timer_buffer[i]>max)
         {
-            max = TT_Buffer[i];
+            max = timer_buffer[i];
         }
     }
 
@@ -163,24 +164,24 @@ unsigned char Decode(void (*handler)(rt_uint8_t data[10]))
     //-------------------- STEP2: 提取原始数据
     for(i=1; i<256; i++) //---- 必须从1开始! 0字节是不可靠数据
     {
-        if (TT_Buffer[i]<avg )//(abs((int)TT_Buffer[i] - 245)<=70)
+        if (timer_buffer[i]<avg )//(abs((int)TT_Buffer[i] - 245)<=70)
         {
-            if (TT_voltage[i]==1)
-                Bin_Buffer[n++]=0;
+            if (pin_voltage[i] == 1)
+                pin_buffer[n++]=0;
             else
-                Bin_Buffer[n++]=1;
+                pin_buffer[n++]=1;
         }
-        else if (TT_Buffer[i]>avg )//(abs((int)TT_Buffer[i] - 485)<=70)
+        else if (timer_buffer[i]>avg )//(abs((int)TT_Buffer[i] - 485)<=70)
         {
-            if (TT_voltage[i]==1)
+            if (pin_voltage[i] == 1)
             {
-                Bin_Buffer[n++]=0;
-                Bin_Buffer[n++]=0;
+                pin_buffer[n++]=0;
+                pin_buffer[n++]=0;
             }
             else
             {
-                Bin_Buffer[n++]=1;
-                Bin_Buffer[n++]=1;
+                pin_buffer[n++]=1;
+                pin_buffer[n++]=1;
             }
         }
     }
@@ -194,7 +195,9 @@ unsigned char Decode(void (*handler)(rt_uint8_t data[10]))
         {
             if(FindID(i))
             {
-                handler(RFID);
+                handler(rfid_result);
+                rfid_pwm_index = 0;
+                handler_flag = RT_FALSE;
                 return 1;
             }
         }

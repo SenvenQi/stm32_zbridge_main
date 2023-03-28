@@ -35,7 +35,8 @@ void uart_protocol_handler(void (*handler)(struct rx_uart_data rxUartData));
 void can_protocol_handler(void (*handler)(struct rx_can_data* rxCanData));
 
 extern rt_uint16_t rfid_pwm_index;
-extern rt_uint16_t TT_Buffer[256];
-extern rt_uint8_t TT_voltage[256];
+extern rt_uint16_t timer_buffer[256];
+extern rt_uint8_t pin_voltage[256];
+extern rt_bool_t handler_flag;
 unsigned char Decode(void (*handler)(rt_uint8_t data[10]));
 #endif //RTTHREAD_PROTOCOL_H
