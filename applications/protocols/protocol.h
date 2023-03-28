@@ -34,7 +34,8 @@ extern unsigned char rx_buffer[BSP_UART1_RX_BUFSIZE + 1];
 void uart_protocol_handler(void (*handler)(struct rx_uart_data rxUartData));
 void can_protocol_handler(void (*handler)(struct rx_can_data* rxCanData));
 
+extern rt_uint16_t N;
 extern rt_uint16_t TT_Buffer[256];
 extern rt_uint8_t TT_voltage[256];
-unsigned char Decode(void);
+unsigned char Decode(void (*handler)(rt_uint8_t data[10]));
 #endif //RTTHREAD_PROTOCOL_H

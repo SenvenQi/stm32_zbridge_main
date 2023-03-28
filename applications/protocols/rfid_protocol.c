@@ -7,7 +7,7 @@ rt_uint16_t Bin_Buffer[256];
 rt_uint16_t TT_Buffer[256];
 rt_uint8_t TT_voltage[256];
 rt_uint8_t RFID[10];
-
+rt_uint16_t N = 0;
 
 rt_uint8_t FindHeader(rt_uint16_t index)
 {
@@ -127,14 +127,11 @@ rt_uint8_t FindID(rt_uint16_t i)
     k |= RFID[9];
     CardIDL |= k;
 
-    for (int j = 0; j < 10; ++j) {
-        rt_kprintf("%x",RFID[j]);
-    }
-    rt_kprintf("\n");
+
     //------------------ STEP4: 显示解码结果
     return 1;
 }
-unsigned char Decode(void)
+unsigned char Decode(void (*handler)(rt_uint8_t data[10]))
 {
     rt_uint16_t min,max,avg,i,n;
 
@@ -197,6 +194,7 @@ unsigned char Decode(void)
         {
             if(FindID(i))
             {
+                handler(RFID);
                 return 1;
             }
         }

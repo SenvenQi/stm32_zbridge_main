@@ -84,5 +84,5 @@ extern rt_sem_t sw_sem;
 #define RFID_TIMER_DEV_NAME   "timer4"
 #define RFID_INPUT GET_PIN(B,6)
 extern rt_device_t rfid_hw_dev;
-extern rt_hwtimerval_t timeout_s;
+extern rt_sem_t rfid_sem;
 #endif //RTTHREAD_DEVICE_H

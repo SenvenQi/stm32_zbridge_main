@@ -6,26 +6,28 @@
 
 rt_device_t rfid_hw_dev;
 rt_uint32_t freq = 1000000;
-rt_hwtimerval_t timeout_s;
-rt_uint16_t N = 0;
 
 
-void rfid_handler(void *parameter){
-        if (N == 256){
-            Decode();
-            N = 0;
-            TIM4->CNT = 0;
-            return;
-        }
-        TT_Buffer[N]= TIM4->CNT; //数组记录计时器计时时间
-        TT_voltage[N]=rt_pin_read(RFID_INPUT);//数组保存此时IO电平
+
+void rfid_handler(void *parameter) {
+    if (N == 256) {
+        rt_sem_release(rfid_sem);
+        N = 0;
         TIM4->CNT = 0;
-        N++;
+        return;
+    }
+    TT_Buffer[N] = TIM4->CNT; //数组记录计时器计时时间
+    TT_voltage[N] = rt_pin_read(RFID_INPUT);//数组保存此时IO电平
+    TIM4->CNT = 0;
+    N++;
 }
 
 int timer_rfid_config(){
+    rt_hwtimerval_t timeout_s;
     timeout_s.sec = 0xFFF;
     timeout_s.usec = 0xFFF;
+
+    rfid_sem  = rt_sem_create(LCD_NAME,0,RT_IPC_FLAG_FIFO);
     rt_pin_mode(RFID_INPUT,PIN_MODE_INPUT);
     rt_pin_attach_irq(RFID_INPUT, PIN_IRQ_MODE_RISING_FALLING,rfid_handler,RT_NULL);
     rt_pin_irq_enable(RFID_INPUT,ENABLE);
