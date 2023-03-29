@@ -22,6 +22,15 @@ menu "On-chip Peripheral Drivers"
             bool "Enable on-chip FLASH"
             default n
 
+     config BSP_USING_WDT
+            bool "Enable Watch Dog Timer"
+            default n
+            select RT_USING_WDT
+     config BSP_USING_IWDT
+            bool "Enable Independent Watch Dog Timer"
+            default n
+            select RT_USING_WDT
+
      menuconfig BSP_USING_TIM
          bool "Enable timer"
          default n

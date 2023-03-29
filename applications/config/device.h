@@ -86,4 +86,9 @@ extern rt_sem_t sw_sem;
 #define RFID_INPUT GET_PIN(B,6)
 extern rt_device_t rfid_hw_dev;
 extern rt_sem_t rfid_sem;
+
+/*监测狗*/
+#define WATCHDOG_DEV_NAME "wdt"
+extern rt_device_t wdg_dev;
+
 #endif //RTTHREAD_DEVICE_H
