@@ -16,8 +16,6 @@
 #include "rt-thread/components/drivers/include/rtdevice.h"
 #include "drv_spi.h"
 #include "drv_lcd.h"
-#include "drv_lcd_font.h"
-//#include "drv_gpio.h"
 
 #define DBG_SECTION_NAME    "LCD"
 #define DBG_COLOR
